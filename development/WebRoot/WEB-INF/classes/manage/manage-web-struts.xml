@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+
+<struts-config>
+	<action-mappings>
+		<action path="/manage/modules/modulesTreeViewAction" scope="request" validate="false" parameter="m"></action>
+		<action path="/manage/modules/modulesTreeMgAction" scope="request" validate="false" parameter="m"></action>
+		
+		<action path="/manage/role/rolesViewAction" scope="request" validate="false" parameter="ffc"></action>
+		<action path="/manage/role/rolesManageAction" scope="request" validate="false" parameter="ffc"></action>
+		<action path="/manage/user/usersViewAction" scope="request" validate="false" parameter="ffc"></action>
+		<action path="/manage/user/usersManageAction" scope="request" validate="false" parameter="ffc"></action>
+		
+		<action path="/manage/depart/departViewAction" scope="request" validate="false" parameter="ffc"></action>
+		<action path="/manage/depart/departManageAction" scope="request" validate="false" parameter="ffc"></action>
+		
+		<!-- 单据管理Action -->
+		<action path="/manage/billdoc/billDocumentAction" scope="request" validate="false" parameter="method"></action>
+		<action path="/manage/worktrust/WorkTrustAction" scope="request" validate="false" parameter="m"></action>
+		<action path="/manage/mainPage/CompanyReportAction" scope="request" validate="false" parameter="m"></action>
+	    
+	    <action path="/manage/forum/ForumAction" scope="request" validate="false" parameter="m"></action>
+	    <action path="/manage/forum/ForumFlowAction" scope="request" validate="false" parameter="m"></action>
+	    
+		
+	</action-mappings>
+	<controller>
+		<set-property property="processorClass"
+			value="org.springframework.web.struts.DelegatingRequestProcessor" />
+	</controller>
+</struts-config>

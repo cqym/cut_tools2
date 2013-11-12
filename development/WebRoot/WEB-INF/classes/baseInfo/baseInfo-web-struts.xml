@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+
+<struts-config>
+
+	<action-mappings>
+		<action path="/baseInfo/companyListAction" scope="request" validate="false"></action>
+		<action path="/baseInfo/addComPanyAction" scope="request" validate="false"></action>
+		<action path="/baseInfo/deleteComPanyAction" scope="request" validate="false"></action>
+		<action path="/baseInfo/updateComPanyAction" scope="request" validate="false"></action>
+		
+		<action path="/baseInfo/customersListAction" scope="request" validate="false"></action>
+		<action path="/baseInfo/getCustomersDegreeAction" scope="request" validate="false"></action>
+		<action path="/baseInfo/addCustomersAction" scope="request" validate="false"></action>
+		<action path="/baseInfo/deleteCustemersAction" scope="request" validate="false"></action>
+		<action path="/baseInfo/updateCustomersAction" scope="request" validate="false"></action>
+		<action path="/baseInfo/getUserInforListAction" scope="request" validate="false"></action>
+
+		<action path="/baseInfo/supplierListAction" scope="request" validate="false"></action>
+		<action path="/baseInfo/deleteSupplierAction" scope="request" validate="false"></action>
+		<action path="/baseInfo/addSupplierAction" scope="request" validate="false"></action>
+		<action path="/baseInfo/updateSupplierAction" scope="request" validate="false"></action>
+		<action path="/baseInfo/supplierBrankListAction" scope="request" validate="false"></action>
+		<action path="/baseInfo/addSupplierBrankAction" scope="request" validate="false"></action>
+		<action path="/baseInfo/deleteSuppliersBrandAction" scope="request" validate="false"></action>
+		
+		<action path="/baseInfo/exchangeListAction" scope="request" validate="false"></action>
+		<action path="/baseInfo/addExchangeAction" scope="request" validate="false"></action>
+		<action path="/baseInfo/deleteExchangeAction" scope="request" validate="false"></action>
+		<action path="/baseInfo/updateExchangeAction" scope="request" validate="false"></action>
+		<action path="/baseInfo/setBenchmarkExchangeAction" scope="request" validate="false"></action>
+		
+		<action path="/baseInfo/billsCodeListAction" scope="request" validate="false"></action>
+		<action path="/baseInfo/updateBillsCodeAction" scope="request" validate="false"></action>
+		<!-- 客户等级对应折扣信息-->
+		<action path="/baseInfo/degreeRebateListAction" scope="request" validate="false"></action>
+		<action path="/baseInfo/updateDegreeRebateAction" scope="request" validate="false"></action>
+		<action path="/baseInfo/addCustomersDegreeAction" scope="request" validate="false"></action>
+		<action path="/baseInfo/updateCustomersDegreeAction" scope="request" validate="false"></action>
+	    <action path="/baseInfo/DeleteCustomersDegreeAction" scope="request" validate="false"></action>
+		<!-- 库存信息 -->
+		<action path="/baseInfo/reserveListAction" scope="request" validate="false"></action>
+		<!-- 库存对应的帐页信息 -->
+		<action path="/projectQuo/accountsInfoListByReserveIdAction" scope="request" validate="false"></action>		
+		<!-- 品牌管理Action(ftl 2009-12-22) -->
+		<action path="/baseInfo/brandManagerAction" scope="request" validate="false" parameter="method"></action>
+		<!-- 货品组别 -->
+		<action path="/baseInfo/getProSortCodeListAction" scope="request" validate="false"></action>
+		
+		<action path="/baseInfo/taxRateManagerAction" scope="request" validate="false"></action>
+		
+		<action path="/baseInfo/clientLeaderAction" scope="request" validate="false" parameter="method"></action>
+		<action path="/baseInfo/matReserveListAction" scope="request" validate="false" ></action>
+		<action path="/baseInfo/matAccountsInfoListByReserveIdAction" scope="request" validate="false" ></action>
+		
+		<action path="/baseInfo/matReserveManageAction" scope="request" validate="false" parameter="m"></action>
+	</action-mappings>
+
+	<controller>
+		<set-property property="processorClass"
+			value="org.springframework.web.struts.DelegatingRequestProcessor" />
+	</controller>
+</struts-config>

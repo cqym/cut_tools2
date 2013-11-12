@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
+	default-autowire="byType">
+
+	
+	<bean id="TModulesDefDAO" class="com.tl.resource.dao.TModulesDefDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	
+	<bean id="TRolesDAOImpl" class="com.tl.resource.dao.TRolesDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	
+	<bean id="TRolesModulesDAOImpl" class="com.tl.resource.dao.TRolesModulesDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	
+	<bean id="TUserInforDAOImpl" class="com.tl.resource.dao.TUserInforDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	
+	<bean id="TUsersRolesDAOImpl" class="com.tl.resource.dao.TUsersRolesDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	
+	<bean id="TDepartmentsInforDAOImpl" class="com.tl.resource.dao.TDepartmentsInforDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	<bean id="TBillsCodeDefDAOImpl" class="com.tl.resource.dao.TBillsCodeDefDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	<bean id="TResourcePurviewDAOImpl" class="com.tl.resource.dao.TResourcePurviewDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	
+	<!-- 单据管理Dao -->
+	<bean id="BillDocumentDao" class="com.tl.resource.dao.BillDocumentDaoImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	<bean id="TWorkTrustRecordDAOImpl" class="com.tl.resource.dao.TWorkTrustRecordDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	<bean id="TWorkTrustDetailDAOImpl" class="com.tl.resource.dao.TWorkTrustDetailDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+		<bean id="CompanyReportsDAOImpl" class="com.tl.resource.dao.CompanyReportsDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	<bean id="TForumDAOImpl" class="com.tl.resource.dao.TForumDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	<bean id="TForumPersonsDAOImpl" class="com.tl.resource.dao.TForumPersonsDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+</beans>

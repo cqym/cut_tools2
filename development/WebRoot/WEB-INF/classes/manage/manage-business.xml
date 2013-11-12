@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
+	default-autowire="byType">
+
+	<bean id="ModulesServiceImp"
+		class="com.tl.resource.business.manage.ModulesServiceImp">
+		<property name="modulesDefDAO">
+			<ref bean="TModulesDefDAO" />
+		</property>
+	</bean>
+	
+	<bean id="RolesServiceImp"
+		class="com.tl.resource.business.manage.RolesServiceImp">
+		<property name="rolesDAO">
+			<ref bean="TRolesDAOImpl" />
+		</property>
+		<property name="rolesModulesDAO">
+			<ref bean="TRolesModulesDAOImpl" />
+		</property>
+	</bean>
+	
+	<bean id="UsersServiceImp"
+		class="com.tl.resource.business.manage.UsersServiceImp">
+		<property name="userInforDAO">
+			<ref bean="TUserInforDAOImpl" />
+		</property>
+		<property name="usersRolesDAO">
+			<ref bean="TUsersRolesDAOImpl" />
+		</property>
+		<property name="modulesDefDAO">
+			<ref bean="TModulesDefDAO" />
+		</property>
+		<property name="resourcePurviewDAO">
+			<ref bean="TResourcePurviewDAOImpl" />
+		</property>
+	</bean>
+	
+	<bean id="DepartmentService"
+		class="com.tl.resource.business.manage.DepartmentServiceImp">
+		<property name="departmentsInforDAO">
+			<ref bean="TDepartmentsInforDAOImpl" />
+		</property>
+	</bean>
+	
+	<bean id="BillsCodeDefService"
+		class="com.tl.resource.business.manage.BillsCodeDefServiceImp">
+		<property name="billsCodeDefDAO">
+			<ref bean="TBillsCodeDefDAOImpl" />
+		</property>
+	</bean>
+	
+	<!-- 单据管理Service -->
+	<bean id="BillDocumentService"
+		class="com.tl.resource.business.manage.BillDocumentServiceImpl">
+		<property name="billDocumentDAO">
+			<ref bean="BillDocumentDao" />
+		</property>
+	</bean>
+	
+<bean id="WorkTrustService" parent="parentService">
+  		<property name="target">
+			<bean class="com.tl.resource.business.manage.WorkTrustServiceImp">
+				<property name="userInforDAO">
+					<ref bean="TUserInforDAOImpl" />
+				</property>
+				<property name="auditFlowDetailDAO">
+					<ref bean="auditFlowDetailDAO" />
+				</property>
+				<property name="auditInstanceDAO">
+					<ref bean="auditInstanceDAO" />
+				</property>
+				
+				<property name="workTrustDetailDAO">
+					<ref bean="TWorkTrustDetailDAOImpl" />
+				</property>
+				<property name="workTrustRecordDAO">
+					<ref bean="TWorkTrustRecordDAOImpl" />
+				</property>
+			</bean>
+	  </property>
+ </bean>
+ 
+ <bean id="CompanyReportServiceImp"
+		class="com.tl.resource.business.manage.CompanyReportServiceImp">
+		<property name="companyReportsDAO">
+			<ref bean="CompanyReportsDAOImpl" />
+		</property>
+	</bean>
+	<bean id="ForumServiceImp"
+		class="com.tl.resource.business.manage.ForumServiceImp">
+		<property name="forumDao">
+			<ref bean="TForumDAOImpl" />
+		</property>
+		<property name="forumPersonsDao">
+			<ref bean="TForumPersonsDAOImpl" />
+		</property>
+	</bean>
+</beans>

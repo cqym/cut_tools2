@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" version="2.4"
+	xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	<display-name>eduresource</display-name>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			classpath:applicationContext.xml,
+			/WEB-INF/classes/applicationContext.xml,
+			/WEB-INF/classes/spring-log.xml,
+
+			/WEB-INF/classes/manage/manage-dao.xml,
+			/WEB-INF/classes/manage/manage-business.xml,
+			/WEB-INF/classes/manage/manage-web-spring.xml,
+			
+			/WEB-INF/classes/protoolsinfo/protools-dao.xml,
+			/WEB-INF/classes/protoolsinfo/protools-business.xml,
+			/WEB-INF/classes/protoolsinfo/protools-web-spring.xml,
+			
+			/WEB-INF/classes/audit/audit-dao.xml,
+			/WEB-INF/classes/audit/audit-business.xml,
+			/WEB-INF/classes/audit/audit-web-spring.xml,
+			
+			/WEB-INF/classes/quotation/generalQuo/generalQuo-dao.xml,
+			/WEB-INF/classes/quotation/generalQuo/generalQuo-business.xml,
+			/WEB-INF/classes/quotation/generalQuo/generalQuo-web-spring.xml,
+			
+
+			/WEB-INF/classes/quotation/projectQuo/projectQuo-dao.xml,
+			/WEB-INF/classes/quotation/projectQuo/projectQuo-business.xml,
+			/WEB-INF/classes/quotation/projectQuo/projectQuo-web-spring.xml,
+
+			/WEB-INF/classes/reserveOrder/reserveOrder-dao.xml,
+			/WEB-INF/classes/reserveOrder/reserveOrder-business.xml,
+			/WEB-INF/classes/reserveOrder/reserveOrder-web-spring.xml,
+
+			/WEB-INF/classes/contract/contract-dao.xml,
+			/WEB-INF/classes/contract/contract-business.xml,
+			/WEB-INF/classes/contract/contract-web-spring.xml,
+			
+			/WEB-INF/classes/contractOrder/contractOrder-dao.xml,
+			/WEB-INF/classes/contractOrder/contractOrder-business.xml,
+			/WEB-INF/classes/contractOrder/contractOrder-web-spring.xml,
+			
+			/WEB-INF/classes/selfOrder/selfOrder-dao.xml,
+			/WEB-INF/classes/selfOrder/selfOrder-business.xml,
+			/WEB-INF/classes/selfOrder/selfOrder-web-spring.xml,
+
+			/WEB-INF/classes/planOrder/planOrder-dao.xml,
+			/WEB-INF/classes/planOrder/planOrder-business.xml,
+			/WEB-INF/classes/planOrder/planOrder-web-spring.xml,
+			
+			/WEB-INF/classes/scheduleOrder/scheduleOrder-dao.xml,
+			/WEB-INF/classes/scheduleOrder/scheduleOrder-business.xml,
+			/WEB-INF/classes/scheduleOrder/scheduleOrder-web-spring.xml,
+			
+			/WEB-INF/classes/scheduleSelfOrder/scheduleSelfOrder-dao.xml,
+			/WEB-INF/classes/scheduleSelfOrder/scheduleSelfOrder-business.xml,
+			/WEB-INF/classes/scheduleSelfOrder/scheduleSelfOrder-web-spring.xml,
+			
+			/WEB-INF/classes/tryOrder/tryOrder-dao.xml,
+			/WEB-INF/classes/tryOrder/tryOrder-business.xml,
+			/WEB-INF/classes/tryOrder/tryOrder-web-spring.xml,
+			
+			/WEB-INF/classes/trySelfOrder/trySelfOrder-dao.xml,
+			/WEB-INF/classes/trySelfOrder/trySelfOrder-business.xml,
+			/WEB-INF/classes/trySelfOrder/trySelfOrder-web-spring.xml,
+
+			/WEB-INF/classes/delivery/delivery-dao.xml,
+			/WEB-INF/classes/delivery/delivery-business.xml,
+			/WEB-INF/classes/delivery/delivery-web-spring.xml,
+
+			/WEB-INF/classes/arrival/arrival-dao.xml,
+			/WEB-INF/classes/arrival/arrival-business.xml,
+			/WEB-INF/classes/arrival/arrival-web-spring.xml,
+			
+			/WEB-INF/classes/baseInfo/baseInfo-dao.xml,
+			/WEB-INF/classes/baseInfo/baseInfo-business.xml,
+			/WEB-INF/classes/baseInfo/baseInfo-web-spring.xml,
+			
+			/WEB-INF/classes/baseInfo/productCorrelation/productCorrelation-dao.xml,
+			/WEB-INF/classes/baseInfo/productCorrelation/productCorrelation-business.xml,
+			/WEB-INF/classes/baseInfo/productCorrelation/productCorrelation-web-spring.xml,
+			
+			/WEB-INF/classes/outStock/outStock-dao.xml,
+			/WEB-INF/classes/outStock/outStock-business.xml,
+			/WEB-INF/classes/outStock/outStock-web-spring.xml,
+
+			/WEB-INF/classes/reservePlan/reservePlan-dao.xml,
+			/WEB-INF/classes/reservePlan/reservePlan-business.xml,
+			/WEB-INF/classes/reservePlan/reservePlan-web-spring.xml,
+			
+			/WEB-INF/classes/upload/upload-dao.xml,
+			/WEB-INF/classes/upload/upload-business.xml,
+			/WEB-INF/classes/upload/upload-web-spring.xml,
+		    
+			/WEB-INF/classes/notepad/notepad-dao.xml,
+			/WEB-INF/classes/notepad/notepad-business.xml,
+			/WEB-INF/classes/notepad/notepad-web-spring.xml,
+
+			/WEB-INF/classes/excel_templete/excel_templete-dao.xml,
+			/WEB-INF/classes/excel_templete/excel_templete-business.xml,
+			/WEB-INF/classes/excel_templete/excel_templete-web-spring.xml,
+
+			/WEB-INF/classes/workDoing/workDoing-dao.xml,
+			/WEB-INF/classes/workDoing/workDoing-business.xml,
+			/WEB-INF/classes/workDoing/workDoing-web-spring.xml,
+
+			/WEB-INF/classes/query_statistics/query-dao.xml,
+			/WEB-INF/classes/query_statistics/query-business.xml,
+			/WEB-INF/classes/query_statistics/query-web-spring.xml
+		</param-value>
+	</context-param>
+
+	<!-- Character Encoding filter -->
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>
+			org.springframework.web.filter.CharacterEncodingFilter
+		</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>utf-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- pages access verifying -->
+	<filter>
+		<filter-name>RightFilter</filter-name>
+		<filter-class>com.tl.common.filter.RightFilter</filter-class>
+	</filter>
+	
+
+	<!-- HttpSession manage filter -->
+	<filter>
+		<filter-name>HttpSessionFilter</filter-name>
+		<filter-class>
+			com.tl.common.filter.HttpSessionFilter
+		</filter-class>
+	</filter>
+	<!-- Introspect all request -->
+	<filter-mapping>
+		<filter-name>HttpSessionFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!--Spring ApplicationContext loadder -->
+	<listener>
+		<listener-class>
+			com.tl.common.context.SpringInitListener
+		</listener-class>
+	</listener>
+	
+	<listener>   
+	    <listener-class>   
+			org.springframework.web.context.request.RequestContextListener
+		</listener-class>   
+    </listener>
+    
+	<!-- Spring Introspector flush -->
+	<listener>
+		<listener-class>
+			org.springframework.web.util.IntrospectorCleanupListener
+		</listener-class>
+	</listener>
+	<!-- session time limt -->
+	<session-config>
+		<session-timeout>20</session-timeout>
+	</session-config>
+
+	<!-- create validate code -->
+	<servlet>
+		<servlet-name>ValidateCodeServlet</servlet-name>
+		<servlet-class>
+			com.tl.common.servlet.ValidateCodeServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ValidateCodeServlet</servlet-name>
+		<url-pattern>/validateCode</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>action</servlet-name>
+		<servlet-class>
+			org.apache.struts.action.ActionServlet
+		</servlet-class>
+		<init-param>
+			<param-name>config</param-name>
+			<param-value>
+				/WEB-INF/classes/struts-config.xml,
+				/WEB-INF/classes/manage/manage-web-struts.xml,
+				/WEB-INF/classes/protoolsinfo/protools-web-struts.xml,
+				/WEB-INF/classes/audit/audit-web-struts.xml,
+				/WEB-INF/classes/quotation/generalQuo/generalQuo-web-struts.xml,
+			    /WEB-INF/classes/reserveOrder/reserveOrder-web-struts.xml,
+				/WEB-INF/classes/contract/contract-web-struts.xml,
+				/WEB-INF/classes/quotation/projectQuo/projectQuo-web-struts.xml,
+			    /WEB-INF/classes/reserveOrder/reserveOrder-web-struts.xml,
+			    /WEB-INF/classes/contractOrder/contractOrder-web-struts.xml,
+			    /WEB-INF/classes/selfOrder/selfOrder-web-struts.xml,
+			    /WEB-INF/classes/planOrder/planOrder-web-struts.xml,
+			    /WEB-INF/classes/scheduleOrder/scheduleOrder-web-struts.xml,
+			    /WEB-INF/classes/scheduleSelfOrder/scheduleSelfOrder-web-struts.xml,
+			    /WEB-INF/classes/tryOrder/tryOrder-web-struts.xml,
+			    /WEB-INF/classes/trySelfOrder/trySelfOrder-web-struts.xml,
+			    /WEB-INF/classes/arrival/arrival-web-struts.xml,
+				/WEB-INF/classes/delivery/delivery-web-struts.xml,
+			    /WEB-INF/classes/reserveOrder/reserveOrder-web-struts.xml,
+			    /WEB-INF/classes/arrival/arrival-web-struts.xml,
+			    /WEB-INF/classes/baseInfo/baseInfo-web-struts.xml,
+			    /WEB-INF/classes/baseInfo/productCorrelation/productCorrelation-web-struts.xml,
+				/WEB-INF/classes/outStock/outStock-web-struts.xml,
+				/WEB-INF/classes/reservePlan/reservePlan-web-struts.xml,
+				/WEB-INF/classes/upload/upload-web-struts.xml,
+				/WEB-INF/classes/notepad/notepad-web-struts.xml,
+				/WEB-INF/classes/excel_templete/excel_templete-web-struts.xml,
+				/WEB-INF/classes/workDoing/workDoing-web-struts.xml,
+			    /WEB-INF/classes/query_statistics/query-web-struts.xml
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>debug</param-name>
+			<param-value>3</param-value>
+		</init-param>
+		<init-param>
+			<param-name>detail</param-name>
+			<param-value>3</param-value>
+		</init-param>
+		<load-on-startup>0</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>action</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+	
+<!-- dwr start -->
+   <servlet>
+    <servlet-name>dwr-invoker</servlet-name>
+    <servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
+    <init-param>
+      <param-name>debug</param-name>
+      <param-value>true</param-value>
+    </init-param>
+	<init-param>
+			<description>dwr-reverseAjax</description>
+			<param-name>activeReverseAjaxEnabled</param-name>
+			<param-value>true</param-value>
+	</init-param>
+    <init-param>
+			<param-name>
+				initApplicationScopeCreatorsAtStartup
+			</param-name>
+			<param-value>true</param-value>
+	</init-param>
+	<init-param>
+			<description>activeReverseAjaxEnabled</description>
+			<param-name>activeReverseAjaxEnabled</param-name>
+			<param-value>true</param-value>
+	</init-param>
+	<init-param>
+			<param-name>maxWaitAfterWrite</param-name>
+			<param-value>100</param-value>
+	</init-param>
+	<load-on-startup>1</load-on-startup>
+</servlet>
+
+  <servlet-mapping>
+    <servlet-name>dwr-invoker</servlet-name>
+    <url-pattern>/dwr/*</url-pattern>
+  </servlet-mapping>
+  <!-- dwr end -->
+	<welcome-file-list>
+
+		<welcome-file>pages/index.jsp</welcome-file>
+		<welcome-file>/index.jsp</welcome-file>
+	</welcome-file-list>
+
+
+	<login-config>
+		<auth-method>BASIC</auth-method>
+	</login-config>
+</web-app>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
+	default-autowire="byType">
+
+	<!-- 产品组别信息表 -->
+	<bean id="tproductSortDAO" class="com.tl.resource.dao.TProductSortDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	
+	
+	<!-- 销售历史信息表 -->
+	<bean id="tcusSalesPriceHistoryDAO" class="com.tl.resource.dao.TCusSalesPriceHistoryDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	
+	<!-- 采购历史信息表 -->
+	<bean id="torderPriceHistoryDAO" class="com.tl.resource.dao.TOrderPriceHistoryDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	
+	<!-- 产品工具信息表 -->
+	<bean id="tproductToolsInforDao" class="com.tl.resource.dao.TProductToolsInforDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	
+	<!-- 历史面价信息表 -->
+	<bean id="tsalesPriceHistoryDAO" class="com.tl.resource.dao.TSalesPriceHistoryDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	
+	<!-- 产品品牌信息 -->
+	<bean id="tproductBrandDAO" class="com.tl.resource.dao.TProductBrandDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	
+	<bean id="orderPriceHistoryDAO" class="com.tl.resource.dao.TOrderPriceHistoryDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	
+
+</beans>

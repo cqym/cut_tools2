@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
+	default-autowire="byType">
+	
+	
+	<bean name="/workdoing/EditBusinessAction" class="com.tl.resource.web.workDoing.EditBusinessAction">
+		<property name="editBusinessService">
+			<ref bean="EditBusinessService"/>
+		</property>
+	</bean>
+	
+	<bean name="/workdoing/AuditBusinessAction" class="com.tl.resource.web.workDoing.AuditBusinessAction">
+		<property name="auditBusinessService">
+			<ref bean="AuditBusinessService"/>
+		</property>
+	</bean>
+	
+	<bean name="/workdoing/DateOverBusinessAction" class="com.tl.resource.web.workDoing.DateOverBusinessAction">
+		<property name="overDateBusinessService">
+			<ref bean="OverDateBusinessService"/>
+		</property>
+	</bean>
+	
+	<bean name="/workdoing/UsersMessageBusinessAction" class="com.tl.resource.web.workDoing.UsersMessageBusinessAction">
+		<property name="uersMessageBusinessService">
+			<ref bean="UsersMessageBusinessService"/>
+		</property>
+	</bean>
+</beans>

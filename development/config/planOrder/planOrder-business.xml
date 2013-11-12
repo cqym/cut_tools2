@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+
+	<bean  id="PlanOrderServiceImpl" parent="parentService">
+		<property name="target">
+				<bean class="com.tl.resource.business.planOrder.PlanOrderServiceImpl">
+					<property name="orderInforDao">
+						<ref bean="TOrderInforDAOImpl" />
+					</property>
+					<property name="orderDetailDao">
+						<ref bean="TOrderDetailDAOImpl" />
+					</property>
+					<property name="suppliersInforDao">
+						<ref bean="TSuppliersInforDAOImpl" />
+					</property>
+					<property name="proToolsInforDao">
+						<ref bean="TProductToolsInforDAOImpl" />
+					</property>
+					<property name="reservePlanInforDao">
+						<ref bean="TReservePlanInforDAOImpl" />
+					</property>
+					<property name="orderPriceHistoryDao">
+						<ref bean="torderPriceHistoryDAO"/>
+					</property>
+					<property name="accessoriesDAO">
+						<ref bean="TAccessoriesDAO"/>
+					</property>
+					<property name="tsalesPriceHistoryDAO">
+						<ref bean="tsalesPriceHistoryDAO"/>
+					</property>
+					<property name="suppliersBrandDAO">
+						<ref bean="TSuppliersBrandDAO"/>
+					</property>
+					<property name="reservePlanMainDAO">
+						<ref bean="TReservePlanMainDAO"/>
+					</property>
+					<property name="productBrandDAO">
+						<ref bean="tproductBrandDAO"/>
+					</property>
+					<property name="rebateDAO">
+						<ref bean="TRebateDAO"/>
+					</property>
+				</bean>
+		</property>
+	</bean>
+	
+	
+</beans>

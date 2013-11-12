@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="query_statistics">
+  <resultMap class="com.tl.resource.business.dto.OrderStatisticsDto" id="OrderStatisticsDto">
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="supplier_name" jdbcType="VARCHAR" property="supplierName" />
+    <result column="order_code" jdbcType="VARCHAR" property="orderCode" />
+    <result column="source_code" jdbcType="VARCHAR" property="sourceCode" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="order_money" jdbcType="DECIMAL" property="orderMoney" />
+    <result column="invoice_money" jdbcType="DECIMAL" property="invoiceMoney" />
+    <result column="accounts_money" jdbcType="DECIMAL" property="accountsMoney" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+  </resultMap>
+
+  <resultMap class="com.tl.resource.business.dto.CustomerOrderStatisticsDto" id="CustomerOrderStatisticsDto">
+    <result column="customer_name" jdbcType="VARCHAR" property="customerName" />
+    <result column="own_contact_person" jdbcType="VARCHAR" property="ownContactPerson" />
+    <result column="contract_code" jdbcType="VARCHAR" property="contractCode" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="contract_amount" jdbcType="DECIMAL" property="contractAmount" />
+    <result column="order_amount" jdbcType="DECIMAL" property="orderAmount" />
+    <result column="arrival_amount" jdbcType="DECIMAL" property="arrivalAmount" />
+	<result column="delivery_amount" jdbcType="DECIMAL" property="deliveryAmount" />
+	<result column="contract_money" jdbcType="DECIMAL" property="contractMoney" />
+	<result column="invoice_money" jdbcType="DECIMAL" property="invoiceMoney" />
+	<result column="accounts_money" jdbcType="DECIMAL" property="accountsMoney" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+  </resultMap>
+
+ <resultMap class="com.tl.resource.business.dto.ProductsStatisticsDto" id="ProductsStatisticsDto">
+    <result column="tools_id" jdbcType="VARCHAR" property="toolsId" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="brand_code" jdbcType="VARCHAR" property="brandCode" />
+    <result column="product_sort_id" jdbcType="VARCHAR" property="productSortId" />
+    <result column="product_sort_code" jdbcType="VARCHAR" property="productSortCode" />
+    <result column="product_brand" jdbcType="VARCHAR" property="productBrand" />
+    <result column="product_source" jdbcType="VARCHAR" property="productSource" />
+	<result column="contract_amount" jdbcType="DECIMAL" property="contractAmount" />
+	<result column="schedule_amount" jdbcType="DECIMAL" property="scheduleAmount" />
+	<result column="try_amount" jdbcType="DECIMAL" property="tryAmount" />
+	<result column="money" jdbcType="DECIMAL" property="money" />
+  </resultMap>
+
+ <resultMap class="com.tl.resource.business.dto.UserWorkStatisticsDto" id="UserWorkStatisticsDto">
+    <result column="user_Name" jdbcType="VARCHAR" property="userName" />
+    <result column="contract_Product_Money" jdbcType="DECIMAL" property="contractProductMoney" />
+    <result column="contract_Final_Money" jdbcType="DECIMAL" property="contractFinalMoney" />
+    <result column="delivery_Money" jdbcType="DECIMAL" property="deliveryMoney" />
+    <result column="invoice_Money" jdbcType="DECIMAL" property="invoiceMoney" />
+    <result column="accounts_Money" jdbcType="DECIMAL" property="accountsMoney" />
+  </resultMap>
+<resultMap class="com.tl.resource.business.dto.ProductSaleBillDto" id="ProductSaleBillDto">
+	<result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="product_code" jdbcType="VARCHAR" property="productCode" />
+    <result column="brand_code" jdbcType="VARCHAR" property="brandCode" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="product_unit" jdbcType="VARCHAR" property="productUnit" />
+    <result column="rebate" jdbcType="DECIMAL" property="rebate" />
+    <result column="net_price" jdbcType="DECIMAL" property="netPrice" />
+    <result column="edit_date" jdbcType="TIMESTAMP" property="editDate" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="customer_name" jdbcType="VARCHAR" property="customerName" />
+    <result column="quotation_code" jdbcType="VARCHAR" property="quotationCode" />
+  </resultMap>
+  <select id="OrderStatisticsList" parameterClass="map" resultMap="OrderStatisticsDto">
+		SELECT a.*,b.accounts_money,c.invoice_money FROM 
+		(
+			SELECT 
+			oi.id,
+			oi.order_type,
+			oi.supplier_name,
+			oi.order_code,
+			CASE WHEN oi.order_type IN (1,3) THEN
+			oi.contract_code
+			ELSE
+			oi.quotation_code
+			END source_code,
+			oi.status,
+			oi.final_money order_money,
+			oi.mome memo
+			FROM t_order_infor oi
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="orderType" >
+			    <![CDATA[oi.order_type = #orderType#]]>
+				</isNotEmpty>
+				<isEqual prepend="and" property="cgjg" compareValue = "0">
+			    <![CDATA[oi.order_type IN (1,2,4,5,6)]]>
+				</isEqual>
+				<isEqual prepend="and" property="cgjg" compareValue = "1">
+			    <![CDATA[oi.order_type IN (3,7,8)]]>
+				</isEqual>
+				<isNotEmpty prepend="and" property="supplierName" >
+			    <![CDATA[oi.supplier_name like '%$supplierName$%']]>
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="orderCode" >
+			    <![CDATA[oi.order_code like '%$orderCode$%']]>
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="year" >
+				<![CDATA[DATE_FORMAT(oi.edit_date,'%Y') = #year#]]>
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="startTime" >
+				<![CDATA[DATE_FORMAT(oi.edit_date,'%Y') >= #startTime#]]>
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="endTime" >
+				<![CDATA[DATE_FORMAT(oi.edit_date,'%Y') <= #endTime#]]>
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="memo" >
+			    <![CDATA[oi.memo like '%$memo$%']]>
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="status" >
+			    <![CDATA[oi.status = #status#]]>
+				</isNotEmpty>
+			</dynamic>
+		) a
+		LEFT JOIN (
+			SELECT contract_infor_id,SUM(ac.money) accounts_money FROM t_contract_accounts_infor ac 
+			GROUP BY contract_infor_id
+		) b 
+		ON a.id = b.contract_infor_id
+		LEFT JOIN (
+			SELECT contract_id,SUM(ivd.money) invoice_money  FROM t_invoice_info iv,t_invoice_detail ivd
+			WHERE iv.id = ivd.invoice_info_id 
+			GROUP BY contract_id
+		) c
+		ON a.id = c.contract_id
+		<isNotEmpty   property="sort" >
+		    <isNotEmpty  property="dir" >
+				order by $sort$ $dir$
+		    </isNotEmpty>
+	    </isNotEmpty>
+		LIMIT #startIndex#, #pageSize# 	
+  </select>
+
+  <select id="OrderStatisticsListCount" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+            SELECT 
+			count(*) cnt
+			FROM t_order_infor oi
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="orderType" >
+		    <![CDATA[oi.order_type = #orderType#]]>
+			</isNotEmpty>
+			<isEqual prepend="and" property="cgjg" compareValue = "0">
+		    <![CDATA[oi.order_type IN (1,2,4,5,6)]]>
+			</isEqual>
+			<isEqual prepend="and" property="cgjg" compareValue = "1">
+		    <![CDATA[oi.order_type IN (3,7,8)]]>
+			</isEqual>
+			<isNotEmpty prepend="and" property="supplierName" >
+		    <![CDATA[oi.supplier_name like '%$supplierName$%']]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="orderCode" >
+		    <![CDATA[oi.order_code like '%$orderCode$%']]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="year" >
+			<![CDATA[DATE_FORMAT(oi.edit_date,'%Y') = #year#]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="startTime" >
+			<![CDATA[DATE_FORMAT(oi.edit_date,'%Y') >= #startTime#]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="endTime" >
+			<![CDATA[DATE_FORMAT(oi.edit_date,'%Y') <= #endTime#]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="memo" >
+		    <![CDATA[oi.memo like '%$memo$%']]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="status" >
+		    <![CDATA[oi.status = #status#]]>
+			</isNotEmpty>
+		</dynamic>
+  </select>
+
+  <select id="CustomerOrderStatisticsList" parameterClass="map" resultMap="CustomerOrderStatisticsDto">
+	SELECT a.*,b.account_money accounts_money,c.invoice_money FROM (
+		SELECT 
+		ci.id,
+		ci.contract_code,
+		ci.customer_name,
+		ci.customer_code,
+		ci.own_contact_person,
+		ci.status,
+		ci.final_money contract_money,
+		ci.memo,
+		SUM(cpd.amount) contract_amount,
+		SUM(cpd.sum_order_amount) order_amount,
+		SUM(IFNULL(cpd.sum_arrival_amount,0) + IFNULL(cpd.sum_out_amount,0)) arrival_amount,
+		SUM(cpd.sum_delivery_amount) delivery_amount
+		FROM t_contract_infor ci,t_contract_product_detail cpd
+		WHERE ci.id = cpd.contract_infor_id
+		    <isNotEmpty prepend="and" property="contractCode" >
+		    <![CDATA[ci.contract_code like '%$contractCode$%']]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="customerName" >
+		    <![CDATA[ci.customer_name like '%$customerName$%']]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="status" >
+		    <![CDATA[ci.status = #status#]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="ownContactPerson" >
+		    <![CDATA[ci.own_contact_person = #ownContactPerson#]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="year" >
+			<![CDATA[DATE_FORMAT(ci.edit_date,'%Y') = #year#]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="startTime" >
+			<![CDATA[DATE_FORMAT(ci.edit_date,'%Y') >= #startTime#]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="endTime" >
+			<![CDATA[DATE_FORMAT(ci.edit_date,'%Y') <= #endTime#]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="memo" >
+		    <![CDATA[ci.memo like '%$memo$%']]>
+			</isNotEmpty>
+		GROUP BY ci.id
+	) a
+	LEFT JOIN (
+		SELECT contract_infor_id,SUM(ac.money) account_money FROM t_contract_accounts_infor ac 
+		GROUP BY contract_infor_id
+	) b
+	ON a.id = b.contract_infor_id
+	LEFT JOIN (
+		SELECT contract_id,SUM(ivd.money) invoice_money FROM t_invoice_info iv,t_invoice_detail ivd
+		WHERE iv.id = ivd.invoice_info_id 
+		GROUP BY contract_id
+	) c
+	ON a.id = c.contract_id
+	<isNotEmpty   property="sort" >
+	    <isNotEmpty  property="dir" >
+			order by $sort$ $dir$
+	    </isNotEmpty>
+	</isNotEmpty>
+	LIMIT #startIndex#, #pageSize# 	
+  </select>
+
+  <select id="CustomerOrderStatisticsListCount" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+      SELECT COUNT(*) cnt FROM t_contract_infor ci
+      <dynamic prepend="where">
+            <isNotEmpty prepend="and" property="contractCode" >
+		    <![CDATA[ci.contract_code like '%$contractCode$%']]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="customerName" >
+		    <![CDATA[ci.customer_name like '%$customerName$%']]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="status" >
+		    <![CDATA[ci.status = #status#]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="ownContactPerson" >
+		    <![CDATA[ci.own_contact_person = #ownContactPerson#]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="year" >
+			<![CDATA[DATE_FORMAT(ci.edit_date,'%Y') = #year#]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="startTime" >
+			<![CDATA[DATE_FORMAT(ci.edit_date,'%Y') >= #startTime#]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="endTime" >
+			<![CDATA[DATE_FORMAT(ci.edit_date,'%Y') <= #endTime#]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="memo" >
+		    <![CDATA[ci.memo like '%$memo$%']]>
+			</isNotEmpty>
+		</dynamic>
+  </select>
+
+  <select id="ProductsStatisticsList" parameterClass="map" resultMap="ProductsStatisticsDto">
+		SELECT al2.id tools_id,al2.product_name,al2.brand_code,al2.product_sort_id,al2.product_sort_code,al2.product_brand,al2.product_source,
+		  al.contract_amount,al.schedule_amount,al.try_amount,al.money FROM (
+			SELECT id,SUM(contract_amount) contract_amount,SUM(schedule_amount) schedule_amount,SUM(try_amount) try_amount,sum(money) money FROM 
+			(
+				SELECT i.id,0 contract_amount,0 schedule_amount,0 try_amount,0 money
+				FROM t_product_tools_infor i 
+				WHERE i.parent_id = 'root'
+				<isNotEmpty prepend="and" property="productName" >
+			    i.product_name LIKE '%$productName$%'
+			    </isNotEmpty>
+			    <isNotEmpty prepend="and" property="brandCode" >
+			    i.brand_code LIKE '%$brandCode$%'
+			    </isNotEmpty>
+			    <isNotEmpty prepend="and" property="productBrand" >
+			    i.product_brand LIKE '%$productBrand$%'
+			    </isNotEmpty>
+				UNION ALL
+				SELECT pd2.tools_id,pd2.amount,0,0,pd2.amount * pd2.net_price FROM t_contract_product_detail pd2,t_contract_infor ci 
+				WHERE pd2.contract_infor_id = ci.id 
+				AND pd2.parent_tools_id = 'root'
+				<isNotEmpty prepend="and" property="year" >
+				 <![CDATA[DATE_FORMAT(ci.edit_date,'%Y') = #year#]]>
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="startTime" >
+				 <![CDATA[DATE_FORMAT(ci.edit_date,'%Y-%m-%d') >= #startTime#]]>
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="endTime" >
+				 <![CDATA[DATE_FORMAT(ci.edit_date,'%Y-%m-%d') <= #endTime#]]>
+				</isNotEmpty>
+			    <isNotEmpty prepend="and" property="productName" >
+			    pd2.product_name LIKE '%$productName$%'
+			    </isNotEmpty>
+			    <isNotEmpty prepend="and" property="brandCode" >
+			    pd2.brand_code LIKE '%$brandCode$%'
+			    </isNotEmpty>
+			    <isNotEmpty prepend="and" property="productBrand" >
+			    pd2.product_brand LIKE '%$productBrand$%'
+			    </isNotEmpty>
+				UNION ALL
+				SELECT pd.tools_id,0,
+				     CASE WHEN  qi.quotation_type = 3 THEN
+				         pd.amount
+				     ELSE 
+				         0
+				     END  schedule_amount,
+				     CASE WHEN  qi.quotation_type = 4 THEN
+				         pd.amount
+				     ELSE 
+				         0
+				     END  try_amount,
+				     pd.amount * pd.net_price
+				 FROM t_quotation_infor qi,t_quotation_product_detail pd 
+				 WHERE qi.id = pd.quotation_infor_id
+				 AND pd.parent_tools_id = 'root' 
+				 AND (qi.quotation_type = 3 OR qi.quotation_type = 4)
+				<isNotEmpty prepend="and" property="year" >
+				 <![CDATA[DATE_FORMAT(qi.edit_date,'%Y') = #year#]]>
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="startTime" >
+				 <![CDATA[DATE_FORMAT(qi.edit_date,'%Y-%m-%d') >= #startTime#]]>
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="endTime" >
+				 <![CDATA[DATE_FORMAT(qi.edit_date,'%Y-%m-%d') <= #endTime#]]>
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="productName" >
+			    pd.product_name LIKE '%$productName$%'
+			    </isNotEmpty>
+			    <isNotEmpty prepend="and" property="brandCode" >
+			    pd.brand_code LIKE '%$brandCode$%'
+			    </isNotEmpty>
+			    <isNotEmpty prepend="and" property="productBrand" >
+			    pd.product_brand LIKE '%$productBrand$%'
+			    </isNotEmpty>
+			) t
+			GROUP BY t.id
+			<isNotEmpty   property="sort" >
+			    <isNotEmpty  property="dir" >
+			        order by $sort$ $dir$
+			    </isNotEmpty>
+			</isNotEmpty>
+			
+		) al,t_product_tools_infor al2
+		WHERE al.id = al2.id
+			<isNotEmpty prepend="and" property="productSortCode" >
+				al2.product_sort_code = #productSortCode#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="and" property="productSource" >
+				al2.product_source = #productSource#
+		    </isNotEmpty>
+	            LIMIT #startIndex#, #pageSize# 	
+  </select>
+
+  <select id="ProductsStatisticsCount" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+      SELECT count(*) cnt
+	  FROM t_product_tools_infor i 
+	  WHERE i.parent_id = 'root'
+	<isNotEmpty prepend="and" property="productName" >
+	    i.product_name LIKE '%$productName$%'
+	</isNotEmpty>
+	<isNotEmpty prepend="and" property="brandCode" >
+	    i.brand_code LIKE '%$brandCode$%'
+	</isNotEmpty>
+	<isNotEmpty prepend="and" property="productBrand" >
+	    i.product_brand LIKE '%$productBrand$%'
+	</isNotEmpty>
+	<isNotEmpty prepend="and" property="productSortCode" >
+		i.product_sort_code = #productSortCode#
+	</isNotEmpty>
+	<isNotEmpty prepend="and" property="productSource" >
+		i.product_source = #productSource#
+	</isNotEmpty>
+  </select>
+
+  <select id="UserWorkStatisticsList" parameterClass="map" resultMap="UserWorkStatisticsDto">
+		SELECT a.own_contact_person user_Name,SUM(a.final_money) contract_Final_Money,SUM(a.product_money) contract_Product_Money,
+		       SUM(b.account_money) accounts_Money,SUM(c.invoice_money) invoice_Money,SUM(a.delivery_Money) delivery_Money FROM (
+			SELECT 
+			ci.id,
+			ci.final_money,
+			ci.product_money,
+			ci.own_contact_person,
+			SUM(IFNULL(cpd.sum_delivery_amount,0) * cpd.net_price) delivery_Money
+			FROM t_contract_infor ci,t_contract_product_detail cpd
+			WHERE ci.id = cpd.contract_infor_id
+			<isNotEmpty prepend="and" property="ownContactPerson" >
+		    <![CDATA[ci.own_contact_person = #ownContactPerson#]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="year" >
+			<![CDATA[DATE_FORMAT(ci.edit_date,'%Y') = #year#]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="startTime" >
+			<![CDATA[DATE_FORMAT(ci.edit_date,'%Y') >= #startTime#]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="endTime" >
+			<![CDATA[DATE_FORMAT(ci.edit_date,'%Y') <= #endTime#]]>
+			</isNotEmpty>
+			GROUP BY ci.id
+		) a
+		LEFT JOIN (
+			SELECT contract_infor_id,SUM(ac.money) account_money FROM t_contract_accounts_infor ac 
+			GROUP BY contract_infor_id
+		) b
+		ON a.id = b.contract_infor_id
+		LEFT JOIN (
+			SELECT contract_id,SUM(ivd.money) invoice_money FROM t_invoice_info iv,t_invoice_detail ivd
+			WHERE iv.id = ivd.invoice_info_id 
+			GROUP BY contract_id
+		) c
+		ON a.id = c.contract_id
+		GROUP BY a.own_contact_person
+		<isNotEmpty   property="sort" >
+			    <isNotEmpty  property="dir" >
+			        order by $sort$ $dir$
+			    </isNotEmpty>
+		</isNotEmpty>
+		LIMIT #startIndex#, #pageSize# 	
+  </select>
+
+  <select id="UserWorkStatisticsCount" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+            SELECT 
+			count(distinct ci.own_contact_person) cnt
+			FROM t_contract_infor ci
+			<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="ownContactPerson" >
+		    <![CDATA[ci.own_contact_person = #ownContactPerson#]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="year" >
+			<![CDATA[DATE_FORMAT(ci.edit_date,'%Y') = #year#]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="startTime" >
+			<![CDATA[DATE_FORMAT(ci.edit_date,'%Y') >= #startTime#]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="endTime" >
+			<![CDATA[DATE_FORMAT(ci.edit_date,'%Y') <= #endTime#]]>
+			</isNotEmpty>
+			</dynamic>
+  </select>
+  <select id="ProductsSaleBillStatisticsList" parameterClass="map" resultMap="ProductSaleBillDto">
+    SELECT 
+		qpd.product_name, qpd.product_Code, qpd.brand_Code,
+		qpd.price, qpd.rebate, qpd.net_Price, q.user_Name,
+		q.customer_Name, q.edit_Date,q.quotation_Code, qpd.id,qpd.product_unit
+	FROM t_quotation_infor q  
+	JOIN 
+		t_quotation_product_detail qpd 
+	ON q.id = qpd.quotation_infor_id
+		WHERE q.quotation_type IN (0,1,3)
+	    AND qpd.tools_id = #toolsId#
+	    and q.status = 2
+	<isNotEmpty prepend="and" property="year" >
+	<![CDATA[DATE_FORMAT(q.edit_date,'%Y') = #year#]]>
+	</isNotEmpty>
+	<isNotEmpty prepend="and" property="startTime" >
+	<![CDATA[DATE_FORMAT(q.edit_date,'%Y-%m-%d') >= #startTime#]]>
+	</isNotEmpty>
+	<isNotEmpty prepend="and" property="endTime" >
+	<![CDATA[DATE_FORMAT(q.edit_date,'%Y-%m-%d') <= #endTime#]]>
+	</isNotEmpty>
+	<isNotEmpty prepend="and" property="customerName" >
+	<![CDATA[q.customer_name like '%$customerName$%']]>
+	</isNotEmpty>	
+	order by q.edit_date desc
+	LIMIT #startIndex#, #pageSize# 	
+  </select>
+  
+  <select id="ProductsSaleBillStatisticsCount" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+    SELECT 
+		count(*) c
+	FROM t_quotation_infor q  
+	JOIN 
+		t_quotation_product_detail qpd 
+	ON q.id = qpd.quotation_infor_id
+		WHERE q.quotation_type IN (0,1,3)
+	    AND qpd.tools_id = #toolsId#
+	    and q.status = 2
+	<isNotEmpty prepend="and" property="year" >
+	<![CDATA[DATE_FORMAT(q.edit_date,'%Y') = #year#]]>
+	</isNotEmpty>
+	<isNotEmpty prepend="and" property="startTime" >
+	<![CDATA[DATE_FORMAT(q.edit_date,'%Y-%m-%d') >= #startTime#]]>
+	</isNotEmpty>
+	<isNotEmpty prepend="and" property="endTime" >
+	<![CDATA[DATE_FORMAT(q.edit_date,'%Y-%m-%d') <= #endTime#]]>
+	</isNotEmpty>
+	<isNotEmpty prepend="and" property="customerName" >
+	<![CDATA[q.customer_name like '%$customerName$%']]>
+	</isNotEmpty>	
+  </select>
+</sqlMap>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
+	default-autowire="byType">
+
+	<bean id="logInfoDao" class="com.tl.resource.dao.LogInfoDao">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+
+	<bean id="logInfoServiceTarget"
+		class="com.tl.resource.business.LogInfoServiceImpl" />
+
+	<bean id="logInfoService" parent="parentService">
+		<property name="target">
+			<ref bean="logInfoServiceTarget" />
+		</property>
+	</bean>
+
+	<bean id="logger"
+		class="com.tl.common.interceptor.LoggingInterceptor">
+		<property name="logInfoService">
+			<ref bean="logInfoService" />
+		</property>
+	</bean>
+
+	<!-- AOP log control -->
+	<aop:config>
+		<aop:aspect ref="logger">
+			<aop:pointcut id="operateMethod"
+				expression="execution(* com.tl.resource.business.*.insert*(..))
+							|| execution(* com.tl.resource.business.*.update*(..))
+							|| execution(* com.tl.resource.business.*.delete*(..))
+							|| execution(* com.tl.resource.business.*.add*(..))" />
+			<aop:before method="writeLog" pointcut-ref="operateMethod" />
+		</aop:aspect>
+	</aop:config>
+
+</beans>

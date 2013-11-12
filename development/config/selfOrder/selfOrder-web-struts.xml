@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+
+<struts-config>
+
+	<action-mappings>
+	<!-- 
+		<action path="/contractOrder/submitAudit" scope="request" validate="false"></action>
+		<action path="/contractOrder/contractDetailList" scope="request" validate="false"></action>
+		<action path="/contractOrder/cpsiList" scope="request" validate="false"></action>
+		<action path="/contractOrder/addOrder" scope="request" validate="false"></action>
+	 -->  	
+		<action path="/selfOrder/listAction" scope="request" validate="false"></action>
+		<action path="/selfOrder/contractDetail" scope="request" validate="false"></action>
+		<action path="/selfOrder/contractList" scope="request" validate="false"></action>
+		<action path="/selfOrder/supplierList" scope="request" validate="false"></action>
+		<action path="/selfOrder/contractDetailList" scope="request" validate="false"></action>
+		<action path="/selfOrder/cpsiList" scope="request" validate="false"></action>
+		<action path="/selfOrder/partContractDetailList" scope="request" validate="false"></action>
+		<action path="/selfOrder/UpdateFlagAction" scope="request" validate="false"></action>
+	</action-mappings>
+
+	<controller>
+		<set-property property="processorClass"
+			value="org.springframework.web.struts.DelegatingRequestProcessor" />
+	</controller>
+		
+</struts-config>

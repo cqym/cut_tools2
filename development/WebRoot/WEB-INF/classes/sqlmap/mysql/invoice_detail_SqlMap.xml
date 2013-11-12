@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="invoice_detail">
+  <typeAlias alias="InvoiceDetailDto" type="com.tl.resource.business.dto.InvoiceDetailDto"/>
+  <resultMap class="InvoiceDetailDto" id="baseResultMap">
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="contract_infor_id" jdbcType="VARCHAR" property="contractInforId" />
+    <result column="contract_project_sort_id" jdbcType="VARCHAR" property="contractProjectSortId" />
+    <result column="contract_detail_id" jdbcType="VARCHAR" property="contractDetailId" />
+    <result column="tools_id" jdbcType="VARCHAR" property="toolsId" />
+    <result column="leaf" jdbcType="INTEGER" property="leaf" />
+    <result column="project_code" jdbcType="VARCHAR" property="projectCode" />
+    <result column="serial_number" jdbcType="DECIMAL" property="serialNumber" />
+    <result column="product_brand" jdbcType="VARCHAR" property="productBrand" />
+    <result column="product_code" jdbcType="VARCHAR" property="productCode" />
+    <result column="brand_code" jdbcType="VARCHAR" property="brandCode" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="product_unit" jdbcType="VARCHAR" property="productUnit" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="rebate" jdbcType="DECIMAL" property="rebate" />
+    <result column="net_price" jdbcType="DECIMAL" property="netPrice" />
+    <result column="money" jdbcType="DECIMAL" property="money" />
+    <result column="contract_money" jdbcType="DECIMAL" property="contractMoney" />
+    <result column="tax_net_price" jdbcType="DECIMAL" property="taxNetPrice" />
+    <result column="tax_money" jdbcType="DECIMAL" property="taxMoney" />
+    <result column="edit_date" jdbcType="TIMESTAMP" property="editDate" />
+    <result column="invoice_info_id" jdbcType="VARCHAR" property="invoiceInfoId" />
+    <result column="invoice_date" jdbcType="VARCHAR" property="invoiceDate" />
+    
+    <result column="invoice_amount" jdbcType="DECIMAL" property="invoiceAmount" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+  </resultMap>
+  
+  <select id="getInvoiceDetail" parameterClass="map" resultClass="InvoiceDetailDto" resultMap="baseResultMap">
+    <![CDATA[
+			select conde.*,cpsi.pro_sort_name from (
+				select 
+				ivd.id,ivd.money,ivd.edit_date,ivd.invoice_info_id,ivd.invoice_date,ivd.amount invoice_amount,ivd.memo,
+				cpd.id contract_detail_id,
+				cpd.contract_project_sort_id,
+				cpd.tools_id,
+				cpd.contract_infor_id,
+				cpd.leaf,
+				cpd.project_code,
+				cpd.serial_number,
+				cpd.product_brand,
+				cpd.product_code,
+				cpd.product_unit,
+				cpd.brand_code,
+				cpd.product_name,
+				cpd.amount,
+				cpd.price,
+				cpd.rebate,
+				cpd.net_price,
+				cpd.money contract_money,
+				cpd.tax_net_price,
+				cpd.tax_money
+				from t_contract_product_detail cpd left join t_invoice_detail ivd
+				on cpd.id = ivd.contract_detail_id where cpd.parent_tools_id = 'root' and cpd.contract_infor_id = #contractInforId#
+			) conde,t_contract_project_sort_infor cpsi where conde.contract_project_sort_id = cpsi.id
+			order by contract_project_sort_id,project_code,serial_number
+			limit #startIndex#, #pageSize# 	
+    ]]>
+  </select>
+  <select id="invoiceDetailCount" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+  			select count(*) from (
+				select 
+				cpd.contract_project_sort_id
+				from t_contract_product_detail cpd left join t_invoice_detail ivd
+				on cpd.id = ivd.contract_detail_id where cpd.parent_tools_id = 'root' and cpd.contract_infor_id = #contractInforId#
+			) conde,t_contract_project_sort_infor cpsi where conde.contract_project_sort_id = cpsi.id
+  </select>
+  
+  
+  <select id="getOrderInvoiceDetail" parameterClass="map" resultClass="InvoiceDetailDto" resultMap="baseResultMap">
+    <![CDATA[
+			select 
+				ivd.id,ivd.money,ivd.edit_date,ivd.invoice_info_id,ivd.invoice_date,ivd.amount invoice_amount,ivd.memo,
+				cpd.id contract_detail_id,
+				cpd.contract_project_sort_id,
+				cpd.tools_id,
+				cpd.stock_order_infor_id contract_infor_id,
+				cpd.leaf,
+				cpd.project_code,
+				cpd.serial_number,
+				cpd.product_brand,
+				cpd.product_code,
+				cpd.product_unit,
+				cpd.brand_code,
+				cpd.product_name,
+				cpd.order_amount amount,
+				cpd.price,
+				0 rebate,
+				cpd.price net_price,
+				cpd.product_money contract_money,
+				cpd.price + cpd.price * tax_rate tax_net_price,
+				cpd.order_amount * (cpd.price + cpd.price * cpd.tax_rate) tax_money
+			from (
+			select od.*,oi.tax_rate from t_order_detail od,t_order_infor oi 
+			where oi.id = od.stock_order_infor_id and oi.id =  #contractInforId#
+			) cpd 
+			left join t_invoice_detail ivd
+			on cpd.id = ivd.contract_detail_id 
+			where cpd.parent_tools_id = 'root' and  cpd.stock_order_infor_id = #contractInforId#
+			order by contract_project_sort_id,project_code,serial_number
+			limit #startIndex#, #pageSize# 	
+    ]]>
+  </select>
+  <select id="orderInvoiceDetailCount" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+  				 select 
+				count(*)
+			from t_order_detail cpd left join t_invoice_detail ivd
+				on cpd.id = ivd.contract_detail_id 
+			where cpd.parent_tools_id = 'root' and cpd.stock_order_infor_id = #contractInforId#
+  </select>
+</sqlMap>

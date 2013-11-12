@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="salPriceHistory">
+  <typeAlias alias="salPriHistoryDto" type="com.tl.resource.business.dto.SalesPriceHistoryDto"/>
+  
+  <resultMap class="salPriHistoryDto" id="baseResultMap">  
+    
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="product_sort_id" jdbcType="VARCHAR" property="productSortId" />
+    <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
+    <result column="leaf" property="leaf" jdbcType="INTEGER" />
+    
+    <result column="product_code" jdbcType="VARCHAR" property="productCode" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="product_unit" jdbcType="VARCHAR" property="productUnit" />
+    <result column="product_sort_code" jdbcType="VARCHAR" property="productSortCode" />
+    
+    <result column="product_source" jdbcType="VARCHAR" property="productSource" />
+    <result column="slave_file" jdbcType="VARCHAR" property="slaveFile" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+    <result column="stock_price" jdbcType="DECIMAL" property="stockPrice" />
+    
+    <result column="sale_price" jdbcType="DECIMAL" property="salePrice" />
+    <result column="stock_price_date" jdbcType="TIMESTAMP" property="stockPriceDate" />
+    <result column="sale_price_date" jdbcType="TIMESTAMP" property="salePriceDate" />
+    <result column="currency_name" jdbcType="VARCHAR" property="currencyName" />
+    
+    <result column="brand_code" jdbcType="VARCHAR" property="brandCode" />
+    <result column="product_brand" jdbcType="VARCHAR" property="productBrand" />
+    <result column="customer_infor_id" property="customerInforId" jdbcType="VARCHAR" />
+    <result column="history_price" property="historyPrice" jdbcType="DECIMAL" />
+    
+    <result column="rebate" property="rebate" jdbcType="DECIMAL" />
+    <result column="net_price" property="netPrice" jdbcType="DECIMAL" />
+    <result column="edit_date" property="editDate" jdbcType="TIMESTAMP" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="product_tool_infor_id" property="productToolInforId" jdbcType="VARCHAR" />
+    <result column="quotation_code" property="quotationCode" jdbcType="VARCHAR" />
+    <result column="contract_code" property="contractCode" jdbcType="VARCHAR" />
+    <result column="rate" property="rate" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <resultMap id="result" class="salPriHistoryDto" extends="baseResultMap">
+    <result property="children" column="id" select="salPriceHistory.getSalesPriHistoryByParId"/>
+	<result column="tax_net_price" property="taxNetPrice" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <!-- 历史报价信息 -->
+  <select id="getSalesPriHistory" parameterClass="java.util.Map" resultClass="salPriHistoryDto" resultMap="result">
+    <![CDATA[
+      select te.currency_name, te.rate,t.id, t.id, t.product_tool_infor_id, t.customer_infor_id, t.sale_price_date,
+             t.history_price, t.rebate, t.net_price, t.edit_date, t.user_name, t.status,t.parent_id,t.leaf,t.quotation_code,
+             tp.product_sort_id, tp.product_code, tp.product_name, tp.product_unit, tp.product_sort_code, tp.product_source,
+             tp.slave_file,tp.memo,tp.stock_price,tp.sale_price,tp.stock_price_date,tp.currency_name, tp.brand_code,tp.product_brand,
+             t.tax_net_price,t.contract_code 
+      from t_cus_sales_price_history t 
+      left join t_product_tools_infor tp on t.product_tool_infor_id = tp.id
+      LEFT JOIN t_quotation_infor tq ON t.quotation_code=tq.quotation_code
+      LEFT JOIN t_exchange_rate te ON tq.currency_=te.id
+      where t.product_tool_infor_id=#proId# and t.customer_infor_id=#customerId# 
+    ]]>
+  </select>
+  
+  <!-- 历史报价信息子节点 -->
+  <select id="getSalesPriHistoryByParId" parameterClass="java.lang.String" resultClass="salPriHistoryDto" resultMap="result">
+    <![CDATA[
+      select te.currency_name, te.rate,t.id, t.id, t.product_tool_infor_id, t.customer_infor_id, t.sale_price_date,
+             t.history_price, t.rebate, t.net_price, t.edit_date, 
+             t.user_name, t.status,t.parent_id,t.leaf,t.quotation_code,
+             tp.product_sort_id, tp.product_code, tp.product_name, tp.product_unit, 
+             tp.product_sort_code, tp.product_source, tp.slave_file,tp.memo,
+             tp.stock_price,tp.sale_price,tp.stock_price_date,tp.currency_name, 
+             tp.brand_code,tp.product_brand,t.tax_net_price,t.contract_code
+      from t_cus_sales_price_history t 
+      left join t_product_tools_infor tp on t.product_tool_infor_id = tp.id
+      LEFT JOIN t_quotation_infor tq ON t.quotation_code=tq.quotation_code
+      LEFT JOIN t_exchange_rate te ON tq.currency_=te.id
+      where t.parent_id=#value#
+    ]]>
+  </select>
+  
+</sqlMap>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="salesPriceHistoryProDto">
+
+	<typeAlias alias="salesPriceHistoryProDto"
+		type="com.tl.resource.business.dto.SalesPriceHistoryProDto" />
+
+	<resultMap class="salesPriceHistoryProDto" id="baseResultMap">
+	
+		<result column="id" jdbcType="VARCHAR" property="id"  />
+		<result column="product_tool_infor_id" jdbcType="VARCHAR"  	property="productToolInforId" />
+		<result column="user_id" jdbcType="VARCHAR" property="userId"  />
+		<result column="user_name" jdbcType="VARCHAR" property="userName" />
+		<result column="sale_price_date" jdbcType="DATETIME" property="salePriceDate" />
+		<result column="history_price" jdbcType="DECIMAL" property="historyPrice" />
+		<result column="edit_date" jdbcType="DATETIME" property="editDate" />
+		
+		<result column="product_name" jdbcType="VARCHAR" property="productName" />
+		<result column="product_code" jdbcType="VARCHAR" property="productCode" />
+		<result column="product_sort_code" jdbcType="VARCHAR"	property="productSortCode"  />
+		<result column="product_brand" jdbcType="VARCHAR" 	property="productBrand" />
+		<result column="product_source" jdbcType="VARCHAR"	property="productSource"  />
+		<result column="brand_code" jdbcType="VARCHAR" 	property="brandCode" />
+		
+	</resultMap>
+	
+	<!-- 获取某种已销售产品信息 -->
+	<select id="getSalesHistoryProductByPageAndProductId"
+		parameterClass="java.util.Map" resultClass="salesPriceHistoryProDto"
+		resultMap="baseResultMap">
+		
+		select t.id ,  t.product_tool_infor_id,  t.user_id , t.user_name , t.sale_price_date , t.history_price , t.edit_date ,
+		       tp.product_name , tp.product_code , tp.product_sort_code , tp.product_brand , tp.product_source ,  t.brand_code
+  	   	from t_sales_price_history t 
+			left join t_product_tools_infor tp on t.product_tool_infor_id = tp.id
+		where t.product_tool_infor_id = #product_tool_infor_id#
+     	limit #start#,#limit#
+  
+	</select>
+
+
+	<!-- 根据工具信息ID获取面价信息 -->
+	<select id="getHistoryPriceByToolsId" parameterClass="String" resultClass="salesPriceHistoryProDto" resultMap="baseResultMap">
+		select t.id ,  t.product_tool_infor_id,  t.user_id , t.user_name , t.sale_price_date , t.history_price , t.edit_date ,
+		tp.product_name , tp.product_code , tp.product_sort_code , tp.product_brand , tp.product_source ,  t.brand_code
+		from t_sales_price_history t 
+		left join t_product_tools_infor tp on t.product_tool_infor_id = tp.id
+		where t.product_tool_infor_id = #value#
+	</select>
+
+	<!-- 获取某种产品已销售总数 -->
+	<select id="getSalesHistoryProductTotalByProductId"
+		parameterClass="java.util.Map" resultClass="java.lang.Integer">
+		select count(*) from t_sales_price_history t where
+		t.product_tool_infor_id = #product_tool_infor_id#
+		
+	</select>
+
+
+
+
+</sqlMap>

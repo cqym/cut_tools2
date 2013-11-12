@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+
+<struts-config>
+	<action-mappings>
+		<action path="/contract/contractEditAction" scope="request" validate="false" parameter="ffc"></action>
+		<action path="/contract/contractViewAction" scope="request" validate="false" parameter="ffc"></action>
+		<action path="/contract/submitAuditContractAction" scope="request" validate="false"></action>
+		<action path="/contract/contractAccountsAction" scope="request" validate="false" parameter="ffc"></action>
+		<action path="/contract/contractInforsViewPanel" scope="request" validate="false" parameter="ffc"></action>
+		<action path="/contract/invoiceAction" scope="request" validate="false" parameter="ffc"></action>
+		<action path="/contract/contractOutExcelAction" scope="request" validate="false" parameter="ffc"></action>
+		<action path="/contract/contractChartsViewAction" scope="request" validate="false" parameter="m"></action>
+		<action path="/contract/Schedue2ContractAction" scope="request" validate="false" parameter="ffc"></action>
+	</action-mappings>
+	<controller>
+		<set-property property="processorClass"
+			value="org.springframework.web.struts.DelegatingRequestProcessor" />
+	</controller>
+</struts-config>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+
+<struts-config>
+
+	<action-mappings>
+		<action path="/contractOrder/listAction" scope="request" validate="false"></action>
+		<action path="/contractOrder/contractList" scope="request" validate="false"></action>
+		<action path="/contractOrder/contractDetail" scope="request" validate="false"></action>
+		<action path="/contractOrder/supplierList" scope="request" validate="false"></action>
+		<action path="/contractOrder/CmprStockPrice" scope="request" validate="false"></action>
+		<action path="/contractOrder/CancelOrder" scope="request" validate="false"></action>
+		<action path="/contractOrder/OrderTotalMoneysAction" scope="request" validate="false" parameter="mydear"></action>
+		<action path="/contractOrder/SupHisPriceAction" scope="request" validate="false" parameter="mydear"></action>
+		<action path="/contractOrder/CheckOrderAmountAction" scope="request" validate="false"></action>
+		
+		<action path="/purchaseOrder/PurchaseOrderViewAction" scope="request" validate="false" parameter="method"></action>
+		<action path="/purchaseOrder/PurchaseOrderEditAction" scope="request" validate="false" parameter="method"></action>
+		<action path="/purchaseOrder/submitAudit" scope="request" validate="false" parameter="method"></action>
+		
+	</action-mappings>
+
+	<controller>
+		<set-property property="processorClass"
+			value="org.springframework.web.struts.DelegatingRequestProcessor" />
+	</controller>
+		
+</struts-config>

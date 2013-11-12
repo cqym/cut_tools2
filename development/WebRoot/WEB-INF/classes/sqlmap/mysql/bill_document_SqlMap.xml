@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="billDocument">
+	
+	<typeAlias alias="billDocumentDto" type="com.tl.resource.business.dto.BillDocumentDto" />
+	
+	<resultMap class="billDocumentDto" id="baseResultMap">
+		<result column="id" jdbcType="VARCHAR" property="id"/>
+		<result column="bill_code" jdbcType="VARCHAR" property="billCode" />
+		<result column="status" jdbcType="VARCHAR" property="status" />
+	</resultMap>
+	
+	<!-- 获取单据 -->
+	<select id="getBillDoc"
+		parameterClass="java.util.Map" resultClass="billDocumentDto"
+		resultMap="baseResultMap">
+		
+		<isEqual property="billType" compareValue="1">
+			SELECT a.id, a.contract_code as bill_code, a.status FROM t_contract_infor a
+			<isNotNull property="billCode">
+				where a.contract_code like '%$billCode$%'
+			</isNotNull>
+			limit #start#,#limit#
+		</isEqual>
+		
+		<isEqual property="billType" compareValue="2">
+			SELECT a.id, a.quotation_code as bill_code, a.status
+			FROM t_quotation_infor a
+			<isNotNull property="billCode">
+				where a.quotation_code like '%$billCode$%'
+			</isNotNull>
+			limit #start#,#limit#
+		</isEqual>
+		
+		<isEqual property="billType" compareValue="3">
+			SELECT a.id, a.order_code as bill_code, a.status FROM t_order_infor a
+			<isNotNull property="billCode">
+				where a.order_code like '%$billCode$%'
+			</isNotNull>
+			limit #start#,#limit#
+		</isEqual>
+		
+		<isEqual property="billType" compareValue="4">
+			SELECT a.id, a.arrival_code as bill_code, a.status FROM t_product_arrival_infor a
+			<isNotNull property="billCode">
+				where a.arrival_code like '%$billCode$%'
+			</isNotNull>
+			limit #start#,#limit#
+		</isEqual>
+		
+		<isEqual property="billType" compareValue="5">
+			SELECT a.id, a.out_stock_code as bill_code, a.status FROM t_out_stock_infor a
+			<isNotNull property="billCode">
+				where a.out_stock_code like '%$billCode$%'
+			</isNotNull>
+			limit #start#,#limit#
+		</isEqual>
+		
+		<isEqual property="billType" compareValue="6">
+			SELECT a.id, a.delivery_code as bill_code, a.status FROM t_delivery_infor a
+			<isNotNull property="billCode">
+				where a.delivery_code like '%$billCode$%'
+			</isNotNull>
+			limit #start#,#limit#
+		</isEqual>
+		
+		<isEqual property="billType" compareValue="7">
+			SELECT a.id, CONCAT('(',a.contract_code,')','(',a.money,')',DATE_FORMAT(a.edit_date,'%Y-%m-%d')) AS bill_code, a.status  FROM t_contract_accounts_infor a
+			<isNotNull property="billCode">
+				where a.contract_code like '%$billCode$%'
+			</isNotNull>
+			limit #start#,#limit#
+		</isEqual>
+		
+		<isEqual property="billType" compareValue="8">
+			SELECT id,plan_code bill_code,STATUS FROM t_reserve_plan_main
+			<isNotNull property="billCode">
+				where plan_code like '%$billCode$%'
+			</isNotNull>
+			limit #start#,#limit#
+		</isEqual>
+	</select>
+	
+	<!-- 获取单据总数 -->
+	<select id="getBillDocTotal" parameterClass="java.util.Map" resultClass="Integer">
+		SELECT count(*)
+		
+		<isEqual property="billType" compareValue="1">
+			FROM t_contract_infor a
+			<isNotNull property="billCode">
+				where a.contract_code like '%$billCode$%'
+			</isNotNull>
+		</isEqual>
+		
+		<isEqual property="billType" compareValue="2">
+			FROM t_quotation_infor a
+			<isNotNull property="billCode">
+				where a.quotation_code like '%$billCode$%'
+			</isNotNull>
+		</isEqual>
+		
+		<isEqual property="billType" compareValue="3">
+			FROM t_order_infor a
+			<isNotNull property="billCode">
+				where a.order_code like '%$billCode$%'
+			</isNotNull>
+		</isEqual>
+		
+		<isEqual property="billType" compareValue="4">
+			FROM t_product_arrival_infor a
+			<isNotNull property="billCode">
+				where a.arrival_code like '%$billCode$%'
+			</isNotNull>
+		</isEqual>
+		
+		<isEqual property="billType" compareValue="5">
+			FROM t_out_stock_infor a
+			<isNotNull property="billCode">
+				where a.out_stock_code like '%$billCode$%'
+			</isNotNull>
+		</isEqual>
+		
+		<isEqual property="billType" compareValue="6">
+			FROM t_delivery_infor a
+			<isNotNull property="billCode">
+				where a.delivery_code like '%$billCode$%'
+			</isNotNull>
+		</isEqual>
+		
+		<isEqual property="billType" compareValue="7">
+			FROM t_contract_accounts_infor a
+			<isNotNull property="billCode">
+				where a.contract_code like '%$billCode$%'
+			</isNotNull>
+		</isEqual>
+		
+		<isEqual property="billType" compareValue="8">
+			FROM t_reserve_plan_main a
+			<isNotNull property="billCode">
+				where a.plan_code like '%$billCode$%'
+			</isNotNull>
+		</isEqual>
+	</select>
+	
+	<!-- 修改单据状态 -->
+	<update id="updateBillDoc" parameterClass="Map">
+		<isEqual property="billType" compareValue="1">
+			update t_contract_infor
+			set status =#status:INTEGER# 
+			where id = #id:VARCHAR#
+		</isEqual>
+		
+		<isEqual property="billType" compareValue="2">
+			update t_quotation_infor
+			set status =#status:INTEGER# 
+			where id = #id:VARCHAR#
+		</isEqual>
+		
+		<isEqual property="billType" compareValue="3">
+			update t_order_infor
+			set status =#status:INTEGER# 
+			where id = #id:VARCHAR#
+		</isEqual>
+		
+		<isEqual property="billType" compareValue="4">
+			update t_product_arrival_infor
+			set status =#status:INTEGER# 
+			where id = #id:VARCHAR#
+		</isEqual>
+		
+		<isEqual property="billType" compareValue="5">
+			update t_out_stock_infor
+			set status =#status:INTEGER# 
+			where id = #id:VARCHAR#
+		</isEqual>
+		
+		<isEqual property="billType" compareValue="6">
+			update t_delivery_infor
+			set status =#status:INTEGER# 
+			where id = #id:VARCHAR#
+		</isEqual>
+		
+		<isEqual property="billType" compareValue="7">
+			update t_contract_accounts_infor
+			set status =#status:INTEGER# 
+			where id = #id:VARCHAR#
+		</isEqual>
+		<isEqual property="billType" compareValue="8">
+			update t_reserve_plan_main
+			set status =#status:INTEGER# 
+			where id = #id:VARCHAR#
+		</isEqual>
+	</update>
+	
+</sqlMap>

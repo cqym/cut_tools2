@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+ <bean id="OutStockService" parent="parentService">
+  <property name="target">
+  	 <bean class="com.tl.resource.business.outStock.OutStockServiceImp">
+		<property name="reserveInforDAO">
+			<ref bean="TReserveInforDAO"/>
+		</property>
+		<property name="outStockInforDAO">
+			<ref bean="TOutStockInforDAO"/>
+		</property>
+		<property name="outStockDetailDAO">
+			<ref bean="TOutStockDetailDAO"/>
+		</property>
+		<property name="accountsInforDAO">
+			<ref bean="TAccountsInforDAO"/>
+		</property>
+		<property name="contractProductDetailDAO">
+			<ref bean="contractProductDetailDAO"/>
+		</property>
+		<property name="quotationProductDetailDAO">
+			<ref bean="TQuotationProductDetailDAO"/>
+		</property>
+		<property name="resourcePurviewDAO">
+			<ref bean="TResourcePurviewDAOImpl"/>
+		</property>
+	 </bean>
+  </property>
+</bean>
+	
+<bean id="MaterialOutStockService" parent="parentService">
+  <property name="target">
+  	 <bean class="com.tl.resource.business.outStock.MaterialOutStockServiceImp">
+		<property name="orderInforDao">
+			<ref bean="TOrderInforDAOImpl" />
+		</property>
+		<property name="outStockInforDAO">
+			<ref bean="TOutStockInforDAO"/>
+		</property>
+		<property name="outStockDetailDAO">
+			<ref bean="TOutStockDetailDAO"/>
+		</property>
+		<property name="orderDetailDao">
+			<ref bean="TOrderDetailDAOImpl" />
+		</property>
+		<property name="contractInforDAO">
+				<ref bean="contractInforDAO" />
+		</property>
+		
+		<property name="reservePlanInforDAO">
+				<ref bean="TReservePlanInforDAOImpl" />
+		</property>
+		<property name="reservePlanMainDAO">
+				<ref bean="TReservePlanMainDAO" />
+		</property>
+	 </bean>
+  </property>
+</bean>
+	<bean id="OutStockOutExcel"
+		class="com.tl.resource.business.outStock.OutStockOutExcelImp">
+			<property name="contractInforDAO">
+				<ref bean="contractInforDAO" />
+			</property>
+			<property name="companyInforDAO">
+				<ref bean="TCompanyInforDAO" />
+			</property>
+			<property name="accessoriesDAO">
+				<ref bean="TAccessoriesDAO" />
+			</property>
+			<property name="quotationInforDAO">
+				<ref bean="TQuotationInfoDAO" />
+			</property>
+			<property name="outStockInforDAO">
+				<ref bean="TOutStockInforDAO" />
+			</property>
+			<property name="outStockDetailDAO">
+				<ref bean="TOutStockDetailDAO" />
+			</property>
+	</bean>
+	
+	
+	<bean id="MaterialOutStockEditService" parent="parentService">
+	  <property name="target">
+	  	 <bean class="com.tl.resource.business.outStock.MaterialOutStockEditServiceImp">
+			<property name="outStockInforDAO">
+				<ref bean="TOutStockInforDAO"/>
+			</property>
+			<property name="outStockDetailDAO">
+				<ref bean="TOutStockDetailDAO"/>
+			</property>
+			<property name="accountsInforDAO">
+				<ref bean="TAccountsInforDAO"/>
+			</property>
+			<property name="reserveInforDAO">
+				<ref bean="TReserveInforDAO"/>
+			</property>
+			<property name="reservePlanInforDAO">
+				<ref bean="TReservePlanInforDAO"/>
+			</property>
+			
+			<property name="matReserveInforDAO">
+				<ref bean="TMatReserveInforDAO"/>
+			</property>
+			<property name="reservePlanMainDAO">
+				<ref bean="TReservePlanMainDAO"/>
+			</property>
+		</bean>
+	  </property>
+	</bean>
+
+	<bean id="OutStockListOutExcel"
+		class="com.tl.resource.business.outStock.OutStockListOutExcelImp">
+		<property name="outStockService">
+				<ref bean="OutStockService" />
+		</property>
+	</bean>
+</beans>

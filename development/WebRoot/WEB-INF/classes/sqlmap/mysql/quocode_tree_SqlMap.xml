@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="quoCodeTree">
+	
+	<typeAlias alias="quoCodeTreeDto" type="com.tl.resource.business.dto.QuoCodeTreeDto" />
+	
+	<resultMap class="quoCodeTreeDto" id="baseResultMap">
+		<result column="delivery_code" jdbcType="VARCHAR" property="code"/>
+	</resultMap>
+	
+	<select id="getDeliveryCode" parameterClass="String" resultClass="List" resultMap="baseResultMap">
+		SELECT di.delivery_code FROM t_delivery_infor di,t_delivery_detail dd,
+		(
+		SELECT REPLACE(a.id, &apos;##&apos;, '') AS id FROM t_quotation_product_detail a WHERE a.quotation_infor_id=#value#
+		) aa
+		WHERE di.id = dd.delivery_infor_id
+		AND dd.contract_product_detail_id = aa.id
+		GROUP BY di.delivery_code
+	</select>
+	
+	<select id="getDeliveryCodeByQuoId" parameterClass="String" resultClass="List" resultMap="baseResultMap">
+		SELECT a.delivery_code FROM t_delivery_infor a 
+		LEFT JOIN t_quotation_infor b ON a.quotation_id=b.id
+		WHERE b.id=#value#
+	</select>
+</sqlMap>

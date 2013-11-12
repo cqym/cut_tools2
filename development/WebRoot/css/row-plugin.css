@@ -1,0 +1,16 @@
+.row_grid_plugin{
+	width:470px; font-weight:lighter; color:#2965AD; margin-top:2px;margin-left:820px;
+}
+.panel_boder_plugin{
+	float:right;width:380px;border:1px solid #93BCD4;height:14px;
+}
+
+.panel_progress_plugin{
+	background-color:#9DD2F1;height:12px;
+}
+.x-grid3-row-body-tr{
+	display:none
+}
+.x-grid3-row-body-tr-collapse{
+	display:block
+}

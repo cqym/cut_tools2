@@ -1,0 +1,23 @@
+1.每个dao包中的po类，都必须在business包写对应的dto类
+2.每个dto类必须写toString()方法，其中应包含主要内容，如名称等；详细内容可参考SiteDto中toString写法
+3.每个service中写删除方法是，必须传入dto对象，dto中不必写所有属性，只需写名主要属性，如id、name等信息，在service的删除方法中调用dao的删除方法时，只需调用del*(String id)方法即可
+
+4.资源网后台管理程序功能编写时，service层的增、删、修等改动数据库的方法命名应遵循以下原则：
+	增：insert*；删：del*；修：update；
+	如遇到增删改以外的方法命名时，可使用--修：update*
+	说明：如使用以上方法命名规则命名时，该方法执行时，会记录系统日志
+5.资源网前台程序编写时，service层的增、删、修等修改动数据库的方法命名应遵循以下原则：
+	增：add*；删：remove*；修：modify*；
+	如遇到增删改以外的方法命名是，可参考--修：modify；增：save；
+	其他可用的命名：create*；commit*；
+
+6.资源网后台管理程序功能编写时，建议将某一模块的action全部放在一个action中，如TooInfoAction，其中包括了toolinfo的全部内容
+7.资源网后台管理程序功能编写时，每个action必须继承ManageAction，而不是继承Action。
+	其execute方法中第一行应该加上如下代码：
+		this.setCurrentModule("userInfoList.do");
+		checkUserRight(request);
+	其中this.setCurrentModule("");的参数，要放入的是其功能在菜单中显示的功能的url，在该方法中写入参数时，应保持和数据库的module_admin表中记录的url一致
+
+8.如遇到po或dto中使用date类型的字段时，请改为java.util.Date类型，防止在BeanUtils.copyProperties(xxx，yyy)时出错
+
+9.编写sqlmap的xml文件时，不能使用中文注释，需要加注释的时候，使用英文做注释

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="orderPriceHistory">
+
+	<typeAlias alias="orderPriceHistoryDto"
+		type="com.tl.resource.business.dto.OrderPriceHistoryDto" />
+
+	<resultMap class="orderPriceHistoryDto" id="baseResultMap">
+		<result column="product_code" jdbcType="VARCHAR"
+			property="productCode" />
+		<result column="product_name" jdbcType="VARCHAR"
+			property="productName" />
+		<result column="brand_code" jdbcType="VARCHAR"
+			property="brandCode" />
+		<result column="product_tools_infor_id"
+			property="productToolsInforId" jdbcType="VARCHAR" />
+
+		<result column="product_sort_code" property="productSortCode"
+			jdbcType="VARCHAR" />
+		<result column="product_brand" property="productBrand"
+			jdbcType="VARCHAR" />
+		<result column="product_source" property="productSource"
+			jdbcType="VARCHAR" />
+		<result column="sale_price" jdbcType="DECIMAL"
+			property="salePrice" />	
+	</resultMap>
+
+
+	<resultMap class="orderPriceHistoryDto" id="extendBaseResultMap"
+		extends="baseResultMap">
+		<result column="id" jdbcType="VARCHAR" property="id" />
+		<result column="user_id" jdbcType="VARCHAR" property="userId" />
+		<result column="suppliers_infor_id" jdbcType="VARCHAR"
+			property="suppliersInforId" />
+		<result column="supplier_name" jdbcType="VARCHAR"
+			property="supplierName" />
+
+		<result column="history_price" jdbcType="DECIMAL"
+			property="historyPrice" />
+		<result column="user_name" jdbcType="VARCHAR"
+			property="userName" />
+		<result column="edit_date" jdbcType="DATETIME"
+			property="editDate" />
+		<result column="stock_price_date" jdbcType="DATETIME"
+			property="stockPriceDate" />
+		<result column="leaf" jdbcType="INT" property="leaf" />
+		<result column="parent_id" jdbcType="VARCHAR"
+			property="parentId" />
+	</resultMap>
+
+	<resultMap id="withDateResultMap" class="orderPriceHistoryDto" extends="baseResultMap">
+		<result column="stock_price_date" jdbcType="VARCHAR"
+			property="stockPriceDate" />
+	</resultMap>
+
+	<!-- 获取已采购产品报价信息 -->
+	<select id="getOrderPriceHistoryProductByPage"
+		parameterClass="java.util.Map" resultClass="orderPriceHistoryDto"
+		resultMap="withDateResultMap">
+		<![CDATA[
+			SELECT i.* , d.sale_price_date AS stock_price_date, sph.history_price AS sale_price FROM    	
+			(SELECT  id AS product_tools_infor_id , product_name , product_code , product_sort_code , 
+			    			product_source , product_brand , brand_code, 
+			    			stock_price 
+			    	FROM    t_product_tools_infor t  
+			    	WHERE   t.parent_id = 'root'
+			    	
+			    	]]>
+		<isNotEmpty prepend="and" property="productName">
+			t.product_name like '%$productName$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="productCode">
+			t.product_code like '%$productCode$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="productSortCode">
+			t.product_sort_code like '%$productSortCode$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="brandCode">
+			t.brand_code like '%$brandCode$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="productBrand">
+			t.product_brand like '%$productBrand$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="productSource">
+			t.product_source like '%$productSource$%'
+		</isNotEmpty>
+		<isNotEmpty prepend=" " property="sort">
+			order by $sort$ $dir$
+		</isNotEmpty>
+		<![CDATA[
+			LIMIT #start#,#limit#) i 
+	    	LEFT JOIN (    
+				SELECT MAX(t.sale_price_date) AS sale_price_date, t.product_brand 
+				FROM t_sales_price_history t    
+				WHERE t.sale_price_date <= (SELECT CURDATE())  AND t.product_brand IS NOT NULL      
+				GROUP BY t.product_brand ORDER BY t.sale_price_date DESC
+			) d  ON  i.product_brand=d.product_brand 
+		    LEFT JOIN  t_sales_price_history sph 
+		    ON i.product_tools_infor_id = sph.product_tool_infor_id  AND sph.sale_price_date = d.sale_price_date
+
+		]]>
+
+	</select>
+
+
+	<!-- 获取某种已采购产品信息 -->
+	<select id="getOrderHistoryProductByPageAndProductId"
+		parameterClass="java.util.Map" resultClass="orderPriceHistoryDto"
+		resultMap="extendBaseResultMap">
+
+		select t.id , t.product_tools_infor_id, t.suppliers_infor_id ,
+		tp.product_name , t.product_code , t.brand_code ,
+		t.history_price , tp.product_sort_code , tp.product_brand ,
+		tp.product_source, tp.sale_price, t.user_name , t.edit_date , t.leaf ,
+		t.parent_id , t.user_id , t.stock_price_date , ts.supplier_name
+		from t_order_price_history t left join t_product_tools_infor tp
+		on t.product_tools_infor_id = tp.id left join t_suppliers_infor
+		ts on t.suppliers_infor_id = ts.id where
+		t.product_tools_infor_id = #productToolsInforId#
+
+		<isNotEmpty prepend="and" property="suppliersInforId">
+			t.suppliers_infor_id = #suppliersInforId#
+		</isNotEmpty>
+		order by t.edit_date desc
+		<isNotEmpty property="start">
+			limit #start#,#limit#
+		</isNotEmpty>
+	</select>
+
+
+	<!-- 获取已采购产品总数 -->
+	<select id="getOrderPriceHistoryProductTotal"
+		resultClass="java.lang.Integer" parameterClass="java.util.Map">
+		select count(tp.id) from    t_product_tools_infor tp where tp.parent_id = 'root'
+			<isNotEmpty prepend="and" property="productName">
+				tp.product_name like '%$productName$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="productCode">
+				tp.product_code like '%$productCode$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="productSortCode">
+				tp.product_sort_code like '%$productSortCode$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="brandCode">
+				tp.brand_code like '%$brandCode$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="productBrand">
+				tp.product_brand like '%$productBrand$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="productSource">
+				tp.product_source like '%$productSource$%'
+			</isNotEmpty>
+	</select>
+
+	<!-- 获取某种产品已采购历史总数 -->
+	<select id="getOrderHistoryProductTotalByProductId"
+		parameterClass="java.util.Map" resultClass="java.lang.Integer">
+		select count(*) from t_order_price_history t where
+		t.product_tools_infor_id = #product_tools_infor_id#
+		<isNotEmpty prepend="and" property="suppliersInforId">
+			t.suppliers_infor_id = #suppliersInforId#
+		</isNotEmpty>
+	</select>
+
+
+
+
+</sqlMap>

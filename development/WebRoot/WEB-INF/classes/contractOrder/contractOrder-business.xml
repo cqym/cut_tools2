@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+
+	<bean id="ContractOrderServiceImpl" parent="parentService">
+		<property name="target">
+			<bean class="com.tl.resource.business.contractOrder.ContractOrderServiceImpl">
+				<property name="orderInforDao">
+					<ref bean="TOrderInforDAOImpl" />
+				</property>
+				<property name="orderDetailDao">
+					<ref bean="TOrderDetailDAOImpl" />
+				</property>
+				<property name="contractInforDao">
+					<ref bean="TContractInforDAOImpl" />
+				</property>
+				<property name="suppliersInforDao">
+					<ref bean="TSuppliersInforDAOImpl" />
+				</property>
+				<property name="contractProductDetailDao">
+					<ref bean="contractProductDetailDAO" />
+				</property>
+				<property name="contractProjectSortInforDao">
+					<ref bean="TContractProjectSortInforDAOImpl" />
+				</property>
+				<property name="orderPriceHistoryDao">
+					<ref bean="torderPriceHistoryDAO"/>
+				</property>
+				<property name="accessoriesDAO">
+					<ref bean="TAccessoriesDAO"/>
+				</property>
+				<property name="tsalesPriceHistoryDAO">
+					<ref bean="tsalesPriceHistoryDAO"/>
+				</property>
+				<property name="companyInforDAO">
+					<ref bean="TCompanyInforDAO"/>
+				</property>
+				<property name="quotationProductDetailDAO">
+					<ref bean="TQuotationProductDetailDAO"/>
+				</property>
+			</bean>
+		  </property>
+	</bean>
+	
+	<bean id="PurchaseOrderViewService" parent="parentService">
+		<property name="target">
+			<bean class="com.tl.resource.business.purchaseOrder.PurchaseOrderViewService">
+				<property name="orderInforDao">
+					<ref bean="TOrderInforDAOImpl" />
+				</property>
+				<property name="orderDetailDao">
+					<ref bean="TOrderDetailDAOImpl" />
+				</property>
+				<property name="contractInforDao">
+					<ref bean="TContractInforDAOImpl" />
+				</property>
+			</bean>
+		  </property>
+	</bean>
+	
+	
+	<bean id="PurchaseOrderEditService" parent="parentService">
+		<property name="target">
+		   <bean class="com.tl.resource.business.purchaseOrder.PurchaseOrderEditService">
+			    <property name="orderInforDao">
+					<ref bean="TOrderInforDAOImpl" />
+				</property>
+				<property name="orderDetailDao">
+					<ref bean="TOrderDetailDAOImpl" />
+				</property>
+				<property name="contractInforDao">
+					<ref bean="TContractInforDAOImpl" />
+				</property>
+				<property name="suppliersInforDao">
+					<ref bean="TSuppliersInforDAOImpl" />
+				</property>
+				<property name="contractProductDetailDao">
+					<ref bean="contractProductDetailDAO" />
+				</property>
+				<property name="contractProjectSortInforDao">
+					<ref bean="TContractProjectSortInforDAOImpl" />
+				</property>
+				<property name="orderPriceHistoryDao">
+					<ref bean="torderPriceHistoryDAO"/>
+				</property>
+				<property name="accessoriesDAO">
+					<ref bean="TAccessoriesDAO"/>
+				</property>
+				<property name="tsalesPriceHistoryDAO">
+					<ref bean="tsalesPriceHistoryDAO"/>
+				</property>
+				<property name="companyInforDAO">
+					<ref bean="TCompanyInforDAO"/>
+				</property>
+				<property name="quotationProductDetailDAO">
+					<ref bean="TQuotationProductDetailDAO"/>
+				</property>
+				<property name="billsCodeDefService">
+			        <ref bean="BillsCodeDefService"/>
+				</property>
+				<property name="quotationInforDAO">
+					<ref bean="TQuotationInfoDAO"/>
+				</property>
+				<property name="planOrderService">
+					<ref bean="PlanOrderServiceImpl"/>
+				</property>
+				<property name="reservePlanMainDAO">
+					<ref bean="TReservePlanMainDAO"/>
+			    </property>
+				<property name="reservePlanInforDao">
+					<ref bean="TReservePlanInforDAOImpl" />
+				</property>
+	       </bean>
+	    </property>
+	</bean>
+</beans>

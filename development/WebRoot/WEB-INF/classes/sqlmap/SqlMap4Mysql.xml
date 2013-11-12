@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD Sql Map Config 2.0//EN"
+"http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+<sqlMapConfig>
+
+	<settings cacheModelsEnabled="true" enhancementEnabled="true"
+		lazyLoadingEnabled="true" maxRequests="32" maxSessions="10"
+		maxTransactions="5" useStatementNamespaces="true" />
+	<sqlMap resource="sqlmap/mysql/LogInfo4Mysql.xml" />
+	<sqlMap resource="sqlmap/mysql/t_accounts_infor_SqlMap.xml" />
+
+	<sqlMap resource="sqlmap/mysql/t_company_infor_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_contract_infor_SqlMap.xml" />
+	<sqlMap
+		resource="sqlmap/mysql/t_contract_product_detail_SqlMap.xml" />
+	<sqlMap
+		resource="sqlmap/mysql/t_contract_project_sort_infor_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_customers_degree_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_customers_infor_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_delivery_detail_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_delivery_infor_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_departments_infor_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_exchange_rate_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_modules_def_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_order_price_history_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_out_stock_infor_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_product_arrival_infor_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_product_sort_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_product_tools_infor_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_quotation_infor_SqlMap.xml" />
+	<sqlMap	resource="sqlmap/mysql/t_quotation_product_detail_SqlMap.xml" />
+	<sqlMap	resource="sqlmap/mysql/salesPriceHistoryProDto.xml" />
+	
+	<sqlMap resource="sqlmap/mysql/t_quotation_project_sort_infor_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_rebate_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_reserve_infor_SqlMap.xml" />
+
+	<sqlMap resource="sqlmap/mysql/t_roles_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_roles_modules_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_sales_price_history_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_order_detail_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_order_infor_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_suppliers_infor_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_user_infor_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_users_roles_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_product_arrival_detail_SqlMap.xml" />
+
+
+	<sqlMap resource="sqlmap/mysql/t_audit_batch_record_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_audit_flow_detail_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_audit_flow_infor_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_audit_history_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_audit_instance_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_audit_type_SqlMap.xml" />
+
+	<sqlMap resource="sqlmap/mysql/pro_tree_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/order_pro_tree_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/contract_product_detail_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/quotation_SqlMap.xml" />
+	
+	<sqlMap resource="sqlmap/mysql/t_invoice_info_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_invoice_detail_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/invoice_detail_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_resource_purview_SqlMap.xml" />
+
+	<sqlMap resource="sqlmap/mysql/company_infor_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/degree_rebate_productSort_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/audit_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/quotation_detail_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_suppliers_brand_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/sales_price_history_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/order_infor_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/suppliers_brank_SqlMap.xml" />
+	
+	<sqlMap resource="sqlmap/mysql/cus_sales_price_history_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_cus_sales_price_history_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/order_price_history_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_bills_code_def_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_reserve_plan_infor_SqlMap.xml" />
+	
+	<sqlMap resource="sqlmap/mysql/t_product_brand_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_product_source_SqlMap.xml" />
+    <sqlMap resource="sqlmap/mysql/t_out_stock_detail_SqlMap.xml" />
+    <sqlMap resource="sqlmap/mysql/t_contract_accounts_infor_SqlMap.xml" />
+    <sqlMap resource="sqlmap/mysql/contract_view_panel_SqlMap.xml" />
+
+    <sqlMap resource="sqlmap/mysql/t_accessories_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/accessories_SqlMap.xml" />	
+	
+	<sqlMap resource="sqlmap/mysql/bill_document_SqlMap.xml" />
+
+	<sqlMap resource="sqlmap/mysql/t_work_trust_detail_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_work_trust_record_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_audit_instance_history_SqlMap.xml" />
+	
+	<sqlMap resource="sqlmap/mysql/t_audit_content_audit_history_gx_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_audit_content_audit_inst_gx_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_audit_content_def_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_audit_content_flow_detail_gx_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_notepad_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_notepad_type_SqlMap.xml" />
+
+	<sqlMap resource="sqlmap/mysql/quocode_tree_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_tax_rate_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_own_contact_person_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_exp_templete_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_exp_templete_type_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_reserve_plan_main_SqlMap.xml" />
+	
+	<sqlMap resource="sqlmap/mysql/t_mat_accounts_infor_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_mat_reserve_infor_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/t_user_message_record_SqlMap.xml" />
+	<sqlMap resource="sqlmap/mysql/query_statistics_SqlMap.xml" />
+    <sqlMap resource="sqlmap/mysql/company_reports_SqlMap.xml" />
+    <sqlMap resource="sqlmap/mysql/t_forum_SqlMap.xml" />
+    <sqlMap resource="sqlmap/mysql/t_forum_persons_SqlMap.xml" />
+    
+</sqlMapConfig>

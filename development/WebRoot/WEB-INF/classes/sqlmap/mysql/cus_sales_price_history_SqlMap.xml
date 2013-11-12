@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="culSalPriceHistory">
+
+	<typeAlias alias="cusSalPriHistoryDto"
+		type="com.tl.resource.business.dto.CurSalesPriceHistoryDto" />
+
+	<resultMap class="cusSalPriHistoryDto" id="baseResultMap">
+		<result column="product_tool_infor_id" 	property="productToolInforId" jdbcType="VARCHAR" />
+		<result column="product_name"  property="productName" jdbcType="VARCHAR"/>
+		<result column="product_code"  property="productCode" jdbcType="VARCHAR"/>
+		<result column="product_sort_code" 	property="productSortCode" jdbcType="VARCHAR" />
+		<result column="product_source"	property="productSource" jdbcType="VARCHAR" />
+		<result column="product_brand" 	property="productBrand" jdbcType="VARCHAR" />
+		<result column="brand_code"  	property="brandCode" jdbcType="VARCHAR"/>
+		<result column="sale_price" 	property="salePrice"  jdbcType="DECIMAL"/>	
+		<result column="stock_price"  	property="stockPrice" jdbcType="DECIMAL"/>	
+		<result column="stock_price_date"  property="stockPriceDate" jdbcType="VARCHAR"/>
+		<result column="sale_price_date"  property="salePriceDate" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<resultMap class="cusSalPriHistoryDto" extends="baseResultMap" id="extendBaseResultMap">
+		<result column="id" property="id" jdbcType="VARCHAR" />
+		<result column="history_price"  property="historyPrice" jdbcType="DECIMAL"/>
+		<result column="rebate"  property="rebate" jdbcType="DECIMAL"/>
+		<result column="net_price"  property="netPrice" jdbcType="DECIMAL"/>
+		<result column="user_name"  property="userName" jdbcType="VARCHAR"/>
+		<result column="customer_name"  property="customerName" jdbcType="VARCHAR"/>
+		<result column="edit_date"  property="editDate" jdbcType="DATETIME"/>
+		<result column="status"  property="status" jdbcType="INT"/>
+		<result column="quotation_code"  property="quotationCode" jdbcType="VARCHAR"/>
+		<result column="contract_code"  property="contractCode" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<!-- 根据条件获取已销售产品报价信息 -->
+	<select id="getCusSalesHistoryProductByPage"
+		parameterClass="java.util.Map" resultClass="cusSalPriHistoryDto"
+		resultMap="baseResultMap">
+		<![CDATA[
+			SELECT i.* , d.sale_price_date, sph.history_price AS sale_price FROM    	
+			(SELECT  id AS product_tool_infor_id , product_name , product_code , product_sort_code , 
+			    			product_source , product_brand , brand_code, 
+			    			stock_price , stock_price_date 
+			    	FROM    t_product_tools_infor t  
+			    	WHERE   t.parent_id = 'root'
+			    	
+			    	]]>
+			<isNotEmpty prepend="and" property="productName">
+				t.product_name like '%$productName$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="productCode">
+				t.product_code like '%$productCode$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="productSort">
+				t.product_sort_code like '%$productSort$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="brandCode">
+				t.brand_code like '%$brandCode$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="productBrand">
+				t.product_brand like '%$productBrand$%'
+			</isNotEmpty>
+			<isNotEmpty property="sort" >
+				<![CDATA[
+				     order by $sort$ $dir$
+				]]>
+			</isNotEmpty>
+			<![CDATA[
+			  LIMIT #start#,#limit#) i 
+			    	 
+			    LEFT JOIN (    
+					SELECT MAX(t.sale_price_date) AS sale_price_date, t.product_brand 
+					FROM t_sales_price_history t    
+					WHERE t.sale_price_date <= (SELECT CURDATE())  AND t.product_brand IS NOT NULL      
+					GROUP BY t.product_brand ORDER BY t.sale_price_date DESC
+				) d  ON  i.product_brand=d.product_brand 
+        
+        		LEFT JOIN  t_sales_price_history sph 
+        		ON i.product_tool_infor_id = sph.product_tool_infor_id  
+        			AND sph.sale_price_date = d.sale_price_date
+			
+		]]>
+   
+	</select>
+
+	<!-- 获取某种已销售产品信息 -->
+	<select id="getCusSalesHistoryProductByPageAndProductId"
+		parameterClass="java.util.Map" resultClass="cusSalPriHistoryDto"
+		resultMap="extendBaseResultMap">
+		
+       SELECT t.id , t.product_name , t.tools_id product_tool_infor_id, t.product_code , t.brand_code , t.price history_price , t.rebate , 
+ t.price sale_price, '' product_sort_code , 0 stock_price , '' stock_price_date , t.product_brand , '' product_source ,
+ 				
+ t.net_price , c.user_name , c.customer_name, c.edit_date ,  '' sale_price_date , c.status , s.pro_sort_name quotation_code,c.contract_code
+  	   	FROM 
+  	   	t_contract_product_detail t 
+  	   	JOIN 
+  	   	t_contract_infor c
+	        JOIN 
+	        t_contract_project_sort_infor s
+	        
+	        ON s.id = t.contract_project_sort_id
+  	   	 AND  c.id = t.contract_infor_id
+   		where t.tools_id = #product_tool_infor_id# 
+   		<isNotEmpty prepend="and" property="customerInforId">
+			t.customer_infor_id =  #customerInforId#
+   		</isNotEmpty>
+		<isNotEmpty prepend="and" property="customerCode">
+			c.customer_code =  #customerCode#
+		</isNotEmpty>
+			limit #start#,#limit#
+	</select>
+
+
+	<!-- 获取已销售产品总数 -->
+	<select id="getCusSalesHistoryProductTotal"
+		resultClass="java.lang.Integer" parameterClass="java.util.Map">
+		select  count(*) from t_product_tools_infor t  
+		where  t.parent_id = 'root'
+		<isNotEmpty prepend="and" property="productName">
+				t.product_name like '%$productName$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="productCode">
+				t.product_code like '%$productCode$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="productSort">
+				t.product_sort_code like '%$productSort$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="brandCode">
+				t.brand_code like '%$brandCode$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="productBrand">
+				t.product_brand like '%$productBrand$%'
+		</isNotEmpty>
+		
+	</select>
+
+	<!-- 获取某种产品已销售总数 -->
+	<select id="getCusSalesHistoryProductTotalByProductId"
+		parameterClass="java.util.Map" resultClass="java.lang.Integer">
+		SELECT count(*) c
+  	   	FROM 
+  	   	t_contract_product_detail t 
+  	   	JOIN 
+  	   	t_contract_infor c
+	        JOIN 
+	        t_contract_project_sort_infor s
+	        
+	        ON s.id = t.contract_project_sort_id
+  	   	 AND  c.id = t.contract_infor_id
+   		where t.tools_id = #product_tool_infor_id# 
+   		<isNotEmpty prepend="and" property="customerInforId">
+			t.customer_infor_id =  #customerInforId#
+   		</isNotEmpty>
+		<isNotEmpty prepend="and" property="customerCode">
+			c.customer_code =  #customerCode#
+		</isNotEmpty>
+		
+	</select>
+
+
+
+
+</sqlMap>

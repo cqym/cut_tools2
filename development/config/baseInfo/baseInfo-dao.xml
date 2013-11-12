@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
+	default-autowire="byType">
+
+	<!-- 公司基本信息表 -->
+	<bean id="TCompanyInforDAO" class="com.tl.resource.dao.TCompanyInforDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+
+	<!-- 客户等级信息表 -->
+	<bean id="TCustomersDegreeDAO" class="com.tl.resource.dao.TCustomersDegreeDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	
+	<!-- 客户信息表 -->
+	<bean id="TCustomersInforDAO" class="com.tl.resource.dao.TCustomersInforDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	
+	<!-- 供应商信息表 -->
+	<bean id="TSuppliersInforDAO" class="com.tl.resource.dao.TSuppliersInforDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	
+	<!-- 汇率信息表 -->
+	<bean id="TExchangeRateDAO" class="com.tl.resource.dao.TExchangeRateDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	
+	<!-- 库存信息表 -->
+	<bean id="TReserveInforDAO" class="com.tl.resource.dao.TReserveInforDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	
+	<!-- 库存帐页信息表 -->
+	<bean id="TAccountsInforDAO" class="com.tl.resource.dao.TAccountsInforDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	
+	<!-- 等级对应折扣信息 -->
+	<bean id="TRebateDAO" class="com.tl.resource.dao.TRebateDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	
+	
+	<!-- 联系人列表 -->
+	<bean id="TUserInforDAO" class="com.tl.resource.dao.TUserInforDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	
+	<!-- 供应商对应品牌信息 -->
+	<bean id="TSuppliersBrandDAO" class="com.tl.resource.dao.TSuppliersBrandDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	
+		<!-- 货品组别信息 -->
+	<bean id="TProductSortDAO" class="com.tl.resource.dao.TProductSortDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	
+	<!-- 税率Dao -->
+	<bean id="TaxRateDAO" class="com.tl.resource.dao.TTaxRateDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	
+	<!-- 客户负责人Dao -->
+	<bean id="ClientLeaderDAO" class="com.tl.resource.dao.TOwnContactPersonDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	
+	<!-- 材料库存信息表 -->
+	<bean id="TMatReserveInforDAO" class="com.tl.resource.dao.TMatReserveInforDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	
+	<!-- 材料帐页信息表 -->
+	<bean id="TMatAccountsInforDAO" class="com.tl.resource.dao.TMatAccountsInforDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+</beans>

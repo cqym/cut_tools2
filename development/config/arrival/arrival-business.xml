@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+	<bean id="ArrivalService" parent="parentService">
+		<property name="target">
+			<bean class="com.tl.resource.business.arrival.ArrivalServiceImpl">
+				<property name="orderInfoDao">
+					<ref bean="TOrderInforDAO"/>
+				</property>
+				<property name="arrInfoDao">
+					<ref bean="TProductArrivalInforDAO"/>
+				</property>
+				<property name="orderDetailDao">
+					<ref bean="TOrderDetailDAOImpl"/>
+				</property>
+				<property name="arrProductDao">
+					<ref bean="TProductArrivalDetail"/>
+				</property>
+				<property name="reserveInfoDao">
+					<ref bean="TReserveInforDAO"/>
+				</property>
+				<property name="accountsInfoDao">
+					<ref bean="TAccountsInforDAO"/>
+				</property>
+				<property name="supplierDao">
+					<ref bean="TSuppliersInforDAO"/>
+				</property>
+				<property name="billsCodeDefService">
+					<ref bean="BillsCodeDefService"/>
+				</property>
+				<property name="outStockInfoDao">
+					<ref bean="TOutStockInforDAO"/>
+				</property>
+				<property name="outStockDetailDao">
+					<ref bean="TOutStockDetailDAO"/>
+				</property>
+				<property name="contractInforDAO">
+					<ref bean="contractInforDAO" />
+				</property>
+				<property name="contractProductDetailDAO">
+					<ref bean="contractProductDetailDAO" />
+				</property>
+				<property name="reservePlanInforDao">
+					<ref bean="TReservePlanInforDAO" />
+				</property>
+				<property name="matReserveInforDAO">
+					<ref bean="TMatReserveInforDAO" />
+				</property>
+				<property name="matAccountsInforDAO">
+					<ref bean="TMatAccountsInforDAO" />
+				</property>
+				<property name="reservePlanMainDAO">
+					<ref bean="TReservePlanMainDAO" />
+				</property>
+				<property name="quotationProductDetailDAO">
+					<ref bean="TQuotationProductDetailDAO" />
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+</beans>

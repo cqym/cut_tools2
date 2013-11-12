@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
+	default-autowire="byType">
+
+	<!-- 订单信息Dao -->
+	<bean id="TOrderInforDAO" class="com.tl.resource.dao.TOrderInforDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	
+	<!-- 到货单信息Dao -->
+	<bean id="TProductArrivalInforDAO" class="com.tl.resource.dao.TProductArrivalInforDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	
+	<!-- 到货单详细信息Dao -->
+	<bean id="TProductArrivalDetail" class="com.tl.resource.dao.TProductArrivalDetailDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+
+	<!-- 库存信息Dao -->
+	<bean id="TReserveInforDAO" class="com.tl.resource.dao.TReserveInforDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	
+	<!-- 库存信息Dao -->
+	<bean id="TAccountsInforDAO" class="com.tl.resource.dao.TAccountsInforDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	
+	<!-- 供应商Dao -->
+	<bean id="TSuppliersInforDAO" class="com.tl.resource.dao.TSuppliersInforDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+</beans>

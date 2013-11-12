@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+	<bean id="GeneralQuoService" parent="parentService">
+		<property name="target">
+			<bean  class="com.tl.resource.business.quotation.generalquo.GeneralQuoServiceImpl">
+				<property name="quoInfoDAO">
+					<ref bean="TQuotationInfoDAO"/>
+				</property>
+				<property name="quoDetailDAO">
+					<ref bean="TQuotationProductDetailDAO"/>
+				</property>
+				<property name="companyDAO">
+					<ref bean="TCompanyInforDAO"/>
+				</property>
+				<property name="priceHistoryDAO">
+					<ref bean="TSalesPriceHistoryDAO"/>
+				</property>
+				<property name="exchangeRateDAO">
+					<ref bean="TExchangeRateDAO"/>
+				</property>
+				<property name="cusSalesPriDAO">
+					<ref bean="TCusSalesPriceHistoryDAO"/>
+				</property>
+				<property name="customersInforDAO">
+					<ref bean="TCustomersInforDAO"/>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+</beans>

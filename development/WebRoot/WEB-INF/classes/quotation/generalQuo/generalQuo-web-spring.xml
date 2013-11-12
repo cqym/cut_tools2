@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
+	default-autowire="byType">
+
+	<bean name="/generalQuo/listAction" class="com.tl.resource.web.quotation.generalquo.ListAction">
+		<property name="generalQuoService">
+			<ref bean="GeneralQuoService"/>
+		</property>
+	</bean>
+	
+	<bean name="/generalQuo/getCustomerAction" class="com.tl.resource.web.quotation.generalquo.GetCustomerAction">
+		<property name="generalQuoService">
+			<ref bean="GeneralQuoService"/>
+		</property>
+	</bean>
+	
+	<bean name="/generalQuo/addGeneralQuoAction" class="com.tl.resource.web.quotation.generalquo.AddGeneralQuoAction">
+		<property name="generalQuoService">
+			<ref bean="GeneralQuoService"/>
+		</property>
+		<property name="billsCodeDefService">
+			<ref bean="BillsCodeDefService"/>
+		</property>
+	</bean>
+	
+	<bean name="/generalQuo/getCompanyAction" class="com.tl.resource.web.quotation.generalquo.GetCompanyAction">
+		<property name="generalQuoService">
+			<ref bean="GeneralQuoService"/>
+		</property>
+	</bean>
+	
+	<bean name="/generalQuo/deleteQuoAction" class="com.tl.resource.web.quotation.generalquo.DeleteQuoAction">
+		<property name="generalQuoService">
+			<ref bean="GeneralQuoService"/>
+		</property>
+	</bean>
+	
+	<bean name="/generalQuo/getQuoDetailAction" class="com.tl.resource.web.quotation.generalquo.GetQuoDetailAction">
+		<property name="generalQuoService">
+			<ref bean="GeneralQuoService"/>
+		</property>
+	</bean>
+	
+	<bean name="/generalQuo/updateQuoAction" class="com.tl.resource.web.quotation.generalquo.UpdateGeneralQuoAction">
+		<property name="generalQuoService">
+			<ref bean="GeneralQuoService"/>
+		</property>
+	</bean>
+	
+	<bean name="/generalQuo/getQuoAction" class="com.tl.resource.web.quotation.generalquo.GetQuoInfoAction">
+		<property name="generalQuoService">
+			<ref bean="GeneralQuoService"/>
+		</property>
+	</bean>
+	
+	<bean name="/generalQuo/deleteQuoProAction" class="com.tl.resource.web.quotation.generalquo.DeleteQuoProductAction">
+		<property name="generalQuoService">
+			<ref bean="GeneralQuoService"/>
+		</property>
+	</bean>
+	
+	<bean name="/generalQuo/submitAuditAction" class="com.tl.resource.web.quotation.generalquo.SubmitAuditAction">
+		<property name="auditService">
+			<ref bean="auditService"/>
+		</property>
+	</bean>
+	
+	<bean name="/generalQuo/getHistoryPriAction" class="com.tl.resource.web.quotation.generalquo.GetHistoryPriceAction">
+		<property name="generalQuoService">
+			<ref bean="GeneralQuoService"/>
+		</property>
+	</bean>
+	
+	<!-- 根据用户编号获取用户信息 -->
+	<bean name="/generalQuo/getCusByCuscodeAction" class="com.tl.resource.web.quotation.generalquo.GetCusByCuscodeAction">
+		<property name="generalQuoService">
+			<ref bean="GeneralQuoService"/>
+		</property>
+	</bean>
+	
+	<!-- 获取币别信息 -->
+	<bean name="/generalQuo/getCurrencyAction" class="com.tl.resource.web.quotation.generalquo.GetCurrencyNameAction">
+		<property name="generalQuoService">
+			<ref bean="GeneralQuoService"/>
+		</property>
+	</bean>
+	
+	<!-- 提交合同 -->
+	<bean name="/generalQuo/submitContractAction" class="com.tl.resource.web.quotation.generalquo.SubmitContractAction">
+		<property name="generalQuoService">
+			<ref bean="GeneralQuoService"/>
+		</property>
+	</bean>
+	
+	<!-- 提交预订 -->
+	<bean name="/generalQuo/submitOrderExpectedAction" class="com.tl.resource.web.quotation.generalquo.SubmitOrderExpectedAction">
+		<property name="generalQuoService">
+			<ref bean="GeneralQuoService"/>
+		</property>
+	</bean>
+	
+	<!-- excel导出Service -->
+	<bean id="excelService" class="com.tl.resource.business.quotation.generalquo.GeneralQuoToExcel"  scope="request">
+		<aop:scoped-proxy/>
+		<property name="tcompanyInforDAO">
+			<ref bean="TCompanyInforDAO"/>
+		</property>
+		<property name="accessoriesDao">
+			<ref bean="TAccessoriesDAO"/>
+		</property>
+		<property name="exchangeRateDAO">
+			<ref bean="TExchangeRateDAO"/>
+		</property>
+	</bean>
+	
+	<!-- 报价单导出service -->
+	<bean id="quoListToExcelService" class="com.tl.resource.business.quotation.generalquo.QuoListToExcel" scope="request">
+		<aop:scoped-proxy/>
+	</bean>
+	
+	<!-- excel导出Action -->
+	<bean name="/generalQuo/excelAction" class="com.tl.resource.web.quotation.generalquo.ExcelAction">
+		<property name="generalQuoService">
+			<ref bean="GeneralQuoService"/>
+		</property>
+		<property name="excelService">
+			<ref bean="excelService"/>
+		</property>
+		<property name="quoListToExcel">
+			<ref bean="quoListToExcelService"/>
+		</property>
+	</bean>
+</beans>

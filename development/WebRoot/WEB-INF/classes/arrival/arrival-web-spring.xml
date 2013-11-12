@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
+	default-autowire="byType">
+
+	<!-- 获取订单信息 -->
+	<bean name="/arrival/getOrderByType" class="com.tl.resource.web.arrival.GetOrderInfoAction">
+		<property name="arrivalService">
+			<ref bean="ArrivalService"/>
+		</property>
+	</bean>
+	
+	<!-- 到货单管理 -->
+	<bean name="/arrival/arrInfoManage" class="com.tl.resource.web.arrival.ArrInfoManageAction">
+		<property name="arrivalService">
+			<ref bean="ArrivalService"/>
+		</property>
+		<property name="billsCodeDefService">
+			<ref bean="BillsCodeDefService"/>
+		</property>
+		<property name="outStockService">
+			<ref bean="OutStockService"/>
+		</property>
+	</bean>
+	
+	<!-- Excel导出service -->
+	<bean id="arrivalExcelService" class="com.tl.resource.business.arrival.ArrivalToExcel" scope="request">
+		<aop:scoped-proxy/>
+		<property name="tcompanyInforDAO">
+			<ref bean="TCompanyInforDAO"/>
+		</property>
+		<property name="accessoriesDao">
+			<ref bean="TAccessoriesDAO"/>
+		</property>
+		<property name="contractInforDAO">
+			<ref bean="contractInforDAO" />
+		</property>
+	</bean>
+	<bean id="arrivalListExcelService" class="com.tl.resource.business.arrival.ArrivalListToExcel" scope="request">
+		<aop:scoped-proxy/>
+	</bean>
+	<!-- Excel导出Action -->
+	<bean name="/arrival/excelAction" class="com.tl.resource.web.arrival.ExcelAction">
+		<property name="arrivalService">
+			<ref bean="ArrivalService"/>
+		</property>
+		<property name="arrivalExcelService">
+			<ref bean="arrivalExcelService"/>
+		</property>
+		<property name="listToExcelService">
+			<ref bean="arrivalListExcelService"/>
+		</property>
+	</bean>
+	
+</beans>

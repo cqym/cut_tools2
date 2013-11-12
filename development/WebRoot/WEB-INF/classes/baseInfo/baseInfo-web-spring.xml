@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
+	default-autowire="byType">
+
+	<bean name="/baseInfo/companyListAction" class="com.tl.resource.web.baseInfo.CompanyListAction">
+		<property name="baseInfoService">
+			<ref bean="baseInfoService"/>
+		</property>
+	</bean>
+	<bean name="/baseInfo/addComPanyAction" class="com.tl.resource.web.baseInfo.AddCompanyAction">
+		<property name="baseInfoService">
+			<ref bean="baseInfoService"/>
+		</property>
+	</bean>
+	<bean name="/baseInfo/deleteComPanyAction" class="com.tl.resource.web.baseInfo.DeleteCompanyAction">
+		<property name="baseInfoService">
+			<ref bean="baseInfoService"/>
+		</property>
+	</bean>
+	<bean name="/baseInfo/updateComPanyAction" class="com.tl.resource.web.baseInfo.UpdateCompanyAction">
+		<property name="baseInfoService">
+			<ref bean="baseInfoService"/>
+		</property>
+	</bean>
+	
+	
+	
+	<bean name="/baseInfo/customersListAction" class="com.tl.resource.web.baseInfo.CustomersListAction">
+		<property name="baseInfoService">
+			<ref bean="baseInfoService"/>
+		</property>
+	</bean>
+	<bean name="/baseInfo/getCustomersDegreeAction" class="com.tl.resource.web.baseInfo.GetCustomersDegreeAction">
+		<property name="baseInfoService">
+			<ref bean="baseInfoService"/>
+		</property>
+	</bean>
+	<bean name="/baseInfo/DeleteCustomersDegreeAction" class="com.tl.resource.web.baseInfo.DeleteCustomersDegreeAction">
+		<property name="baseInfoService">
+			<ref bean="baseInfoService"/>
+		</property>
+	</bean>
+	<bean name="/baseInfo/addCustomersAction" class="com.tl.resource.web.baseInfo.AddCustomersAction">
+		<property name="baseInfoService">
+			<ref bean="baseInfoService"/>
+		</property>
+	</bean>
+	<bean name="/baseInfo/deleteCustemersAction" class="com.tl.resource.web.baseInfo.DeleteCustemersAction">
+		<property name="baseInfoService">
+			<ref bean="baseInfoService"/>
+		</property>
+	</bean>
+	<bean name="/baseInfo/updateCustomersAction" class="com.tl.resource.web.baseInfo.UpdateCustemersAction">
+		<property name="baseInfoService">
+			<ref bean="baseInfoService"/>
+		</property>
+	</bean>
+	<bean name="/baseInfo/getUserInforListAction" class="com.tl.resource.web.baseInfo.GetUserInforListAction">
+		<property name="baseInfoService">
+			<ref bean="baseInfoService"/>
+		</property>
+	</bean>
+	
+	<bean name="/baseInfo/supplierListAction" class="com.tl.resource.web.baseInfo.SupplierListAction">
+		<property name="baseInfoService">
+			<ref bean="baseInfoService"/>
+		</property>
+	</bean>
+	<bean name="/baseInfo/addSupplierBrankAction" class="com.tl.resource.web.baseInfo.AddSupplierBrankAction">
+		<property name="baseInfoService">
+			<ref bean="baseInfoService"/>
+		</property>
+	</bean>
+	<bean name="/baseInfo/deleteSupplierAction" class="com.tl.resource.web.baseInfo.DeleteSupplierAction">
+		<property name="baseInfoService">
+			<ref bean="baseInfoService"/>
+		</property>
+	</bean>
+	<bean name="/baseInfo/addSupplierAction" class="com.tl.resource.web.baseInfo.AddSupplierAction">
+		<property name="baseInfoService">
+			<ref bean="baseInfoService"/>
+		</property>
+	</bean>
+	<bean name="/baseInfo/updateSupplierAction" class="com.tl.resource.web.baseInfo.UpdateSupplierAction">
+		<property name="baseInfoService">
+			<ref bean="baseInfoService"/>
+		</property>
+	</bean>
+	<bean name="/baseInfo/supplierBrankListAction" class="com.tl.resource.web.baseInfo.SupplierBrankListAction">
+		<property name="baseInfoService">
+			<ref bean="baseInfoService"/>
+		</property>
+	</bean>
+	<bean name="/baseInfo/deleteSuppliersBrandAction" class="com.tl.resource.web.baseInfo.DeleteSuppliersBrandAction">
+		<property name="baseInfoService">
+			<ref bean="baseInfoService"/>
+		</property>
+	</bean>
+	
+	
+	<bean name="/baseInfo/exchangeListAction" class="com.tl.resource.web.baseInfo.ExchangeListAction">
+		<property name="baseInfoService">
+			<ref bean="baseInfoService"/>
+		</property>
+	</bean>
+	<bean name="/baseInfo/addExchangeAction" class="com.tl.resource.web.baseInfo.AddExchangeAction">
+		<property name="baseInfoService">
+			<ref bean="baseInfoService"/>
+		</property>
+	</bean>
+	<bean name="/baseInfo/deleteExchangeAction" class="com.tl.resource.web.baseInfo.DeleteExchangeAction">
+		<property name="baseInfoService">
+			<ref bean="baseInfoService"/>
+		</property>
+	</bean>
+	<bean name="/baseInfo/updateExchangeAction" class="com.tl.resource.web.baseInfo.UpdateExchangeAction">
+		<property name="baseInfoService">
+			<ref bean="baseInfoService"/>
+		</property>
+	</bean>
+	<bean name="/baseInfo/setBenchmarkExchangeAction" class="com.tl.resource.web.baseInfo.SetBenchmarkExchangeAction">
+		<property name="baseInfoService">
+			<ref bean="baseInfoService"/>
+		</property>
+	</bean>
+	
+	
+	
+	<bean name="/baseInfo/degreeRebateListAction" class="com.tl.resource.web.baseInfo.DegreeRebateListAction">
+		<property name="baseInfoService">
+			<ref bean="baseInfoService"/>
+		</property>
+	</bean>
+	<bean name="/baseInfo/updateDegreeRebateAction" class="com.tl.resource.web.baseInfo.UpdateDegreeRebateAction">
+		<property name="baseInfoService">
+			<ref bean="baseInfoService"/>
+		</property>
+	</bean>
+	<bean name="/baseInfo/addCustomersDegreeAction" class="com.tl.resource.web.baseInfo.AddCustomersDegreeAction">
+		<property name="baseInfoService">
+			<ref bean="baseInfoService"/>
+		</property>
+	</bean>
+	<bean name="/baseInfo/updateCustomersDegreeAction" class="com.tl.resource.web.baseInfo.UpdateCustomersDegreeAction">
+		<property name="baseInfoService">
+			<ref bean="baseInfoService"/>
+		</property>
+	</bean>
+	
+	
+	
+	<bean name="/baseInfo/billsCodeListAction" class="com.tl.resource.web.baseInfo.BillsCodeListAction">
+		<property name="baseInfoService">
+			<ref bean="baseInfoService"/>
+		</property>
+		<property name="billsCodeDefService">
+			<ref bean="BillsCodeDefService"/>
+		</property>
+		
+	</bean>
+	<bean name="/baseInfo/updateBillsCodeAction" class="com.tl.resource.web.baseInfo.UpdateBillsCodeAction">
+		<property name="baseInfoService">
+			<ref bean="baseInfoService"/>
+		</property>
+		<property name="billsCodeDefService">
+			<ref bean="BillsCodeDefService"/>
+		</property>
+	</bean>
+	
+	<bean name="/baseInfo/reserveListAction" class="com.tl.resource.web.baseInfo.ReserveListAction">
+		<property name="baseInfoService">
+			<ref bean="baseInfoService"/>
+		</property>
+	</bean>
+	<bean name="/projectQuo/accountsInfoListByReserveIdAction" class="com.tl.resource.web.baseInfo.AccountsInfoListByReserveIdAction">
+		<property name="baseInfoService">
+			<ref bean="baseInfoService"/>
+		</property>
+	</bean>
+	
+	<bean name="/baseInfo/brandManagerAction" class="com.tl.resource.web.baseInfo.BrandManagerAction">
+		<property name="baseInfoService">
+			<ref bean="baseInfoService"/>
+		</property>
+	</bean>
+	
+		
+	<bean name="/baseInfo/getProSortCodeListAction" class="com.tl.resource.web.baseInfo.GetProSortCodeListAction">
+		<property name="baseInfoService">
+			<ref bean="baseInfoService"/>
+		</property>
+	</bean>
+	
+	<bean name="/baseInfo/taxRateManagerAction" class="com.tl.resource.web.baseInfo.TaxRateManager">
+		<property name="baseInfoService">
+			<ref bean="baseInfoService"/>
+		</property>
+	</bean>
+	
+	<bean name="/baseInfo/clientLeaderAction" class="com.tl.resource.web.baseInfo.ClientLeaderAction">
+		<property name="baseInfoService">
+			<ref bean="baseInfoService"/>
+		</property>
+	</bean>
+	<bean name="/baseInfo/matReserveListAction" class="com.tl.resource.web.baseInfo.MatReserveListAction">
+		<property name="matReserveInforService">
+			<ref bean="MatReserveInforService"/>
+		</property>
+	</bean>
+	<bean name="/baseInfo/matAccountsInfoListByReserveIdAction" class="com.tl.resource.web.baseInfo.MatAccountsInfoListByReserveIdAction">
+		<property name="matReserveInforService">
+			<ref bean="MatReserveInforService"/>
+		</property>
+	</bean>
+	<bean name="/baseInfo/matReserveManageAction" class="com.tl.resource.web.baseInfo.MatReserveManageAction">
+		<property name="matReserveInforService">
+			<ref bean="MatReserveInforService"/>
+		</property>
+	</bean>
+</beans>

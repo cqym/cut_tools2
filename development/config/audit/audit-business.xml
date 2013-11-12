@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
+	default-autowire="byType">
+
+	<bean id="auditService"
+		class="com.tl.resource.audit.AuditServiceImp">
+		<property name="auditBatchRecordDAO">
+			<ref bean="auditBatchRecordDAO" />
+		</property>
+		<property name="auditFlowDetailDAO">
+			<ref bean="auditFlowDetailDAO" />
+		</property>
+		<property name="auditFlowInforDAO">
+			<ref bean="auditFlowInforDAO" />
+		</property>
+		<property name="auditHistoryDAO">
+			<ref bean="auditHistoryDAO" />
+		</property>
+		<property name="auditInstanceDAO">
+			<ref bean="auditInstanceDAO" />
+		</property>
+		<property name="auditTypeDAO">
+			<ref bean="auditTypeDAO" />
+		</property>
+		<property name="auditDao">
+			<ref bean="AuditDao" />
+		</property>
+		<property name="auditInstanceHistoryDAO">
+			<ref bean="AuditInstanceHistoryDAO" />
+		</property>
+		
+		<property name="workTrustDetailDAO">
+			<ref bean="TWorkTrustDetailDAOImpl" />
+		</property>
+		<property name="workTrustRecordDAO">
+			<ref bean="TWorkTrustRecordDAOImpl" />
+		</property>
+		
+		<property name="auditContentFlowDetailGxDAO">
+			<ref bean="AuditContentFlowDetailGxDAO" />
+		</property>
+		<property name="auditContentAuditHistoryGxDAO">
+			<ref bean="AuditContentAuditHistoryGxDAO" />
+		</property>
+		<property name="auditContentAuditInstGxDAO">
+			<ref bean="AuditContentAuditInstGxDAO" />
+		</property>
+	</bean>
+	
+	<bean id="auditFlowDefinedService"
+		class="com.tl.resource.audit.AuditFlowDefinedServiceImp">
+		<property name="auditFlowDetailDAO">
+			<ref bean="auditFlowDetailDAO" />
+		</property>
+		<property name="auditFlowInforDAO">
+			<ref bean="auditFlowInforDAO" />
+		</property>
+		<property name="auditTypeDAO">
+			<ref bean="auditTypeDAO" />
+		</property>
+	</bean>
+	<bean id="AuditContentService"
+		class="com.tl.resource.audit.AuditContentServiceImp">
+		<property name="auditContentDefDAO">
+			<ref bean="AuditContentDefDAO" />
+		</property>
+		<property name="auditContentFlowDetailGxDAO">
+			<ref bean="AuditContentFlowDetailGxDAO" />
+		</property>
+		<property name="auditHistoryDAO">
+			<ref bean="auditHistoryDAO" />
+		</property>
+		<property name="auditContentAuditHistoryGxDAO">
+			<ref bean="AuditContentAuditHistoryGxDAO" />
+		</property>
+		<property name="auditInstanceDAO">
+			<ref bean="auditInstanceDAO" />
+		</property>
+		<property name="auditContentAuditInstGxDAO">
+			<ref bean="AuditContentAuditInstGxDAO" />
+		</property>
+	</bean>
+	
+</beans>

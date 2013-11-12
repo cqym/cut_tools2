@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+	<bean id="ProToolsInforServiceImpl" parent="parentService">
+		<property name="target">
+			<bean class="com.tl.resource.business.protoolsinfo.ProToolsInforServiceImpl">
+				<property name="proToolsInforDAO">
+					<ref bean="TProductToolsInforDAOImpl" />
+				</property>
+				<property name="proSortDao">
+					<ref bean="TProductSortDAO"/>
+				</property>
+				<property name="proBrandDao">
+					<ref bean="TProductBrandDAO"/>
+				</property>
+				<property name="proSourceDao">
+					<ref bean="TProductSourceDAO"/>
+				</property>
+				<property name="tsalesPriceHistoryDAO">
+					<ref bean="tsalesPriceHistoryDAO"/>
+				</property>
+				<property name="quoDetailDAO">
+					<ref bean="TQuotationProductDetailDAO"/>
+				</property>
+				<property name="reserveInfoDao">
+					<ref bean="TReserveInforDAO"/>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="importToolsService" parent="parentService">
+		<property name="target">
+			<bean class="com.tl.resource.business.protoolsinfo.ImportToolsServiceImpl">
+				<property name="proToolsInforService">
+					<ref bean="ProToolsInforServiceImpl"/>
+				</property>
+				<property name="arrivalService">
+					<ref bean="ArrivalService"/>
+				</property>
+			</bean>
+		</property>
+	</bean>
+</beans>

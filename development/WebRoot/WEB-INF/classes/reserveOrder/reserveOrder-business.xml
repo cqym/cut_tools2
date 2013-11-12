@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
+	default-autowire="byType">
+
+	<bean id="ReserveOrderServiceImpl" parent="parentService">
+	 <property name="target">
+			<bean class="com.tl.resource.business.reserveOrder.ReserveOrderServiceImpl">
+				<property name="orderInforDao">
+					<ref bean="TOrderInforDAOImpl" />
+				</property>
+				<property name="orderDetailDao">
+					<ref bean="TOrderDetailDAOImpl" />
+				</property>
+				<property name="suppliersInforDao">
+					<ref bean="TSuppliersInforDAOImpl" />
+				</property>
+				<property name="proToolsInforDao">
+					<ref bean="TProductToolsInforDAOImpl" />
+				</property>
+				<property name="exchangeRateDao">
+					<ref bean="TExchangeRateDAO"/>
+				</property>
+				<property name="orderPriceHistoryDao">
+					<ref bean="torderPriceHistoryDAO"/>
+				</property>
+				<property name="accessoriesDAO">
+					<ref bean="TAccessoriesDAO"/>
+				</property>
+				<property name="tsalesPriceHistoryDAO">
+					<ref bean="tsalesPriceHistoryDAO"/>
+				</property>
+			</bean>
+	  </property>
+	</bean>
+	
+</beans>

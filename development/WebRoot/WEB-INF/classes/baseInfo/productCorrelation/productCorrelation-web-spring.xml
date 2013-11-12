@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
+	default-autowire="byType">
+
+	<bean name="/baseInfo/productSortListAction" class="com.tl.resource.web.baseInfo.ProductCorrelation.ProductSortListAction">
+		<property name="productCorrelationService">
+			<ref bean="productCorrelationService"/>
+		</property>
+	</bean>
+	<bean name="/baseInfo/addProductSortAction" class="com.tl.resource.web.baseInfo.ProductCorrelation.AddProductSortAction">
+		<property name="productCorrelationService">
+			<ref bean="productCorrelationService"/>
+		</property>
+	</bean>
+	<bean name="/baseInfo/deleteProductSortAction" class="com.tl.resource.web.baseInfo.ProductCorrelation.DeleteProductSortAction">
+		<property name="productCorrelationService">
+			<ref bean="productCorrelationService"/>
+		</property>
+	</bean>
+	<bean name="/baseInfo/updateProductSortAction" class="com.tl.resource.web.baseInfo.ProductCorrelation.UpdateProductSortAction">
+		<property name="productCorrelationService">
+			<ref bean="productCorrelationService"/>
+		</property>
+	</bean>
+	<bean name="/baseInfo/getProductBrankListAction" class="com.tl.resource.web.baseInfo.ProductCorrelation.GetProductBrankListAction">
+		<property name="productCorrelationService">
+			<ref bean="productCorrelationService"/>
+		</property>
+	</bean>
+	
+
+	<bean name="/baseInfo/cusSalesPriceHistoryListAction" class="com.tl.resource.web.baseInfo.ProductCorrelation.CusSalesPriceHistoryListAction">
+		<property name="productCorrelationService">
+			<ref bean="productCorrelationService"/>
+		</property>
+	</bean>	
+	<bean name="/baseInfo/cusSalesProductHistoryListAction" class="com.tl.resource.web.baseInfo.ProductCorrelation.CusSalesProductHistoryListAction">
+		<property name="productCorrelationService">
+			<ref bean="productCorrelationService"/>
+		</property>
+	</bean>
+	<bean name="/baseInfo/deleteCurSalerPriceAction" class="com.tl.resource.web.baseInfo.ProductCorrelation.DeleteCurSalerPriceAction">
+		<property name="productCorrelationService">
+			<ref bean="productCorrelationService"/>
+		</property>
+	</bean>
+	<bean name="/baseInfo/getAllCustomersAction" class="com.tl.resource.web.baseInfo.ProductCorrelation.GetAllCustomersAction">
+		<property name="productCorrelationService">
+			<ref bean="productCorrelationService"/>
+		</property>
+	</bean>			
+	
+	
+	<bean name="/baseInfo/orderPriceHistoryListAction" class="com.tl.resource.web.baseInfo.ProductCorrelation.OrderPriceHistoryListAction">
+		<property name="productCorrelationService">
+			<ref bean="productCorrelationService"/>
+		</property>
+	</bean>
+	<bean name="/baseInfo/orderProductHistoryListAction" class="com.tl.resource.web.baseInfo.ProductCorrelation.OrderProductHistoryListAction">
+		<property name="productCorrelationService">
+			<ref bean="productCorrelationService"/>
+		</property>
+	</bean>
+	<bean name="/baseInfo/deleteOrderPriceHistoryAction" class="com.tl.resource.web.baseInfo.ProductCorrelation.DeleteOrderPriceHistoryAction">
+		<property name="productCorrelationService">
+			<ref bean="productCorrelationService"/>
+		</property>
+	</bean>
+	<bean name="/baseInfo/getAllSupplerAction" class="com.tl.resource.web.baseInfo.ProductCorrelation.GetAllSupplerAction">
+		<property name="productCorrelationService">
+			<ref bean="productCorrelationService"/>
+		</property>
+	</bean>
+	
+	<bean name="/baseInfo/updateProToolsPriceAction" class="com.tl.resource.web.baseInfo.ProductCorrelation.UpdateProToolsPriceAction">
+		<property name="productCorrelationService">
+			<ref bean="productCorrelationService"/>
+		</property>
+	</bean>
+	
+	<bean name="/baseInfo/salesProductHistoryListAction" class="com.tl.resource.web.baseInfo.ProductCorrelation.SalesProductHistoryListAction">
+		<property name="productCorrelationService">
+			<ref bean="productCorrelationService"/>
+		</property>
+	</bean>
+	
+	<bean name="/baseInfo/importSalePriceAction" class="com.tl.resource.web.baseInfo.ProductCorrelation.ImportSalePriceAction">
+		<property name="productCorrelationService">
+			<ref bean="productCorrelationService"/>
+		</property>
+	</bean>
+	<bean name="/baseInfo/orderProductPriceEditAction" class="com.tl.resource.web.baseInfo.ProductCorrelation.OrderProductPriceEditAction">
+		<property name="orderPriceService">
+			<ref bean="orderPriceService"/>
+		</property>
+	</bean>
+</beans>

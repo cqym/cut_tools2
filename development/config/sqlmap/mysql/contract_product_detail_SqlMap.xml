@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="contract_product_detail">
+<typeAlias alias="conProDto" type="com.tl.resource.business.dto.ContractProductDetailDto"/>
+  <resultMap class="conProDto" id="ibatorgenerated_BaseResultMap">
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="contract_project_sort_id" jdbcType="VARCHAR" property="contractProjectSortId" />
+    <result column="contract_infor_id" jdbcType="VARCHAR" property="contractInforId" />
+    <result column="tools_id" jdbcType="VARCHAR" property="toolsId" />
+    <result column="parent_tools_id" jdbcType="VARCHAR" property="parentToolsId" />
+    <result column="leaf" jdbcType="INTEGER" property="leaf" />
+    <result column="project_code" jdbcType="VARCHAR" property="projectCode" />
+    <result column="serial_number" jdbcType="DECIMAL" property="serialNumber" />
+    <result column="product_brand" jdbcType="VARCHAR" property="productBrand" />
+    <result column="product_code" jdbcType="VARCHAR" property="productCode" />
+    <result column="brand_code" jdbcType="VARCHAR" property="brandCode" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="single_set_assembly_amount" jdbcType="DECIMAL" property="singleSetAssemblyAmount" />
+    <result column="single_set_stock_amount" jdbcType="DECIMAL" property="singleSetStockAmount" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="product_unit" jdbcType="VARCHAR" property="productUnit" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="rebate" jdbcType="DECIMAL" property="rebate" />
+    <result column="net_price" jdbcType="DECIMAL" property="netPrice" />
+    <result column="money" jdbcType="DECIMAL" property="money" />
+    <result column="tax_net_price" jdbcType="DECIMAL" property="taxNetPrice" />
+    <result column="tax_money" jdbcType="DECIMAL" property="taxMoney" />
+    <result column="price_change" jdbcType="DECIMAL" property="priceChange" />
+    <result column="delivery_date" jdbcType="VARCHAR" property="deliveryDate" />
+    <result column="workshop" jdbcType="VARCHAR" property="workshop" />
+    <result column="process_code" jdbcType="VARCHAR" property="processCode" />
+    <result column="report_code" jdbcType="VARCHAR" property="reportCode" />
+    <result column="tool_code" jdbcType="VARCHAR" property="toolCode" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="tool_description" jdbcType="VARCHAR" property="toolDescription" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+    <result column="order_amount" jdbcType="DECIMAL" property="orderAmount" />
+    <result column="pro_sort_name" jdbcType="VARCHAR" property="proSortName" />
+    <result column="reserve_amount" jdbcType="DECIMAL" property="reserveAmount" />
+    <result column="reserve_infor_id" jdbcType="VARCHAR" property="reserveInforId" />
+    
+    <result column="delivery_amount" jdbcType="DECIMAL" property="deliveryAmount" />
+    <result column="arrival_amount" jdbcType="DECIMAL" property="arrivalAmount" />
+    <result column="order_amount" jdbcType="DECIMAL" property="orderAmount" />
+    <result column="out_amount" jdbcType="DECIMAL" property="outAmount" />
+    <result column="slave_file_count" jdbcType="INTEGER" property="fileCount" />
+  </resultMap>
+
+  
+  <!-- 返回跟节点，有采购数量，有到货数量，有分类名称 -->
+  <select id="getProductArrivalDeliveryRootDetail" parameterClass="map" resultMap="ibatorgenerated_BaseResultMap">
+  	select iiii.*,ifnull(res.amount,0) reserve_amount,res.id reserve_infor_id,
+  	(select count(*) from t_accessories s where s.business_id = iiii.tools_id) slave_file_count
+  	 from (
+					select cpd.id, cpd.contract_project_sort_id, cpd.contract_infor_id, 
+					cpd.tools_id, cpd.parent_tools_id, cpd.leaf,cpd.project_code, 
+					cpd.serial_number, cpd.product_brand, cpd.product_code, cpd.brand_code, 
+					cpd.product_name,cpd.single_set_assembly_amount, cpd.single_set_stock_amount, 
+					cpd.amount, cpd.product_unit, cpd.price, cpd.rebate,       
+					cpd.net_price, cpd.money, cpd.tax_net_price, cpd.tax_money, 
+					cpd.price_change, cpd.delivery_date, cpd.workshop,      
+					cpd.process_code, cpd.report_code, cpd.tool_code, cpd.status, 
+					cpd.tool_description, cpd.memo,csort.pro_sort_name,  
+					cpd.sum_order_amount order_amount,
+					ifnull(cpd.sum_arrival_amount,0) + ifnull(cpd.sum_out_amount,0) arrival_amount,
+					ifnull(cpd.sum_out_amount,0) out_amount,
+					cpd.sum_delivery_amount delivery_amount  
+					 from t_contract_product_detail cpd , t_contract_project_sort_infor csort 
+					where  cpd.contract_project_sort_id = csort.id  and cpd.parent_tools_id = 'root' 
+					<isNotNull prepend="and" property="contractId" >
+			        cpd.contract_infor_id = #contractId#
+			     	</isNotNull>
+			    	 <isNotNull prepend="and" property="contractSortId" >
+			        cpd.contract_project_sort_id = #contractSortId#
+			     	</isNotNull>
+		) iiii left join t_reserve_infor res
+	   on iiii.product_code = res.product_code
+		where 1=1 
+		<isNotEmpty prepend="and" property="brandCode" >
+		        iiii.brand_code like '%$brandCode$%'
+		</isNotEmpty>   
+		<isNotEmpty prepend="and" property="productCode" >
+		        iiii.product_code like '%$productCode$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="productName" >
+		        iiii.product_name like '%$productName$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="productBrand" >
+		        iiii.product_brand like '%$productBrand$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="leaf" >
+		        iiii.leaf = #leaf#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="willOutStock" >
+		       <![CDATA[iiii.amount - iiii.arrival_amount > 0 and ifnull(res.amount,0) > 0]]>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="notHasYd" >
+		        <![CDATA[iiii.id not like '%##%']]>
+		</isNotEmpty>
+		order by contract_project_sort_id,serial_number
+	  <isNotNull prepend="" property="startIndex">
+        limit $startIndex$,$pageSize$
+      </isNotNull>
+      
+  </select>
+  
+  <select id="getProductArrivalDeliveryRootDetailCount" parameterClass="map" resultClass="java.lang.Integer">
+			select count(*)
+			 from t_contract_product_detail cpd , t_contract_project_sort_infor csort 
+			where  cpd.contract_project_sort_id = csort.id  and cpd.parent_tools_id = 'root' 
+			<isNotNull prepend="and" property="contractId" >
+	        cpd.contract_infor_id = #contractId#
+	     	</isNotNull>
+	    	 <isNotNull prepend="and" property="contractSortId" >
+	        cpd.contract_project_sort_id = #contractSortId#
+	     	</isNotNull>
+	     	<isNotEmpty prepend="and" property="notHasYd" >
+		        <![CDATA[cpd.id not like '%##%']]>
+		    </isNotEmpty>
+           <isNotEmpty prepend="and" property="leaf" >
+		        cpd.leaf = #leaf#
+		   </isNotEmpty>
+  </select>
+</sqlMap>

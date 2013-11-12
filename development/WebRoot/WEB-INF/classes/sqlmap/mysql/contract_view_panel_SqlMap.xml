@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="contract_view_panel">
+  <resultMap class="com.tl.resource.business.dto.ContractInforDto" id="ibatorgenerated_BaseResultMap">
+   <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="contract_code" jdbcType="VARCHAR" property="contractCode" />
+    <result column="seller_name" jdbcType="VARCHAR" property="sellerName" />
+    <result column="currency_id" jdbcType="VARCHAR" property="currencyId" />
+    <result column="currency_name" jdbcType="VARCHAR" property="currencyName" />
+    <result column="sign_date" jdbcType="VARCHAR" property="signDate" />
+    <result column="urgent_level" jdbcType="DECIMAL" property="urgentLevel" />
+    <result column="customer_code" jdbcType="VARCHAR" property="customerCode" />
+    <result column="customer_name" jdbcType="VARCHAR" property="customerName" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="sign_address" jdbcType="VARCHAR" property="signAddress" />
+    <result column="reference" jdbcType="VARCHAR" property="reference" />
+    <result column="traffic_mode" jdbcType="VARCHAR" property="trafficMode" />
+    <result column="closing_account_mode_id" jdbcType="DECIMAL" property="closingAccountModeId" />
+    <result column="closing_account_mode" jdbcType="VARCHAR" property="closingAccountMode" />
+    <result column="delivery_address_type" jdbcType="VARCHAR" property="deliveryAddressType" />
+    <result column="other_convention" jdbcType="VARCHAR" property="otherConvention" />
+    <result column="effect_conditions" jdbcType="VARCHAR" property="effectConditions" />
+    <result column="product_money" jdbcType="DECIMAL" property="productMoney" />
+    <result column="tax_rate" jdbcType="DECIMAL" property="taxRate" />
+    <result column="tax_money" jdbcType="DECIMAL" property="taxMoney" />
+    <result column="total_money" jdbcType="DECIMAL" property="totalMoney" />
+    <result column="overall_rebate" jdbcType="DECIMAL" property="overallRebate" />
+    <result column="final_money" jdbcType="DECIMAL" property="finalMoney" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+    <result column="edit_date" jdbcType="TIMESTAMP" property="editDate" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="contract_type" jdbcType="INTEGER" property="contractType" />
+    <result column="customer_fax" jdbcType="VARCHAR" property="customerFax" />
+    <result column="customer_phone" jdbcType="VARCHAR" property="customerPhone" />
+    <result column="own_contact_person" jdbcType="VARCHAR" property="ownContactPerson" />
+    <result column="cus_contact_person" jdbcType="VARCHAR" property="cusContactPerson" />
+    <result column="file_count" jdbcType="INTEGER" property="fileCount" />
+    <result column="invoice_status" jdbcType="INTEGER" property="invoiceStatus" />
+    <result column="invoice_money" jdbcType="DECIMAL" property="invoiceMoney" />
+    <result column="return_money" jdbcType="DECIMAL" property="returnMoney" />
+  </resultMap>
+
+<select id="contractInforViewSql" parameterClass="map" resultMap="ibatorgenerated_BaseResultMap">
+
+	SELECT ci.*,COUNT(ta.id) file_count	FROM (
+		SELECT tt.* FROM (
+			SELECT cinfor.*,trp.*
+			FROM t_contract_infor cinfor 
+			LEFT JOIN 
+			(
+				SELECT trp2.id trpid,trp2.target_user_id FROM 
+				t_resource_purview trp2 WHERE trp2.user_id = #currUserId# AND trp2.resource_type = 2
+			) trp
+			ON cinfor.user_id = trp.target_user_id
+		) tt LEFT JOIN (
+			SELECT ocp.customer_id,cinfo.customer_code 
+			FROM t_own_contact_person ocp,t_customers_infor cinfo  
+			WHERE ocp.customer_id = cinfo.id AND ocp.user_id = #currUserId#
+		) cus
+		ON tt.customer_code = cus.customer_code
+		WHERE (tt.trpid IS NOT NULL OR cus.customer_code IS NOT NULL) 
+	) ci LEFT JOIN t_accessories ta
+	ON ci.id = ta.business_id
+	WHERE 1=1
+	        <isNotEmpty prepend="and" property="contractCode" >
+			 ci.contract_code LIKE '%$contractCode$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="userName" >
+			 ci.user_name = #userName#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="status" >
+			 ci.status = #status#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="customerName" >
+			 ci.customer_name LIKE '%$customerName$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="ownContactPerson" >
+			 ci.own_contact_person = #ownContactPerson#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="startDate" >
+			 <![CDATA[DATE_FORMAT(ci.edit_date,'%Y-%m-%d') >= '$startDate$']]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="endDate" >
+			 <![CDATA[DATE_FORMAT(ci.edit_date,'%Y-%m-%d') <= '$endDate$']]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="memo" >
+			 ci.memo LIKE '%$memo$%'
+			</isNotEmpty>
+			<isNotEmpty property="year" prepend="and">
+			<![CDATA[ DATE_FORMAT(ci.edit_date,'%Y') = '$year$' ]]>
+			</isNotEmpty>
+	GROUP BY id
+ORDER BY edit_date DESC
+LIMIT #startIndex#, #pageSize# 		
+  </select>
+  
+  <select id="contractInforViewCountSql" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+	SELECT count(*) cnt,
+		ifnull(sum(invoice_money),0) invoice_money,
+	    ifnull(sum(return_money),0) return_money,
+	    ifnull(sum(delivery_money),0) delivery_money,
+	    ifnull(sum(final_money),0) final_money
+	 FROM (
+		SELECT tt.* FROM (
+			SELECT cinfor.*,trp.trpid
+			FROM t_contract_infor cinfor 
+			LEFT JOIN 
+			(
+				SELECT trp2.id trpid,trp2.target_user_id FROM 
+				t_resource_purview trp2 WHERE trp2.user_id = #currUserId# AND trp2.resource_type = 2
+			) trp
+			ON cinfor.user_id = trp.target_user_id
+		) tt LEFT JOIN (
+			SELECT ocp.customer_id,cinfo.customer_code 
+			FROM t_own_contact_person ocp,t_customers_infor cinfo  
+			WHERE ocp.customer_id = cinfo.id AND ocp.user_id = #currUserId#
+		) cus
+		ON tt.customer_code = cus.customer_code
+		WHERE (tt.trpid IS NOT NULL OR cus.customer_code IS NOT NULL) 
+	) ci 
+	WHERE 1=1
+	        <isNotEmpty prepend="and" property="contractCode" >
+			 ci.contract_code LIKE '%$contractCode$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="userName" >
+			 ci.user_name = #userName#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="status" >
+			 ci.status = #status#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="customerName" >
+			 ci.customer_name LIKE '%$customerName$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="ownContactPerson" >
+			 ci.own_contact_person = #ownContactPerson#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="startDate" >
+			 <![CDATA[DATE_FORMAT(ci.edit_date,'%Y-%m-%d') >= '$startDate$']]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="endDate" >
+			 <![CDATA[DATE_FORMAT(ci.edit_date,'%Y-%m-%d') <= '$endDate$']]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="memo" >
+			 ci.memo LIKE '%$memo$%'
+			</isNotEmpty>
+			<isNotEmpty property="year" prepend="and">
+			<![CDATA[ DATE_FORMAT(ci.edit_date,'%Y') = '$year$' ]]>
+			</isNotEmpty>
+  </select>
+  <!--the contracts wait for edit order-->
+  <select id="contractInforsWaitOrderSql" parameterClass="map" resultMap="ibatorgenerated_BaseResultMap">
+		SELECT DISTINCT tci.*,0 file_count,0 invoice_money,0 return_money  FROM 
+		t_contract_infor tci,
+		t_resource_purview trp,
+		t_customers_infor cus,
+		t_contract_product_detail nn
+		WHERE trp.user_id = #currUserId#
+		AND trp.resource_type = 2 
+		AND tci.user_id = trp.target_user_id
+		AND tci.customer_code = cus.customer_code		    
+		AND nn.parent_tools_id = 'root' 
+		AND nn.contract_infor_id = tci.id
+		AND tci.status = 4
+		<![CDATA[AND nn.amount > IFNULL(nn.sum_order_amount,0) + IFNULL(nn.sum_out_amount,0)]]>
+		<isNotEmpty property="leaf" prepend="and">
+		 nn.leaf = #leaf#
+		</isNotEmpty>
+		ORDER BY tci.edit_date DESC
+  </select>
+    <!--the contracts count wait for edit order-->
+    <select id="contractCountWaitOrderSql" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+        SELECT count(DISTINCT tci.id) cnt  FROM 
+		t_contract_infor tci,
+		t_resource_purview trp,
+		t_contract_product_detail nn
+		WHERE trp.user_id = #currUserId#
+		AND trp.resource_type = 2 
+		AND tci.user_id = trp.target_user_id
+		AND nn.parent_tools_id = 'root' 
+		AND nn.contract_infor_id = tci.id
+		AND tci.status = 4
+		<![CDATA[AND nn.amount > IFNULL(nn.sum_order_amount,0) + IFNULL(nn.sum_out_amount,0)]]>
+		<isNotEmpty property="leaf" prepend="and">
+		 nn.leaf = #leaf#
+		</isNotEmpty>
+    </select>
+    <!--the contracts wait for edit order-->
+  <select id="contractInforsWaitDeliverySql" parameterClass="map" resultMap="ibatorgenerated_BaseResultMap">
+		SELECT DISTINCT tci.*,0 file_count,0 invoice_money,0 return_money  FROM 
+		t_contract_infor tci,
+		t_resource_purview trp,
+		t_contract_product_detail nn
+		WHERE trp.user_id = #currUserId#
+		AND trp.resource_type = 2 
+		AND tci.user_id = trp.target_user_id
+		AND nn.parent_tools_id = 'root' 
+		AND nn.contract_infor_id = tci.id
+		AND tci.status = 4
+		<![CDATA[AND IFNULL(nn.sum_order_amount,0) + IFNULL(nn.sum_out_amount,0) > IFNULL(nn.sum_delivery_amount,0)]]>
+		<isNotEmpty property="leaf" prepend="and">
+		 nn.leaf = #leaf#
+		</isNotEmpty>
+		ORDER BY tci.edit_date DESC
+  </select>
+    <!--the contracts count wait for edit order-->
+    <select id="contractCountWaitDeliverySql" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+        SELECT count(DISTINCT tci.id) cnt  FROM 
+		t_contract_infor tci,
+		t_resource_purview trp,
+		t_contract_product_detail nn
+		WHERE trp.user_id = #currUserId#
+		AND trp.resource_type = 2 
+		AND tci.user_id = trp.target_user_id
+		AND nn.parent_tools_id = 'root' 
+		AND nn.contract_infor_id = tci.id
+		AND tci.status = 4
+		<![CDATA[AND IFNULL(nn.sum_order_amount,0) + IFNULL(nn.sum_out_amount,0) > IFNULL(nn.sum_delivery_amount,0)]]>
+		<isNotEmpty property="leaf" prepend="and">
+		 nn.leaf = #leaf#
+		</isNotEmpty>
+    </select>
+    
+  <!--the contracts delivery over date-->
+  <select id="contractInforsDeliveryOverDateSql" parameterClass="map" resultMap="ibatorgenerated_BaseResultMap">
+		SELECT DISTINCT tci.*,0 file_count,0 invoice_money,0 return_money  FROM 
+		t_contract_infor tci,
+		t_resource_purview trp,
+		t_contract_product_detail nn
+		WHERE trp.user_id = #currUserId#
+		AND trp.resource_type = 2 
+		AND tci.user_id = trp.target_user_id
+		AND nn.parent_tools_id = 'root' 
+		AND nn.contract_infor_id = tci.id
+		AND tci.status = 4
+		AND nn.delivery_date IS NOT NULL
+		<![CDATA[AND IFNULL(nn.sum_delivery_amount,0) < nn.amount]]>
+		<![CDATA[AND DATE_FORMAT(SYSDATE(),'%Y-%m-%d') >= nn.delivery_date]]>
+		<isNotNull property="noYear" prepend="and">
+		    <![CDATA[ DATE_FORMAT(tci.edit_date,'%Y') <> #noYear#]]>
+		</isNotNull>
+		ORDER BY tci.edit_date DESC
+  </select>
+    <!--the contracts count wait for edit order-->
+    <select id="contractCountDeliveryOverDateSql" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+        SELECT COUNT(DISTINCT tci.ID) cnt FROM 
+		t_contract_infor tci,
+		t_resource_purview trp,
+		t_contract_product_detail nn
+		WHERE trp.user_id = #currUserId#
+		AND trp.resource_type = 2 
+		AND tci.user_id = trp.target_user_id
+		AND nn.parent_tools_id = 'root' 
+		AND nn.contract_infor_id = tci.id
+		AND tci.status = 4
+		AND nn.delivery_date IS NOT NULL
+		<![CDATA[AND IFNULL(nn.sum_delivery_amount,0) < nn.amount]]>
+		<![CDATA[AND DATE_FORMAT(SYSDATE(),'%Y-%m-%d') >= nn.delivery_date]]>
+		<isNotNull property="noYear" prepend="and">
+		    <![CDATA[ DATE_FORMAT(tci.edit_date,'%Y') <> #noYear#]]>
+		</isNotNull>
+    </select>
+</sqlMap>

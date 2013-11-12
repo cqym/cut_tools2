@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="companyInfor">
+  <typeAlias alias="company" type="com.tl.resource.business.dto.CompanyDto"/>
+  <resultMap class="company" id="baseResultMap">
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="company_name" jdbcType="VARCHAR" property="companyName" />
+  </resultMap>
+  
+  <select id="getCompanyForCombox" resultClass="company" resultMap="baseResultMap">
+    <![CDATA[
+      select id, company_name from t_company_infor
+    ]]>
+  </select>
+  
+</sqlMap>

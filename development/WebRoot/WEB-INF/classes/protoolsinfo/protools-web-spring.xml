@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
+	default-autowire="byType">
+
+	<bean name="/proTools/addAction" class="com.tl.resource.web.toolsInfor.AddProToolsAction">
+		<property name="proToolsInforService">
+			<ref bean="ProToolsInforServiceImpl"/>
+		</property>
+	</bean>
+	
+	<bean name="/proTools/listAction" class="com.tl.resource.web.toolsInfor.ListProToolsAction">
+		<property name="proToolsInforService">
+			<ref bean="ProToolsInforServiceImpl"/>
+		</property>
+	</bean>
+	
+	<bean name="/proTools/addNonStandAction" class="com.tl.resource.web.toolsInfor.AddNonStandProAction">
+		<property name="proToolsInforService">
+			<ref bean="ProToolsInforServiceImpl"/>
+		</property>
+	</bean>
+	
+	<bean name="/proTools/getProIdAction" class="com.tl.resource.web.toolsInfor.GetProIdAction">
+		<property name="proToolsInforService">
+			<ref bean="ProToolsInforServiceImpl"/>
+		</property>
+	</bean>
+	
+	<bean name="/proTools/deleteProAction" class="com.tl.resource.web.toolsInfor.DeleteProAction">
+		<property name="proToolsInforService">
+			<ref bean="ProToolsInforServiceImpl"/>
+		</property>
+	</bean>
+	
+	<bean name="/proTools/updateProAction" class="com.tl.resource.web.toolsInfor.UpdateProToolsAction">
+		<property name="proToolsInforService">
+			<ref bean="ProToolsInforServiceImpl"/>
+		</property>
+	</bean>
+	
+	<bean name="/proTools/getProSortByCode" class="com.tl.resource.web.toolsInfor.LoadComboDataAction">
+		<property name="proToolsInforService">
+			<ref bean="ProToolsInforServiceImpl"/>
+		</property>
+	</bean>
+	
+	<bean name="/proTools/updateNonStandAction" class="com.tl.resource.web.toolsInfor.UpdateNonStandProAction">
+		<property name="proToolsInforService">
+			<ref bean="ProToolsInforServiceImpl"/>
+		</property>
+	</bean>
+	
+	<bean name="/proTools/importToolsAction" class="com.tl.resource.web.toolsInfor.ImportToolsAction">
+		<property name="importToolsService">
+			<ref bean="importToolsService"/>
+		</property>
+	</bean>
+	<bean name="/proTools/checkToolsBeEditQuoAction" class="com.tl.resource.web.toolsInfor.CheckToolsBeEditQuoAction">
+		<property name="proToolsInforService">
+			<ref bean="ProToolsInforServiceImpl"/>
+		</property>
+	</bean>
+</beans>

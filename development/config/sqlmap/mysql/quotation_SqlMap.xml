@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="quotation">
+  
+  <typeAlias alias="quotation" type="com.tl.resource.business.dto.QuotationDto"/>
+  
+  <resultMap class="quotation" id="BaseResultMap">
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="quotation_code" jdbcType="VARCHAR" property="quotationCode" />
+    <result column="customer_name" jdbcType="VARCHAR" property="customerName" />
+    <result column="quotation_date" jdbcType="VARCHAR" property="quotationDate" />
+    <result column="currency_name" jdbcType="VARCHAR" property="currencyName" />
+    <result column="currency_" jdbcType="VARCHAR" property="currency" />
+    <result column="editor_name" jdbcType="VARCHAR" property="editorName" />
+    <result column="payment_condition" jdbcType="VARCHAR" property="paymentCondition" />
+    <result column="tax_rate" jdbcType="DECIMAL" property="taxRate" />
+    <result column="quotation_type" jdbcType="INTEGER" property="quotationType" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="delivery_type" jdbcType="VARCHAR" property="deliveryType" />
+    <result column="tax_money" jdbcType="DECIMAL" property="taxMoney" />
+    <result column="product_money" jdbcType="DECIMAL" property="productMoney" />
+    <result column="total_money" jdbcType="DECIMAL" property="totalMoney" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+    <result column="cus_contact_person" jdbcType="VARCHAR" property="cusContactPerson" />
+    <result column="customer_code" jdbcType="VARCHAR" property="customerCode" />
+    <result column="seller_name" jdbcType="VARCHAR" property="sellerName" />
+    <result column="customer_phone" jdbcType="VARCHAR" property="customerPhone" />
+    <result column="customer_fax" jdbcType="VARCHAR" property="customerFax" />
+    
+    <result column="overall_rebate" jdbcType="DECIMAL" property="overallRebate" />
+    <result column="final_money" jdbcType="DECIMAL" property="finalMoney" />
+    <result column="edit_date" jdbcType="TIMESTAMP" property="editDate" />
+    
+    <result column="urgent_level" jdbcType="INTEGER" property="urgentLevel" />
+    <result column="valid_start_date" jdbcType="VARCHAR" property="validStartDate" />
+    <result column="valid_end_date" jdbcType="VARCHAR" property="validEndDate" />
+    
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    
+    <result column="will_order_expected" jdbcType="INTEGER" property="willOrderExpected" />
+    <result column="will_formal_date" jdbcType="VARCHAR" property="willFormalDate" />
+    
+    <result column="imp_to_quo_code" jdbcType="VARCHAR" property="impToQuoCode" />
+    <result column="exemplar_Invoice"  property="exemplarInvoice" />
+    <result column="transfer_contract"  property="transferContract" />
+    
+  </resultMap>
+  
+  <resultMap id="withSlaveResultMap" class="quotation" extends="BaseResultMap">
+    <result column="contract_code" jdbcType="VARCHAR" property="contractCode" />
+    <result column="slave_file" jdbcType="VARCHAR" property="slaveFile" />
+    <result column="delivery_num" jdbcType="INTEGER" property="deliveryNum" />
+    <result column="test_request" jdbcType="VARCHAR" property="testRequest" />
+    <result column="test_report" jdbcType="VARCHAR" property="testReport" />
+  </resultMap>
+  
+  <resultMap id="impResultMap" class="quotation" extends="BaseResultMap">
+    <result column="contract_code" jdbcType="VARCHAR" property="contractCode" />
+  </resultMap>
+  
+  <!-- 预订报价单下的产品有多少还未转正式报价单 -->
+  <select id="getNumByReserveQuo" parameterClass="String" resultClass="java.lang.Integer">
+    SELECT COUNT(a.id) FROM t_quotation_product_detail a  
+    LEFT JOIN t_quotation_product_detail b ON CONCAT(a.id,&apos;##&apos;)=b.id
+    WHERE a.quotation_infor_id=#value# AND b.id IS NULL 
+  </select>
+  
+  <select id="getQuoInfoByImpQuoId" parameterClass="java.util.List" resultClass="quotation" resultMap="impResultMap">
+    <![CDATA[
+      SELECT a.contract_code,t.* FROM t_quotation_infor t  LEFT JOIN t_contract_infor a ON t.contract_infor_id=a.id
+      WHERE t.id IN 
+    ]]>
+    <iterate conjunction="," open="(" close=")" >
+      #[]#
+    </iterate>
+  </select>
+  
+  <update id="updateImpQuoCode" parameterClass="java.util.Map">
+    <![CDATA[
+    UPDATE t_quotation_infor t SET t.imp_to_quo_code = 
+    (
+    CASE WHEN LENGTH(t.imp_to_quo_code) = LENGTH(#quoID#) THEN NULL
+    WHEN t.imp_to_quo_code REGEXP CONCAT('^',#quoID#) = 1 
+    THEN REPLACE(t.imp_to_quo_code, CONCAT(#quoID#,','), '')
+    WHEN t.imp_to_quo_code REGEXP CONCAT(',', #quoID#, ',') = 1 
+    THEN REPLACE(t.imp_to_quo_code, CONCAT(',', #quoID#), '')
+    ELSE REPLACE(t.imp_to_quo_code, CONCAT(',', #quoID#), '') 
+    END
+    ) 
+    WHERE (
+      SELECT COUNT(*) AS amount FROM t_quotation_product_detail b WHERE b.quotation_infor_id=#generalQuoID# 
+      AND substr(b.id, -length(b.id), length(b.id)-1) IN (
+      SELECT a.id FROM t_quotation_product_detail a WHERE a.quotation_infor_id=#quoID#
+      ) 
+    ) = 0 AND t.id=#generalQuoID#
+    ]]>
+  </update>
+  
+  <update id="updateExportQuoCode" parameterClass="java.util.Map">
+    <![CDATA[
+    UPDATE t_quotation_infor t SET t.imp_to_quo_code = 
+    (
+    CASE WHEN LENGTH(t.imp_to_quo_code) = LENGTH(#generalQuoID#) THEN NULL
+    WHEN t.imp_to_quo_code REGEXP CONCAT('^',#generalQuoID#) = 1 
+    THEN REPLACE(t.imp_to_quo_code, CONCAT(#generalQuoID#,','), '')
+    WHEN t.imp_to_quo_code REGEXP CONCAT(',', #generalQuoID#, ',') = 1 
+    THEN REPLACE(t.imp_to_quo_code, CONCAT(',', #generalQuoID#), '')
+    ELSE REPLACE(t.imp_to_quo_code, CONCAT(',', #generalQuoID#), '') 
+    END
+    ) 
+    WHERE (
+      SELECT COUNT(*) AS amount FROM t_quotation_product_detail b WHERE b.quotation_infor_id=#generalQuoID# 
+      AND substr(b.id, -length(b.id), length(b.id)-1) IN (
+      SELECT a.id FROM t_quotation_product_detail a WHERE a.quotation_infor_id=#quoID#
+      ) 
+    ) = 0 AND t.id=#quoID#
+    ]]>
+  </update>
+  
+  <select id="getQuoInfoById" parameterClass="java.lang.String" resultClass="quotation" resultMap="BaseResultMap">
+    <![CDATA[
+      select * from t_quotation_infor t where t.id=#value#
+    ]]>
+  </select>
+  
+  <select id="getQuotationByPage" parameterClass="java.util.Map" resultClass="quotation" resultMap="withSlaveResultMap">
+    <![CDATA[
+    SELECT COUNT(e.id) AS delivery_num,d.contract_code, cc.* ,
+    COUNT(ta.id) AS slave_file,COUNT(tb.id) AS test_request,COUNT(tc.id) AS test_report
+    FROM 
+   (
+      select * from (
+        SELECT t.*, c.own_contact_person_id 
+		FROM t_quotation_infor t left join 
+		(
+			SELECT ocp.customer_id,cinfo.customer_code ,ocp.user_id own_contact_person_id
+			FROM t_own_contact_person ocp,t_customers_infor cinfo  
+			WHERE ocp.customer_id = cinfo.id AND ocp.user_id = #userId#
+											
+		) c
+		on t.customer_code = c.customer_code
+		where 1=1
+    ]]>
+    
+      <isNotEqual prepend="and" property="quotationType" compareValue="-1">
+        <![CDATA[
+            t.quotation_type = #quotationType#
+          ]]>
+      </isNotEqual>
+      <isEqual property="quotationType" prepend="and" compareValue="-1">
+        <![CDATA[
+          t.quotation_type in (0,1)
+        ]]>
+      </isEqual>
+    
+      <isNotEmpty prepend="and" property="quotationCode">
+        <![CDATA[
+          t.quotation_code like '%$quotationCode$%'
+        ]]>
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="status">
+        <![CDATA[
+          t.status in ($status$)
+        ]]>
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="editorName">
+        <![CDATA[
+          t.editor_name like '%$editorName$%'
+        ]]>
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="customerName">
+        <![CDATA[
+          t.customer_name like '%$customerName$%'
+        ]]>
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="beginDate">
+        <![CDATA[
+          DATE_FORMAT(t.edit_date, '%Y-%m-%d')>=#beginDate#
+        ]]>
+      </isNotEmpty>
+      
+      <isNotEmpty prepend="and" property="endDate">
+        <![CDATA[
+          DATE_FORMAT(t.edit_date, '%Y-%m-%d')<=#endDate#
+        ]]>
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="year">
+        <![CDATA[
+          DATE_FORMAT(t.edit_date, '%Y')=#year#
+        ]]>
+      </isNotEmpty>
+      
+      <isNotEmpty prepend="and" property="userName">
+        <![CDATA[
+          t.user_name=#userName#
+        ]]>
+      </isNotEmpty>
+	  <isNotEmpty prepend="and" property="memo">
+        <![CDATA[
+          t.memo like '%$memo$%'
+        ]]>
+      </isNotEmpty>
+       <isNotEmpty prepend="and" property="transferContract">
+        <![CDATA[
+          t.transfer_Contract in ($transferContract$)
+        ]]>
+    </isNotEmpty>
+      <isNotEmpty prepend="and" property="yuDingWeiZhuanHeTong">
+        <![CDATA[
+          EXISTS (
+			SELECT
+                       1
+                     FROM t_quotation_product_detail pd
+                       LEFT JOIN (SELECT
+                                    SUM(amount)                  amount,
+                                    LEFT(ccd.id,32)              id
+                                  FROM t_contract_product_detail ccd
+                                  WHERE ccd.id LIKE '%##%'
+                                  GROUP BY LEFT(ccd.id,32)) cpd
+                         ON pd.id = cpd.id
+                     WHERE pd.quotation_infor_id = t.id
+                         AND pd.amount - IFNULL(cpd.amount,0) > 0
+		  )
+        ]]>
+      </isNotEmpty>
+    <![CDATA[
+      )aa LEFT JOIN 
+       (
+	     SELECT rpp.target_user_id FROM t_resource_purview rpp 
+         WHERE rpp.user_id=#userId# AND rpp.resource_type=#resourceType# 
+	  ) bb
+       ON aa.editor_id = bb.target_user_id
+       WHERE 
+        aa.own_contact_person_id = #userId#
+        OR aa.editor_id=#userId#
+        OR
+        bb.target_user_id IS NOT NULL
+        ]]>
+        
+    <isNotEmpty property="sort" >
+      <![CDATA[
+          order by $sort$ $dir$
+        ]]>
+    </isNotEmpty>
+    <isEmpty property="sort" >
+      <![CDATA[
+          ORDER BY edit_date DESC
+        ]]>
+    </isEmpty>
+        
+    <![CDATA[
+         LIMIT #start#, #limit#
+         ) cc 
+         LEFT JOIN t_contract_infor d ON cc.contract_infor_id=d.id
+         LEFT JOIN t_delivery_infor e ON cc.id=e.quotation_id
+         LEFT JOIN t_accessories ta ON cc.id=ta.business_id AND ta.business_type=5 
+         LEFT JOIN t_accessories tb ON cc.id=tb.business_id AND tb.business_type=10
+         LEFT JOIN t_accessories tc ON cc.id=tc.business_id AND tc.business_type=11 GROUP BY cc.id  
+    ]]>
+    <isNotEmpty property="sort" >
+      <![CDATA[
+          order by cc.$sort$ $dir$
+        ]]>
+    </isNotEmpty>
+    <isEmpty property="sort" >
+      <![CDATA[
+          ORDER BY cc.edit_date DESC
+        ]]>
+    </isEmpty>
+  </select>
+  
+  <select id="getQuotaionTotal" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+    <![CDATA[
+      select count(*) from (
+        SELECT t.*, c.own_contact_person_id 
+		FROM t_quotation_infor t left join 
+		(
+			SELECT ocp.customer_id,cinfo.customer_code ,ocp.user_id own_contact_person_id
+			FROM t_own_contact_person ocp,t_customers_infor cinfo  
+			WHERE ocp.customer_id = cinfo.id AND ocp.user_id = #userId#
+											
+		) c
+		on t.customer_code = c.customer_code
+		where 1=1
+    ]]>
+    
+    <isNotEqual prepend="and" property="quotationType" compareValue="-1">
+      <![CDATA[
+            t.quotation_type = #quotationType#
+          ]]>
+    </isNotEqual>
+    <isEqual property="quotationType" prepend="and" compareValue="-1">
+      <![CDATA[
+          t.quotation_type in (0,1)
+        ]]>
+    </isEqual>
+    <isNotEmpty prepend="and" property="quotationCode">
+      <![CDATA[
+          t.quotation_code like '%$quotationCode$%'
+        ]]>
+    </isNotEmpty>
+    <isNotEmpty prepend="and" property="status">
+      <![CDATA[
+          t.status in ($status$)
+        ]]>
+    </isNotEmpty>
+    <isNotEmpty prepend="and" property="editorName">
+      <![CDATA[
+          t.editor_name like '%$editorName$%'
+        ]]>
+    </isNotEmpty>
+    <isNotEmpty prepend="and" property="customerName">
+      <![CDATA[
+          t.customer_name like '%$customerName$%'
+        ]]>
+    </isNotEmpty>
+    <isNotEmpty prepend="and" property="beginDate">
+      <![CDATA[
+          t.edit_date>=#beginDate#
+        ]]>
+    </isNotEmpty>
+    
+    <isNotEmpty prepend="and" property="endDate">
+      <![CDATA[
+          DATE_FORMAT(t.edit_date, '%Y-%m-%d')<=#endDate#
+        ]]>
+    </isNotEmpty>
+    <isNotEmpty prepend="and" property="year">
+      <![CDATA[
+          DATE_FORMAT(t.edit_date, '%Y')=#year#
+        ]]>
+    </isNotEmpty>
+    <isNotEmpty prepend="and" property="userName">
+      <![CDATA[
+          t.user_name=#userName#
+        ]]>
+    </isNotEmpty>
+	<isNotEmpty prepend="and" property="memo">
+        <![CDATA[
+          t.memo like '%$memo$%'
+        ]]>
+    </isNotEmpty>
+    <isNotEmpty prepend="and" property="transferContract">
+        <![CDATA[
+          t.transfer_Contract in ($transferContract$)
+        ]]>
+    </isNotEmpty>
+      <isNotEmpty prepend="and" property="yuDingWeiZhuanHeTong">
+        <![CDATA[
+          EXISTS (
+			SELECT
+                       1
+                     FROM t_quotation_product_detail pd
+                       LEFT JOIN (SELECT
+                                    SUM(amount)                  amount,
+                                    LEFT(ccd.id,32)              id
+                                  FROM t_contract_product_detail ccd
+                                  WHERE ccd.id LIKE '%##%'
+                                  GROUP BY LEFT(ccd.id,32)) cpd
+                         ON pd.id = cpd.id
+                     WHERE pd.quotation_infor_id = t.id
+                         AND pd.amount - IFNULL(cpd.amount,0) > 0
+		  )
+        ]]>
+      </isNotEmpty>
+    <![CDATA[
+      )aa LEFT JOIN 
+       (
+	     SELECT rpp.target_user_id 
+		 FROM t_resource_purview rpp 
+         WHERE rpp.user_id=#userId# AND rpp.resource_type=#resourceType# 
+	  ) bb
+       ON aa.editor_id = bb.target_user_id
+       WHERE 
+        aa.own_contact_person_id = #userId#
+        OR aa.editor_id = #userId#
+        OR
+        bb.target_user_id IS NOT NULL
+    ]]>
+  </select>
+   <!--the schedule delivery over date-->
+  <select id="QuosOverDateSql" parameterClass="map" resultMap="BaseResultMap">
+		SELECT DISTINCT tci.*  FROM 
+		t_quotation_infor tci,
+		t_resource_purview trp,
+		t_quotation_product_detail nn
+		WHERE trp.user_id = #currUserId#
+		AND trp.resource_type = 1 
+		AND tci.editor_id = trp.target_user_id
+		AND nn.parent_tools_id = 'root' 
+		AND nn.quotation_infor_id = tci.id
+		<isNotEmpty prepend="and" property="quotationType">
+		 tci.quotation_type = #quotationType#
+		</isNotEmpty>
+		AND tci.status IN (2,6)
+		<isEqual prepend="and" property="overDateType" compareValue="delivery">
+          <![CDATA[
+        nn.delivery_date IS NOT NULL
+		AND IFNULL(nn.sum_delivery_amount,0) < nn.amount
+		AND DATE_FORMAT(SYSDATE(),'%Y-%m-%d') >= nn.delivery_date
+          ]]>
+        </isEqual>
+        <isEqual prepend="and" property="overDateType" compareValue="willFormal">
+          <![CDATA[
+        tci.will_formal_date IS NOT NULL
+		AND DATE_FORMAT(SYSDATE(),'%Y-%m-%d') >= tci.will_formal_date
+          ]]>
+        </isEqual>
+        <isEqual prepend="and" property="overDateType" compareValue="tryReport">
+          <![CDATA[
+        tci.valid_end_date IS NOT NULL
+		AND DATE_FORMAT(SYSDATE(),'%Y-%m-%d') >= tci.valid_end_date
+		and NOT EXISTS (SELECT 1 FROM t_accessories ac WHERE ac.business_id = tci.id)
+          ]]>
+        </isEqual>		
+		ORDER BY tci.edit_date DESC
+  </select>
+    <!--the schedule count delivery over date-->
+    <select id="QuosCountOverDateSql" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+       SELECT COUNT(DISTINCT tci.id) cnt  FROM 
+		t_quotation_infor tci,
+		t_resource_purview trp,
+		t_quotation_product_detail nn
+		WHERE trp.user_id = #currUserId#
+		AND trp.resource_type = 1 
+		AND tci.editor_id = trp.target_user_id
+		AND nn.parent_tools_id = 'root' 
+		AND nn.quotation_infor_id = tci.id
+		<isNotEmpty prepend="and" property="quotationType">
+		 tci.quotation_type = #quotationType#
+		</isNotEmpty>
+		AND tci.status IN (2,6)
+		<isEqual prepend="and" property="overDateType" compareValue="delivery">
+          <![CDATA[
+        nn.delivery_date IS NOT NULL
+		AND IFNULL(nn.sum_delivery_amount,0) < nn.amount
+		AND DATE_FORMAT(SYSDATE(),'%Y-%m-%d') >= nn.delivery_date
+          ]]>
+        </isEqual>
+        <isEqual prepend="and" property="overDateType" compareValue="willFormal">
+          <![CDATA[
+        tci.will_formal_date IS NOT NULL
+		AND DATE_FORMAT(SYSDATE(),'%Y-%m-%d') >= tci.will_formal_date
+          ]]>
+        </isEqual>
+        <isEqual prepend="and" property="overDateType" compareValue="tryReport">
+          <![CDATA[
+        tci.valid_end_date IS NOT NULL
+		AND DATE_FORMAT(SYSDATE(),'%Y-%m-%d') >= tci.valid_end_date
+		and NOT EXISTS (SELECT 1 FROM t_accessories ac WHERE ac.business_id = tci.id)
+          ]]>
+        </isEqual>
+    </select>
+</sqlMap>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE abatorConfiguration PUBLIC "-//Apache Software Foundation//DTD Abator for iBATIS Configuration 1.0//EN" "http://ibatis.apache.org/dtd/abator-config_1_0.dtd" >
+<abatorConfiguration >
+  <abatorContext >
+    <jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver" connectionURL="jdbc:oracle:thin:@dbserver:1521:orcl" userId="jilin_zfcg" password="1" >
+      <classPathEntry location="E:\projects\cut_tools3\development\lib\ojdbc14.jar" />
+    </jdbcConnection>
+    <javaModelGenerator targetPackage="com.ufgov.zc.common.zc.model" targetProject="ibatisProj" />
+    <sqlMapGenerator targetPackage="com.tl.resource.dao.map" targetProject="ibatisProj" />
+    <daoGenerator targetPackage=" com.ufgov.zc.server.zc.dao.ibatis" targetProject="ibatisProj" type="SPRING" />
+    <table tableName="zc_notepad"/> 
+  </abatorContext>
+</abatorConfiguration>

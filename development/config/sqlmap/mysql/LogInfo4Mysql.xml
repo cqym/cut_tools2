@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+
+	<typeAlias alias="page" type="com.tl.common.util.PageInfo" />
+
+	<resultMap id="result" class="com.tl.resource.dao.pojo.LogInfo">
+		<result property="logId" column="LOG_ID" columnIndex="1" />
+		<result property="logUser" column="LOG_USER" columnIndex="2" />
+		<result property="content" column="CONTENT" columnIndex="3" />
+		
+		<result property="ip" column="IP" columnIndex="4" />
+		<result property="logDate" column="LOG_DATE" columnIndex="5" />
+		<result property="logType" column="LOG_TYPE" columnIndex="6" />
+		<result property="note" column="NOTE" columnIndex="7" />
+
+	</resultMap>
+
+	<select id="getLogInfoWithPage" resultMap="result"
+		parameterClass="page">
+		<![CDATA[ select * from LOG_INFO limit #startIndex#, #pageSize# ]]>
+	</select>
+
+	<select id="getLogInfoCount" resultClass="java.lang.Integer">
+		select count(*) from LOG_INFO
+	</select>
+
+	<insert id="insertLogInfo"
+		parameterClass="com.tl.resource.dao.pojo.LogInfo">
+		insert into LOG_INFO (LOG_ID,  LOG_USER,  CONTENT,   IP,   LOG_DATE,  LOG_TYPE,  NOTE   )
+		              values (#logId#, #logUser#, #content#, #ip#, #logDate#, #logType#, #note# )
+	</insert>
+
+	<delete id="deleteLogInfo" parameterClass="java.lang.String">
+	    delete from LOG_INFO
+	    where LOG_ID = #logId#
+	</delete>
+
+</sqlMap>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+
+<struts-config>
+
+	<action-mappings>
+		<action path="/baseInfo/productSortListAction" scope="request" validate="false"></action>
+		<action path="/baseInfo/addProductSortAction" scope="request" validate="false"></action>
+		<action path="/baseInfo/deleteProductSortAction" scope="request" validate="false"></action>
+		<action path="/baseInfo/updateProductSortAction" scope="request" validate="false"></action>
+		<action path="/baseInfo/getProductBrankListAction" scope="request" validate="false"></action>
+	
+		
+		
+		<action path="/baseInfo/cusSalesPriceHistoryListAction" scope="request" validate="false"></action>
+		<action path="/baseInfo/cusSalesProductHistoryListAction" scope="request" validate="false"></action>
+		<action path="/baseInfo/deleteCurSalerPriceAction" scope="request" validate="false"></action>
+		<action path="/baseInfo/getAllCustomersAction" scope="request" validate="false"></action>
+		
+		
+		<action path="/baseInfo/orderPriceHistoryListAction" scope="request" validate="false"></action>
+		<action path="/baseInfo/orderProductHistoryListAction" scope="request" validate="false"></action>
+		<action path="/baseInfo/deleteOrderPriceHistoryAction" scope="request" validate="false"></action>
+		<action path="/baseInfo/getAllSupplerAction" scope="request" validate="false"></action>
+		
+		<action path="/baseInfo/updateProToolsPriceAction" scope="request" validate="false"></action>
+		<action path="/baseInfo/salesProductHistoryListAction" scope="request" validate="false"></action>
+		
+		<action path="/baseInfo/importSalePriceAction" scope="request" validate="false"></action>
+		<action path="/baseInfo/orderProductPriceEditAction" scope="request" validate="false" parameter="m"></action>
+	</action-mappings>
+
+	<controller>
+		<set-property property="processorClass"
+			value="org.springframework.web.struts.DelegatingRequestProcessor" />
+	</controller>
+</struts-config>

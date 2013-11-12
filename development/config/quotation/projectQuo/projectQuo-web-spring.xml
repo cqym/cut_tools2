@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
+	default-autowire="byType">
+
+	<bean name="/projectQuo/listAction" class="com.tl.resource.web.quotation.projectquo.ListAction">
+		<property name="projectQuoService">
+			<ref bean="ProjectQuoService"/>
+		</property>
+	</bean>
+	
+	<bean name="/projectQuo/workOrderListAction" class="com.tl.resource.web.quotation.projectquo.WorkOrderListAction">
+		<property name="projectQuoService">
+			<ref bean="ProjectQuoService"/>
+		</property>
+	</bean>
+	
+	<bean name="/projectQuo/addProjectQuoAction" class="com.tl.resource.web.quotation.projectquo.AddProjectQuoAction">
+		<property name="projectQuoService">
+			<ref bean="ProjectQuoService"/>
+		</property>
+		<property name="billsCodeDefService">
+			<ref bean="BillsCodeDefService"/>
+		</property>
+	</bean>
+	
+	<bean name="/projectQuo/getQuoDetailAction" class="com.tl.resource.web.quotation.projectquo.GetQuoDetailAction">
+		<property name="projectQuoService">
+			<ref bean="ProjectQuoService"/>
+		</property>
+	</bean>
+	
+		
+	<bean name="/projectQuo/updateProjectQuoAction" class="com.tl.resource.web.quotation.projectquo.UpdateProjectQuoAction">
+		<property name="projectQuoService">
+			<ref bean="ProjectQuoService"/>
+		</property>
+	</bean>
+	
+	<bean name="/projectQuo/deleteProjectQuoAction" class="com.tl.resource.web.quotation.projectquo.DeteleProjectQuoAction">
+		<property name="projectQuoService">
+			<ref bean="ProjectQuoService"/>
+		</property>
+	</bean>
+	
+	<bean name="/projectQuo/deleteWorkOrderAction" class="com.tl.resource.web.quotation.projectquo.DeteleWorkOrderAction">
+		<property name="projectQuoService">
+			<ref bean="ProjectQuoService"/>
+		</property>
+	</bean>
+	
+	<bean name="/projectQuo/getQuoInfoByIdAction" class="com.tl.resource.web.quotation.projectquo.GetQuoInfoByIdAction">
+		<property name="projectQuoService">
+			<ref bean="ProjectQuoService"/>
+		</property>
+	</bean>
+	
+	
+	<bean name="/projectQuo/submitAuditAction" class="com.tl.resource.web.quotation.projectquo.SubmitAuditAction">
+		<property name="auditService">
+			<ref bean="auditService"/>
+		</property>
+	</bean>
+	<bean name="/projectQuo/submitContractAction" class="com.tl.resource.web.quotation.projectquo.SubmitContractAction">
+		<property name="projectQuoService">
+			<ref bean="ProjectQuoService"/>
+		</property>
+	</bean>
+	
+	<bean name="/projectQuo/excelAction" class="com.tl.resource.web.quotation.projectquo.ExcelAction">
+		<property name="projectQuoService">
+			<ref bean="ProjectQuoService"/>
+		</property>
+	</bean>
+	
+	
+</beans>

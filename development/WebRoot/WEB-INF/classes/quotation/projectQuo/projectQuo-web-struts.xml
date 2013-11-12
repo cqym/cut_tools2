@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+
+<struts-config>
+
+	<action-mappings>
+		<action path="/projectQuo/listAction" scope="request" validate="false"></action>
+		<action path="/projectQuo/workOrderListAction" scope="request" validate="false"></action>
+		<action path="/projectQuo/addProjectQuoAction" scope="request" validate="false"></action>
+		<action path="/projectQuo/getQuoDetailAction" scope="request" validate="false"></action>
+		<action path="/projectQuo/updateProjectQuoAction" scope="request" validate="false"></action>
+		<action path="/projectQuo/deleteProjectQuoAction" scope="request" validate="false"></action>
+		<action path="/projectQuo/deleteWorkOrderAction" scope="request" validate="false"></action>
+		
+		<!-- 得到报价单基本信息 -->
+		<action path="/projectQuo/getQuoInfoByIdAction" scope="request" validate="false"></action>
+		
+		<!-- 提交审核 -->
+		<action path="/projectQuo/submitAuditAction" scope="request" validate="false"></action>
+		<!-- 提交合同 -->
+		<action path="/projectQuo/submitContractAction" scope="request" validate="false"></action>
+		
+		<!-- 导出到Excel -->
+		<action path="/projectQuo/excelAction" scope="request" validate="false"></action>
+		
+	
+	</action-mappings>
+
+	<controller>
+		<set-property property="processorClass"
+			value="org.springframework.web.struts.DelegatingRequestProcessor" />
+	</controller>
+</struts-config>

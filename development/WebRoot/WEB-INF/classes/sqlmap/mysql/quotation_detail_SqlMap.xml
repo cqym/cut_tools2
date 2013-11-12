@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="quotationDetail">
+  <typeAlias alias="quoDetail" type="com.tl.resource.business.dto.QuotationDetailDto"/>
+  <resultMap class="quoDetail" id="ibatorgenerated_BaseResultMap">
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="quotation_infor_id" jdbcType="VARCHAR" property="quotationInforId" />
+    <result column="tools_id" jdbcType="VARCHAR" property="toolsId" />
+    <result column="parent_tools_id" jdbcType="VARCHAR" property="parentToolsId" />
+    <result column="leaf" jdbcType="BOOLEAN" property="leaf" />
+    <result column="serial_number" jdbcType="DECIMAL" property="serialNumber" />
+    <result column="product_brand" jdbcType="VARCHAR" property="productBrand" />
+    <result column="product_code" jdbcType="VARCHAR" property="productCode" />
+    <result column="brand_code" jdbcType="VARCHAR" property="brandCode" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="product_unit" jdbcType="VARCHAR" property="productUnit" />
+    <result column="rebate" jdbcType="DECIMAL" property="rebate" />
+    <result column="net_price" jdbcType="DECIMAL" property="netPrice" />
+    <result column="money" jdbcType="DECIMAL" property="money" />
+    <result column="tax_net_price" jdbcType="DECIMAL" property="taxNetPrice" />
+    <result column="tax_money" jdbcType="DECIMAL" property="taxMoney" />
+    <result column="price_change" jdbcType="DECIMAL" property="priceChange" />
+    <result column="workshop" jdbcType="VARCHAR" property="workshop" />
+    <result column="process_code" jdbcType="VARCHAR" property="processCode" />
+    <result column="report_code" jdbcType="VARCHAR" property="reportCode" />
+     
+    <result column="single_set_assembly_amount" jdbcType="DECIMAL" property="singleSetAssemblyAmount" />
+    <result column="single_set_stock_amount" jdbcType="DECIMAL" property="singleSetStockAmount" />
+    <result column="project_code" jdbcType="VARCHAR" property="projectCode" />
+   
+  </resultMap>
+  
+  <resultMap id="resultMap" class="quoDetail" extends="ibatorgenerated_BaseResultMap">
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+    <result column="delivery_date" jdbcType="VARCHAR" property="deliveryDate" />
+   
+    <result column="tool_code" jdbcType="VARCHAR" property="toolCode" />
+    <result column="tool_description" jdbcType="VARCHAR" property="toolDescription" />
+    
+   <result column="slave_file" jdbcType="VARCHAR" property="slaveFile" /> 
+  </resultMap>
+  
+  <!-- 子节点不需要附件 -->
+  <resultMap id="resultMapNoSlave" class="quoDetail" extends="ibatorgenerated_BaseResultMap">
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+    <result column="delivery_date" jdbcType="VARCHAR" property="deliveryDate" />
+    <result property="children" column="id" select="quotationDetail.getProToolsByParId"/>
+    <result column="tool_code" jdbcType="VARCHAR" property="toolCode" />
+    <result column="tool_description" jdbcType="VARCHAR" property="toolDescription" />
+  </resultMap>
+   
+   <resultMap id="resultMapOutStock" class="com.tl.resource.business.dto.QuotationDetailOutStockDto" extends="ibatorgenerated_BaseResultMap">
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+    <result column="pro_sort_name" jdbcType="DECIMAL" property="proSortName" />
+    <result column="reserve_infor_id" jdbcType="DECIMAL" property="reserveInforId" />
+    <result column="reserve_amount" jdbcType="DECIMAL" property="reserveAmount" />
+    <result column="delivery_amount" jdbcType="DECIMAL" property="deliveryAmount" />
+    <result column="arrival_amount" jdbcType="DECIMAL" property="arrivalAmount" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="leaf" jdbcType="BOOLEAN" property="leaf" />
+   </resultMap>
+	
+	<resultMap id="orderPriceResultMap" class="quoDetail" extends="ibatorgenerated_BaseResultMap">
+		<result column="pro_sort_name" jdbcType="DECIMAL" property="proSortName" />
+	</resultMap>
+	
+	<resultMap id="resultMap4Reserve" class="com.tl.resource.business.dto.QuotationDetailReserveDto" extends="ibatorgenerated_BaseResultMap">
+		<result column="delivery_amount" jdbcType="DECIMAL" property="deliveryAmount" />
+		<result column="arrival_amount" jdbcType="DECIMAL" property="arrivalAmount" />
+		<result column="order_amount" jdbcType="DECIMAL" property="orderAmount" />
+		<result column="delivery_date" jdbcType="VARCHAR" property="deliveryDate" />
+		<result column="contract_amount" jdbcType="VARCHAR" property="contractAmount" />
+		<result column="slave_file" jdbcType="VARCHAR" property="slaveFile" /> 
+	</resultMap>
+	
+	<!-- 根据工具信息ID获取 报价单产品(删除工具信息时调用判断该工具信息是否已做报价单) -->
+	<select id="getQuoDetaiByToolsId" parameterClass="java.lang.String" resultClass="quoDetail" resultMap="ibatorgenerated_BaseResultMap">
+		<![CDATA[
+	      SELECT t.*       
+	      FROM t_quotation_product_detail t 
+	      WHERE t.tools_id = #value# 
+	    ]]>
+	</select>
+	
+	<!-- 获取报价单产品中净价大于采购价格的产品 -->
+	<select id="getOrderPrice4Quo" parameterClass="Map" resultClass="quoDetail" resultMap="orderPriceResultMap">
+		<![CDATA[
+			SELECT h.pro_sort_name, aa.* FROM (
+				SELECT 
+				       a.*,
+				       IFNULL(a.quotation_project_sort_id,1) quo_project_sort_id
+				FROM 
+				     t_quotation_product_detail a,
+				     t_product_brand b,
+				     t_sales_price_history c,
+				     t_product_tools_infor e,
+				     t_product_sort d,
+				     t_rebate f,
+				     t_customers_degree g,
+				     t_quotation_infor h,
+				     t_exchange_rate i
+				WHERE 
+				     a.quotation_infor_id=#quoId# AND a.quotation_infor_id=h.id AND h.currency_=i.id
+				     AND a.tools_id=c.product_tool_infor_id AND c.sale_price_date=b.order_price_run_date
+				     AND a.product_brand=b.name 
+				     AND e.id=c.product_tool_infor_id AND e.product_sort_code=d.sort_code 
+				     AND d.id=f.product_sort_id AND f.customers_degree_id = g.id AND g.id='xxx' 
+				     AND ROUND(c.history_price*(100-IFNULL(f.rebate, 0))/100*(1/i.rate), 2) >= a.net_price
+				     
+				ORDER BY 
+				     a.project_code,a.serial_number
+			     ) aa 
+			    LEFT JOIN t_quotation_project_sort_infor h
+				ON aa.quo_project_sort_id=h.id 
+				ORDER BY h.id,aa.serial_number			
+		]]>
+	</select>
+  
+  <select id="getQuoDetailById" parameterClass="java.lang.String" resultClass="quoDetail" resultMap="resultMapNoSlave">
+    <![CDATA[
+      select * from t_quotation_product_detail t where t.id=#value#
+    ]]>
+  </select>
+  
+  <select id="getQuoDetail" parameterClass="java.lang.String" resultClass="quoDetail" resultMap="resultMap">
+    <![CDATA[
+      SELECT COUNT(a.id) AS slave_file, t.id, quotation_infor_id, tools_id, parent_tools_id,        
+      CASE WHEN leaf = 1 THEN 'true' ELSE 'false' END AS leaf,       
+      serial_number, product_brand, product_code, brand_code, product_name,       
+      amount, price, product_unit, rebate, net_price, money, tax_net_price, 
+      tax_money, price_change, workshop,tool_description,tool_code,       
+      process_code, report_code,single_set_assembly_amount,
+      single_set_stock_amount,project_code,delivery_date,memo       
+      FROM t_quotation_product_detail t 
+      LEFT JOIN t_accessories a ON t.tools_id=a.business_id
+      WHERE t.quotation_infor_id = #value# 
+      AND t.parent_tools_id='root' GROUP BY t.id ORDER BY serial_number ASC 
+    ]]>
+  </select>
+	
+	<!-- 预订报价单详细 -->
+	<select id="getQuoDetail4Reserve" parameterClass="java.lang.String" 
+		resultClass="com.tl.resource.business.dto.QuotationDetailReserveDto" resultMap="resultMap4Reserve">
+		SELECT 
+			COUNT(a.id) AS slave_file, t.id, quotation_infor_id, tools_id, parent_tools_id,               
+			CASE WHEN leaf = 1 THEN 'true' ELSE 'false' END AS leaf,              
+			serial_number, product_brand, product_code, brand_code, product_name,              
+			amount, price, product_unit, rebate, net_price, money, tax_net_price,        
+			tax_money, price_change, workshop,tool_description,tool_code,              
+			process_code, report_code,single_set_assembly_amount,       
+			single_set_stock_amount,project_code,delivery_date,memo,
+			sum_order_amount order_amount,IFNULL(sum_arrival_amount,0) + IFNULL(sum_out_amount,0) arrival_amount,
+			sum_delivery_amount delivery_amount,IFNULL(cpd.contract_amount,0) contract_amount             
+		FROM t_quotation_product_detail t        
+		LEFT JOIN t_accessories a 
+		ON t.tools_id=a.business_id       
+		LEFT JOIN (SELECT SUM(amount) contract_amount,LEFT(ccd.id,32) id
+                   FROM t_contract_product_detail ccd
+                   WHERE ccd.id LIKE '%##%'
+                   GROUP BY LEFT(ccd.id,32)) cpd
+        ON t.id = cpd.id
+		WHERE t.quotation_infor_id = #value#       
+		
+		AND t.parent_tools_id='root' GROUP BY t.id ORDER BY serial_number ASC		
+	</select>
+
+  <!-- 复制报价单调用 -->
+  <select id="getQuoDetail4Copy" parameterClass="Map" resultClass="quoDetail" resultMap="resultMap">
+    <![CDATA[
+    
+	    SELECT CASE WHEN iii.rebate IS NULL THEN 0 ELSE iii.rebate END rebate,        
+		CASE WHEN ii.price = 0 THEN ii.net_price ELSE ROUND(ii.price*(100-IFNULL(iii.rebate, 0))/100, 2) END net_price,     
+		CASE WHEN ii.price = 0 THEN ii.money ELSE ROUND(ii.price*(100-IFNULL(iii.rebate, 0))/100*ii.amount, 2) END money,    
+		CASE WHEN ii.price = 0 THEN ii.tax_net_price ELSE ROUND(ii.price*(100-IFNULL(iii.rebate, 0))/100*(1+ii.tax_rate), 2) END tax_net_price,    
+		CASE WHEN ii.price = 0 THEN ii.tax_money ELSE ROUND(ii.price*(100-IFNULL(iii.rebate, 0))/100*ii.amount*(1+ii.tax_rate), 2) END tax_money,       
+		ii.*        FROM (                
+		SELECT COUNT(a.id) AS slave_file, aa.* FROM (          
+		SELECT   pti.product_sort_id, t.id, quotation_infor_id, tools_id, parent_tools_id,                     
+		CASE WHEN t.leaf = 1 THEN 'true' ELSE 'false' END AS leaf,                    
+		serial_number, t.product_brand, t.product_code, t.brand_code, t.product_name, qi.tax_rate,                    
+		t.amount, price, t.product_unit, price_change, workshop,tool_description,tool_code,                    
+		process_code, report_code,single_set_assembly_amount,single_set_stock_amount,project_code,delivery_date,t.memo,
+		net_price, money,  tax_net_price, t.tax_money                
+		FROM t_quotation_product_detail t, t_product_tools_infor pti, t_quotation_infor qi                   
+		WHERE t.quotation_infor_id = #quoId# AND t.tools_id=pti.id  AND qi.id=#quoId#                    
+		AND t.parent_tools_id='root' ORDER BY project_code,serial_number ASC        ) aa      
+		LEFT JOIN  t_accessories a ON aa.tools_id=a.business_id  GROUP BY aa.id  
+		ORDER BY project_code,serial_number ASC              ) ii 
+		LEFT JOIN(                 
+		SELECT DISTINCT re.product_sort_id,re.rebate         FROM t_customers_infor cus,t_rebate re                 
+		WHERE re.customers_degree_id = cus.customer_degree_id AND cus.id = #cusId#) iii 
+		ON ii.product_sort_id = iii.product_sort_id
+    ]]>
+  </select>
+  
+  <!-- 查询产品列表信息(项目报价单详细) --> 
+  <select id="getProductList" parameterClass="java.lang.String" resultClass="quoDetail" resultMap="resultMap">
+    <![CDATA[
+    
+      SELECT COUNT(a.id) AS slave_file, t.id, quotation_infor_id, tools_id, parent_tools_id,        
+      CASE WHEN leaf = 1 THEN 'true' ELSE 'false' END AS leaf,       
+      serial_number, product_brand, product_code, brand_code, product_name,       
+      amount, price, product_unit, rebate, net_price, money, tax_net_price, 
+      tax_money, price_change, workshop,tool_description,tool_code,       
+      process_code, report_code,single_set_assembly_amount,
+      single_set_stock_amount,project_code,delivery_date,memo       
+      FROM t_quotation_product_detail t 
+      LEFT JOIN t_accessories a ON t.tools_id=a.business_id
+      WHERE t.quotation_project_sort_id = #value# 
+      AND t.parent_tools_id='root' GROUP BY t.id ORDER BY project_code,serial_number ASC 
+    
+    ]]>
+  </select>
+  
+  <!-- 查询产品列表信息(项目报价单详细,复制报价单调用) --> 
+  <select id="getProductList4Copy" parameterClass="Map" resultClass="quoDetail" resultMap="resultMap">
+    <![CDATA[
+      SELECT CASE WHEN iii.rebate IS NULL THEN 0 ELSE iii.rebate END rebate, 
+      
+      CASE WHEN ii.price = 0 THEN ii.net_price ELSE ROUND(ii.price*(100-IFNULL(iii.rebate, 0))/100, 2) END net_price,     
+		CASE WHEN ii.price = 0 THEN ii.money ELSE ROUND(ii.price*(100-IFNULL(iii.rebate, 0))/100*ii.amount, 2) END money,    
+		CASE WHEN ii.price = 0 THEN ii.tax_net_price ELSE ROUND(ii.price*(100-IFNULL(iii.rebate, 0))/100*(1+qi.tax_rate), 2) END tax_net_price,    
+		CASE WHEN ii.price = 0 THEN ii.tax_money ELSE ROUND(ii.price*(100-IFNULL(iii.rebate, 0))/100*ii.amount*(1+qi.tax_rate), 2) END tax_money,
+      ii.* 
+      FROM (
+        SELECT COUNT(a.id) AS slave_file, pti.product_sort_id, t.id, t.quotation_infor_id, t.tools_id, t.parent_tools_id,                
+    	CASE WHEN t.leaf = 1 THEN 'true' ELSE 'false' END AS leaf,               
+    	serial_number, t.product_brand, t.product_code, t.brand_code, t.product_name,              
+    	t.amount, price, t.product_unit, single_set_assembly_amount,single_set_stock_amount,project_code,t.memo,               
+    	price_change, workshop, process_code, report_code,delivery_date,tool_description,tool_code,
+    	net_price, money,  tax_net_price, t.tax_money
+    	FROM t_quotation_product_detail t 
+    	LEFT JOIN t_product_tools_infor pti ON t.tools_id = pti.id
+    	LEFT JOIN t_accessories a ON t.tools_id=a.business_id        
+    	WHERE t.quotation_project_sort_id = #quotation_project_sort_id#         
+    	AND t.tools_id=pti.id  AND t.parent_tools_id='root' GROUP BY t.id              
+    	ORDER BY project_code,serial_number ASC
+      
+      ) ii 
+      LEFT JOIN t_quotation_infor qi ON ii.quotation_infor_id=qi.id
+      LEFT JOIN(         
+            	SELECT DISTINCT re.product_sort_id,re.rebate 
+            	FROM t_customers_infor cus,t_rebate re         
+            	WHERE re.customers_degree_id = cus.customer_degree_id AND cus.id = #cusId#
+      ) iii ON ii.product_sort_id = iii.product_sort_id
+    ]]>
+  </select>
+  
+  <select id="getProToolsByParId" parameterClass="java.lang.String" resultClass="quoDetail" resultMap="resultMapNoSlave">
+      <![CDATA[
+        select id, quotation_infor_id, tools_id, parent_tools_id, 
+        case 
+        when leaf = 1 then
+        'true'
+        else
+        'false'
+        end as leaf,
+        serial_number, product_brand, product_code, brand_code, product_name,
+        amount, price, product_unit, rebate ,single_set_assembly_amount,single_set_stock_amount,project_code,
+        net_price, money, tax_net_price, tax_money, price_change, workshop,tool_description,tool_code,
+        process_code, report_code,single_set_assembly_amount,single_set_stock_amount,project_code,delivery_date,memo
+        from t_quotation_product_detail t where t.parent_tools_id=#value#
+      ]]>
+  </select>
+  
+  <select id="getQuoDetailByQuo" parameterClass="java.lang.String" resultClass="quoDetail" resultMap="resultMap">
+    <![CDATA[
+      select id, quotation_infor_id, tools_id, parent_tools_id, 
+      case 
+      when leaf = 1 then
+      'true'
+      else
+      'false'
+      end as leaf,
+      serial_number, product_brand, product_code, brand_code, product_name,
+      amount, price, product_unit, rebate,
+      net_price, money, tax_net_price, tax_money, price_change, workshop,tool_description,tool_code,
+      process_code, report_code,single_set_assembly_amount,single_set_stock_amount,project_code,delivery_date,memo,'0' slave_file
+      from t_quotation_product_detail t where t.quotation_infor_id = #value# order by t.serial_number
+    ]]>
+  </select>
+  
+  <delete id="deleteQuoDetailById" parameterClass="java.lang.String">
+    <![CDATA[
+      delete from t_quotation_product_detail where id=#value#
+    ]]>
+  </delete>
+  
+   <!-- 获取报价单详细信息 ，为出库参照数据使用-->
+  <select id="getQuoDetailOutStockByPage" parameterClass="map" resultClass="com.tl.resource.business.dto.QuotationDetailOutStockDto" resultMap="resultMapOutStock">
+		select t.*,IFNULL(res.amount,0) reserve_amount,res.id reserve_infor_id,
+		t.sum_delivery_amount delivery_amount,IFNULL(t.sum_arrival_amount,0) + IFNULL(t.sum_out_amount,0) arrival_amount,
+		CASE WHEN t.quotation_type = 1 THEN
+			qsort.pro_sort_name
+		ELSE 
+		    t.quotation_code
+		END 	pro_sort_name,
+		CASE WHEN t.quotation_type = 1 THEN
+			qsort.id
+		ELSE 
+			t.quotation_infor_id
+		END quotation_project_sort_id 
+		from (
+		SELECT quo.id,quo.quotation_infor_id, quo.tools_id, quo.parent_tools_id, quo.leaf,
+		quo.project_code, quo.serial_number, quo.product_brand, quo.product_code, quo.brand_code, quo.product_name,
+		quo.single_set_assembly_amount, quo.single_set_stock_amount, quo.amount, quo.price, quo.product_unit, quo.rebate,
+		quo.net_price, quo.money, quo.tax_net_price, quo.tax_money, quo.price_change, quo.delivery_date, quo.workshop,
+		quo.process_code, quo.report_code, quo.tool_code, quo.tool_description, quo.memo, 
+		quo.quotation_project_sort_id sortid,qinfor.quotation_code,qinfor.quotation_type,
+		quo.sum_order_amount,quo.sum_arrival_amount,quo.sum_out_amount,quo.sum_delivery_amount
+		FROM t_quotation_product_detail quo,t_quotation_infor qinfor
+			WHERE quo.quotation_infor_id = qinfor.id
+			 AND quo.parent_tools_id = 'root' 
+			<isNotEmpty prepend="and" property="quotationInforId">
+			quo.quotation_infor_id = #quotationInforId:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="quotationProjectSortId">
+			quo.quotation_project_sort_id = #quotationProjectSortId:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="brandCode">
+			quo.brand_code LIKE '%$brandCode$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="productName">
+			quo.product_name LIKE '%$productName$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="productCode">
+			quo.product_code LIKE '%$productCode$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="productBrand">
+			quo.product_brand LIKE '%$productBrand$%'
+			</isNotEmpty>	
+			<isNotEmpty prepend="and" property="leaf">
+			quo.leaf = #leaf#
+			</isNotEmpty>	
+		) t
+		LEFT JOIN t_reserve_infor res  
+		ON t.product_code = res.product_code
+		LEFT JOIN t_contract_project_sort_infor qsort
+		ON t.sortid = qsort.id
+		WHERE 1 = 1    
+		<isNotEmpty prepend="and" property="willOutStock" >
+		       <![CDATA[IFNULL(t.sum_order_amount,0) + IFNULL(t.sum_out_amount,0) < t.amount AND IFNULL(res.amount,0) > 0]]>
+		</isNotEmpty> 
+			ORDER BY sortid ,serial_number            
+		<isNotEmpty prepend="" property="startIndex">
+			LIMIT $startIndex$,$pageSize$
+		</isNotEmpty>
+  </select>
+  <select id="getQuoDetailOutStockByPageDataCount" parameterClass="map" resultClass="java.lang.Integer">
+		select count(*)
+		from t_quotation_product_detail quo,t_quotation_infor qinfor
+			where quo.quotation_infor_id = qinfor.id
+			 and quo.parent_tools_id = 'root' 
+			<isNotEmpty prepend="and" property="quotationInforId">
+			quo.quotation_infor_id = #quotationInforId:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="quotationProjectSortId">
+			quo.quotation_project_sort_id = #quotationProjectSortId:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="brandCode">
+			quo.brand_code like '%$brandCode$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="productName">
+			quo.product_name like '%$productName$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="productCode">
+			quo.product_code like '%$productCode$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="productBrand">
+			quo.product_brand like '%$productBrand$%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="leaf">
+			quo.leaf = #leaf#
+			</isNotEmpty>	
+  </select>
+  
+  
+  
+  <select id="getYuDingQuoDetail2CreateContract" parameterClass="string" resultClass="com.tl.resource.business.dto.QuotationDetailDto" resultMap="resultMap">
+		SELECT pd.id,pd.quotation_infor_id, pd.tools_id, pd.parent_tools_id, pd.leaf,
+		pd.project_code, pd.serial_number, pd.product_brand, pd.product_code, pd.brand_code, pd.product_name,
+		pd.single_set_assembly_amount, pd.single_set_stock_amount, pd.amount - IFNULL(cpd.amount,0) amount, pd.price, pd.product_unit, pd.rebate,
+		pd.net_price, (pd.amount - IFNULL(cpd.amount,0))*pd.net_price money, pd.tax_net_price, (pd.amount - IFNULL(cpd.amount,0)) * pd.tax_net_price tax_money, pd.price_change, pd.delivery_date, pd.workshop,
+		pd.process_code, pd.report_code, pd.tool_code, pd.tool_description, pd.memo, 
+		pd.quotation_project_sort_id sortid,
+		pd.sum_order_amount,pd.sum_arrival_amount,pd.sum_out_amount,pd.sum_delivery_amount,(select count(*) from t_accessories s where s.business_id = pd.tools_id) slave_file 
+		FROM t_quotation_product_detail pd LEFT JOIN (
+			   SELECT SUM(amount) amount,LEFT(ccd.id,32) id 
+			   FROM  t_contract_product_detail ccd,t_contract_project_sort_infor si
+			   WHERE ccd.contract_project_sort_id = si.id
+			   AND si.pro_sort_name = (select quotation_code from t_quotation_infor where id = #value#)
+			   GROUP BY LEFT(ccd.id,32)			
+			) cpd
+			ON pd.id = cpd.id
+			WHERE pd.quotation_infor_id = #value#
+			AND pd.amount - IFNULL(cpd.amount,0) > 0
+			ORDER BY serial_number
+  </select>
+  <select id="getYuDingQuoDetail2CreateContractCount" parameterClass="string" resultClass="java.lang.Integer" >
+		SELECT count(*)
+		FROM t_quotation_product_detail pd LEFT JOIN (
+			   SELECT SUM(amount) amount,LEFT(ccd.id,32) id 
+			   FROM  t_contract_product_detail ccd,t_contract_project_sort_infor si
+			   WHERE ccd.contract_project_sort_id = si.id
+			   AND si.pro_sort_name = (select quotation_code from t_quotation_infor where id = #value#)
+			   GROUP BY LEFT(ccd.id,32)			
+			) cpd
+			ON pd.id = cpd.id
+			WHERE pd.quotation_infor_id = #value#
+			AND pd.amount - IFNULL(cpd.amount,0) > 0
+			ORDER BY serial_number
+  </select>
+</sqlMap>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+ <bean id="ReservePlanService" parent="parentService">
+  <property name="target">
+  	 <bean class="com.tl.resource.business.reservePlan.ReservePlanServiceImp">
+		<property name="orderDetailDao">
+			<ref bean="TOrderDetailDAOImpl"/>
+		</property>
+		<property name="orderInforDao">
+			<ref bean="TOrderInforDAOImpl"/>
+		</property>
+		<property name="reservePlanInforDAO">
+			<ref bean="TReservePlanInforDAO"/>
+		</property>
+		<property name="billsCodeDefService">
+			<ref bean="BillsCodeDefService"/>
+		</property>
+		<property name="reservePlanMainDAO">
+			<ref bean="TReservePlanMainDAO"/>
+		</property>
+		
+		<property name="matReserveInforDAO">
+			<ref bean="TMatReserveInforDAO"/>
+		</property>
+		<property name="matAccountsInforDAO">
+			<ref bean="TMatAccountsInforDAO"/>
+		</property>
+		<property name="productToolsInforDAO">
+			<ref bean="TProductToolsInforDAOImpl"/>
+		</property>
+	 </bean>
+  </property>
+</bean>
+</beans>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="suppliersBrand">
+
+	<typeAlias alias="suppliersBrandDto" type="com.tl.resource.business.dto.SuppliersBrandDto" />
+
+	<resultMap class="suppliersBrandDto" id="baseResultMap">
+		<result column="t_suppliers_id" jdbcType="VARCHAR" property="tSuppliersId"/>
+		<result column="brand" jdbcType="VARCHAR" property="brand" />
+		<result column="id" jdbcType="VARCHAR" property="id" />
+	</resultMap>
+	
+	<select id="getSuppliersBrandByPageAndSupplierId"
+		parameterClass="java.util.Map" resultClass="suppliersBrandDto"
+		resultMap="baseResultMap">
+	
+    	select id, t_suppliers_id, brand  	from t_suppliers_brand t
+    	where  t.t_suppliers_id = #supplierId#
+		limit #start#,#limit#
+   
+	</select>
+
+
+	<select id="getSuppliersBrandTotalBySupplierId"
+		parameterClass="java.util.Map" resultClass="java.lang.Integer">
+		select count(*) from t_suppliers_brand  t 
+		where  t.t_suppliers_id = #supplierId#
+	</select>
+	
+	<delete id="deleteSupplierBrandBySupplierId" parameterClass="java.lang.String">
+    	delete from t_suppliers_brand 
+    	where  t_suppliers_id =#value#
+  	</delete>
+
+</sqlMap>

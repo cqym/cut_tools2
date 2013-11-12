@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="audit_fcc">
+  <resultMap class="com.tl.resource.dao.pojo.AuditTypeFlowInfor" id="AuditTypeFlowInfor">
+    <result column="audit_type_id" jdbcType="VARCHAR" property="auditTypeId" />
+    <result column="audit_type_name" jdbcType="VARCHAR" property="auditTypeName" />
+    <result column="audit_flow_id" jdbcType="VARCHAR" property="auditFlowId" />
+    <result column="audit_flow_name" jdbcType="VARCHAR" property="auditFlowName" />
+    <result column="depart_id" jdbcType="VARCHAR" property="departId" />
+    <result column="depart_name" jdbcType="VARCHAR" property="departName" />
+    <result column="cnt" jdbcType="INTEGER" property="count" />
+ 
+  </resultMap>
+  <resultMap class="com.tl.resource.audit.dto.TAuditHistoryDto" id="AuditHistoryDto">
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="batch_id" jdbcType="VARCHAR" property="batchId" />
+    <result column="business_id" jdbcType="VARCHAR" property="businessId" />
+    <result column="audit_person" jdbcType="VARCHAR" property="auditPerson" />
+    <result column="audit_person_id" jdbcType="VARCHAR" property="auditPersonId" />
+    <result column="audit_order" jdbcType="INTEGER" property="auditOrder" />
+    <result column="audit_degree" jdbcType="INTEGER" property="auditDegree" />
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="audit_op_type" jdbcType="INTEGER" property="auditOpType" />
+    <result column="audit_comment" jdbcType="VARCHAR" property="auditComment" />
+    <result column="audit_type_id" jdbcType="VARCHAR" property="auditTypeId" />
+    <result column="audit_time" jdbcType="TIMESTAMP" property="auditTime" />
+ 	<result column="auidt_content" jdbcType="VARCHAR" property="auditContent" />
+  </resultMap>
+  <select id="getMinOrder" parameterClass="map" resultClass="java.lang.Integer">
+    <![CDATA[
+      select min(tt.audit_order) 
+		from t_audit_instance tt 
+		where tt.flow_infor_id = #auditInforId# and tt.business_id = #bussinessId#
+    ]]>
+  </select>
+<select id="getTheOrderPerCount" parameterClass="com.tl.resource.dao.pojo.TAuditInstance" resultClass="java.lang.Integer">
+    select count(*)
+	from t_audit_instance tt 
+	where tt.flow_infor_id = #flowInforId# and tt.audit_order = #auditOrder# and tt.business_id = #businessId# and tt.audit_degree = 0
+</select>
+<delete id="deleteTheOrderIns" parameterClass="com.tl.resource.dao.pojo.TAuditInstance" >
+delete from t_audit_instance tt where tt.flow_infor_id = #flowInforId# 
+and tt.audit_degree != 0
+and tt.audit_order = #auditOrder#
+and tt.business_id = #businessId# 
+</delete>
+
+<select id="findWaitAuditTypeInfor" parameterClass="java.lang.String" resultMap="AuditTypeFlowInfor">
+    select ty.id audit_type_id,ty.audit_type_name,ai.id audit_flow_id,ai.flow_name audit_flow_name,ai.depart_id,depart.depart_name,count(*) cnt 
+    from 
+	t_audit_type ty,
+	t_audit_flow_infor ai,
+	t_departments_infor depart,
+	(
+	select ins2.* from t_audit_instance ins2,(
+	select min(ins.audit_order) min_order,ins.business_id 
+	from t_audit_instance ins 
+	group by ins.business_id
+	) mins
+	where ins2.business_id = mins.business_id
+	and ins2.audit_order = mins.min_order
+	and ins2.audit_person_id = #value#
+	) ttt
+	where ty.id = ai.audit_type_id
+	and ai.id = ttt.flow_infor_id
+	and ai.depart_id = depart.id
+	group by ty.id,ty.audit_type_name,ai.id,ai.flow_name,ai.depart_id,depart.depart_name
+	order by ty.id,ai.depart_id,ai.id
+</select>
+
+<select id="findHistoryAuditTypeInfor" parameterClass="java.lang.String" resultMap="AuditTypeFlowInfor">
+    select ty.id audit_type_id,ty.audit_type_name,count(*) cnt,'' audit_flow_id,'' audit_flow_name,'' depart_id,'' depart_name from 
+	t_audit_type ty,
+	t_audit_history his
+	where ty.id = his.audit_type_id and
+	his.audit_person_id = #value#
+	group by ty.id,ty.audit_type_name
+	order by ty.id
+</select>
+<select id="findAuditInfor" parameterClass="map" resultMap="AuditHistoryDto">
+ SELECT his.id,his.batch_id,his.audit_order,his.audit_degree,his.audit_op_type,his.audit_comment,his.audit_time,his.business_id,his.audit_person,his.audit_person_id,his.role_id,his.audit_type_id ,get_audit_his_audit_content(his.id) auidt_content
+	FROM t_audit_history his,t_audit_batch_record re2
+	WHERE his.batch_id = re2.id
+	AND his.business_id = re2.business_id
+	AND his.business_id = #business_id#
+	AND #batch_number# = re2.batch_number
+	UNION 
+	SELECT ins.id,ins.batch_id,ins.audit_order,ins.audit_degree,4,'',NULL,ins.business_id,ins.audit_person,ins.audit_person_id,ins.role_id,'' audit_type_id,get_audit_his_audit_content(ins.id) auidt_content
+	FROM t_audit_instance ins ,t_audit_batch_record re3
+	WHERE  ins.batch_id = re3.id
+	AND ins.business_id = re3.business_id
+	AND ins.business_id = #business_id#
+	AND #batch_number# = re3.batch_number
+	ORDER BY audit_order
+</select>
+<select id="getMaxBatchNumber" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+    select max(re.batch_number) min_number from t_audit_batch_record re where re.business_id = #value#
+</select>
+</sqlMap>

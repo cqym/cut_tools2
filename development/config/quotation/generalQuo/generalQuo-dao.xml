@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
+	default-autowire="byType">
+
+	<!-- 报价单信息 -->
+	<bean id="TQuotationInfoDAO" class="com.tl.resource.dao.TQuotationInforDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+
+	<!-- 报价单详细 -->
+	<bean id="TQuotationProductDetailDAO" class="com.tl.resource.dao.TQuotationProductDetailDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	
+	<!-- 卖方信息 -->
+	<bean id="TCompanyInforDAO" class="com.tl.resource.dao.TCompanyInforDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	
+	<!-- 销售面价历史报价信息 -->
+	<bean id="TSalesPriceHistoryDAO" class="com.tl.resource.dao.TSalesPriceHistoryDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	
+	<!-- 历史报价信息 -->
+	<bean id="TCusSalesPriceHistoryDAO" class="com.tl.resource.dao.TCusSalesPriceHistoryDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+	
+	<!-- 币别信息 -->
+	<bean id="TExchangeRateDAO" class="com.tl.resource.dao.TExchangeRateDAOImpl">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+</beans>

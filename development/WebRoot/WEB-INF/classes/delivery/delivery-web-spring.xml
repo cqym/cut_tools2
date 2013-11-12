@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
+	default-autowire="byType">
+
+	<bean name="/delivery/deliveryEditAction" class="com.tl.resource.web.delivery.DeliveryEditAction">
+		<property name="deliveryEditService">
+			<ref bean="DeliveryEditService"/>
+		</property>
+		<property name="billsCodeDefService">
+			<ref bean="BillsCodeDefService"/>
+		</property>
+	</bean>
+	<bean name="/delivery/deliveryViewAction" class="com.tl.resource.web.delivery.DeliveryViewAction">
+		<property name="deliveryEditService">
+			<ref bean="DeliveryEditService"/>
+		</property>
+	</bean>
+	<bean name="/delivery/submitAuditdeliveryAction" class="com.tl.resource.web.delivery.SubmitAuditDeliveryInforAction">
+		<property name="auditService">
+			<ref bean="auditService"/>
+		</property>
+	</bean>
+	<bean name="/delivery/outExcelAction" class="com.tl.resource.web.delivery.DeliveryOutExcelAction">
+		<property name="deliveryOutExcel">
+			<ref bean="DeliveryOutExcel"/>
+		</property>
+		<property name="deliveryListOutExcel">
+			<ref bean="DeliveryListOutExcelImp"/>
+		</property>
+	</bean>
+</beans>

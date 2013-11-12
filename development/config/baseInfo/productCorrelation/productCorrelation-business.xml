@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+
+	<bean id="productCorrelationService" class="com.tl.resource.business.baseInfo.ProductCorrelationServiceImpl">
+		<!-- 	
+			<property name="quoInfoDAO">
+				<ref bean="TQuotationInfoDAO"/>
+			</property> 
+			-->
+			
+			<property name="tproductSortDAO">
+				<ref bean="tproductSortDAO"/>
+			</property> 
+			
+			<property name="tcusSalesPriceHistoryDAO">
+				<ref bean="tcusSalesPriceHistoryDAO"/>
+			</property> 
+			
+			
+			<property name="torderPriceHistoryDAO">
+				<ref bean="torderPriceHistoryDAO"/>
+			</property>
+			
+			<property name="tsuppliersInforDAO">
+				<ref bean="TSuppliersInforDAO"/>
+			</property>
+			
+			<property name="tcustomersInforDAO">
+				<ref bean="TCustomersInforDAO"/>
+			</property>
+			
+			<property name="tproductToolsInforDao">
+				<ref bean="tproductToolsInforDao"/>
+			</property>
+			
+			<property name="tsalesPriceHistoryDAO">
+				<ref bean="tsalesPriceHistoryDAO"/>
+			</property>
+			
+			<property name="tproductBrandDAO">
+				<ref bean="tproductBrandDAO"/>
+			</property>
+			
+			
+	</bean>
+	<bean id="orderPriceService" parent="parentService">
+	  <property name="target">
+		<bean class="com.tl.resource.business.baseInfo.OrderPriceServiceImp">
+			<property name="productToolsInforDAO">
+				<ref bean="TProductToolsInforDAOImpl" />
+			</property>
+			<property name="orderPriceHistoryDAO">
+				<ref bean="orderPriceHistoryDAO" />
+			</property>
+		</bean>
+	  </property>
+ </bean>
+	
+	
+</beans>

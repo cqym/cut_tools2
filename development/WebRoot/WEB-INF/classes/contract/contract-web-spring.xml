@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
+	default-autowire="byType">
+	
+	<bean name="/contract/contractEditAction" class="com.tl.resource.web.contract.ContractEditAction">
+		<property name="contractEditService">
+			<ref bean="contractEditService" />
+		</property>
+		<property name="billsCodeDefService">
+			<ref bean="BillsCodeDefService"/>
+		</property>
+	</bean>
+	<bean name="/contract/contractViewAction" class="com.tl.resource.web.contract.ContractViewAction">
+		<property name="contractEditService">
+			<ref bean="contractEditService" />
+		</property>
+	</bean>
+	<bean name="/contract/submitAuditContractAction" class="com.tl.resource.web.contract.SubmitAuditContractInforAction">
+		<property name="auditService">
+			<ref bean="auditService"/>
+		</property>
+	</bean>
+	
+	<bean name="/contract/contractAccountsAction" class="com.tl.resource.web.contract.ContractAccountsAction">
+		<property name="contractAccountsService">
+			<ref bean="contractAccountsService"/>
+		</property>
+	</bean>
+	<bean name="/contract/contractInforsViewPanel" class="com.tl.resource.web.contract.ContractInforsViewPanel">
+		<property name="contractViewService">
+			<ref bean="contractViewService" />
+		</property>
+	</bean>
+	<bean name="/contract/invoiceAction" class="com.tl.resource.web.contract.InvoiceAction">
+		<property name="invoiceService">
+			<ref bean="InvoiceService" />
+		</property>
+	</bean>
+	<bean name="/contract/contractOutExcelAction" class="com.tl.resource.web.contract.ContractOutExcelAction">
+		<property name="contractOutExcel">
+			<ref bean="ContractOutExcel" />
+		</property>
+		<property name="contractListOutExcel">
+			<ref bean="ContractListOutExcel" />
+		</property>
+	</bean>
+	
+	<bean name="/contract/contractChartsViewAction" class="com.tl.resource.web.contract.ContractChartsViewAction">
+		<property name="contractViewService">
+			<ref bean="contractViewService" />
+		</property>
+	</bean>
+	
+	<bean name="/contract/Schedue2ContractAction" class="com.tl.resource.web.contract.Schedue2ContractAction">
+		<property name="contractEditService">
+			<ref bean="contractEditService" />
+		</property>
+	</bean>
+</beans>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE abatorConfiguration PUBLIC "-//Apache Software Foundation//DTD Abator for iBATIS Configuration 1.0//EN" "http://ibatis.apache.org/dtd/abator-config_1_0.dtd" >
+<abatorConfiguration >
+  <abatorContext >
+    <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://127.0.0.1:3306/cut_tools0813" userId="root" password="root" >
+      <classPathEntry location="E:\projects\cut_tools3\development\lib\mysql-connector-java-5.1.6-bin.jar" />
+    </jdbcConnection>
+    <javaModelGenerator targetPackage="com.tl.resource.dao.pojo" targetProject="ibatisProj" />
+    <sqlMapGenerator targetPackage="com.tl.resource.dao.map" targetProject="ibatisProj" />
+    <daoGenerator targetPackage="com.tl.resource.dao" targetProject="ibatisProj" type="SPRING" />
+    <table tableName="t_out_stock_infor"/> 
+    <table tableName="t_delivery_detail"/> 
+  </abatorContext>
+</abatorConfiguration>

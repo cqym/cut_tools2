@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
+	default-autowire="byType">
+	
+	<bean name="/manage/modules/modulesTreeViewAction" class="com.tl.resource.web.manage.modules.ModulesViewAction">
+		<property name="modulesService">
+			<ref bean="ModulesServiceImp" />
+		</property>
+	</bean>
+	
+	<bean name="/manage/modules/modulesTreeMgAction" class="com.tl.resource.web.manage.modules.ModulesManageAction">
+		<property name="modulesService">
+			<ref bean="ModulesServiceImp" />
+		</property>
+	</bean>
+	
+	<bean name="/manage/role/rolesViewAction" class="com.tl.resource.web.manage.role.RolesViewAction">
+		<property name="rolesService">
+			<ref bean="RolesServiceImp" />
+		</property>
+	</bean>
+	
+	<bean name="/manage/role/rolesManageAction" class="com.tl.resource.web.manage.role.RolesManageAction">
+		<property name="rolesService">
+			<ref bean="RolesServiceImp" />
+		</property>
+	</bean>
+	
+	<bean name="/manage/user/usersViewAction" class="com.tl.resource.web.manage.user.UsersViewAction">
+		<property name="usersService">
+			<ref bean="UsersServiceImp" />
+		</property>
+	</bean>
+	
+	<bean name="/manage/user/usersManageAction" class="com.tl.resource.web.manage.user.UsersManageAction">
+		<property name="usersService">
+			<ref bean="UsersServiceImp" />
+		</property>
+	</bean>
+	
+	<bean name="/manage/depart/departViewAction" class="com.tl.resource.web.manage.depart.DeparmentViewAction">
+		<property name="departmentService">
+			<ref bean="DepartmentService" />
+		</property>
+	</bean>
+	
+	<bean name="/manage/depart/departManageAction" class="com.tl.resource.web.manage.depart.DepartmentManageAction">
+		<property name="departmentService">
+			<ref bean="DepartmentService" />
+		</property>
+	</bean>
+	
+	<!-- 单据管理 -->
+	<bean name="/manage/billdoc/billDocumentAction" class="com.tl.resource.web.manage.billdoc.BillDocAction">
+		<property name="billDocumentService">
+			<ref bean="BillDocumentService" />
+		</property>
+	</bean>
+	
+	<bean name="/manage/worktrust/WorkTrustAction" class="com.tl.resource.web.manage.worktrust.WorkTrustAction">
+		<property name="workTrustService">
+			<ref bean="WorkTrustService" />
+		</property>
+	</bean>
+	
+	<bean name="/manage/mainPage/CompanyReportAction" class="com.tl.resource.web.manage.mainPage.CompanyReportAction">
+		<property name="companyReportService">
+			<ref bean="CompanyReportServiceImp" />
+		</property>
+	</bean>
+	<bean name="/manage/forum/ForumAction" class="com.tl.resource.web.manage.forum.ForumAction">
+		<property name="forumService">
+			<ref bean="ForumServiceImp" />
+		</property>
+		<property name="userService">
+			<ref bean="UsersServiceImp" />
+		</property>
+		<property name="uersMessageBusinessService">
+			<ref bean="UsersMessageBusinessService" />
+		</property>
+	</bean>
+	<bean name="/manage/forum/ForumFlowAction" class="com.tl.resource.web.manage.form.ForumFlowAction">
+		<property name="forumService">
+			<ref bean="ForumServiceImp" />
+		</property>
+		<property name="userService">
+			<ref bean="UsersServiceImp" />
+		</property>
+	</bean>
+</beans>

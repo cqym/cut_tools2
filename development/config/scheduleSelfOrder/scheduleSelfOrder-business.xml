@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+	<bean id="ScheduleSelfOrderServiceImpl" parent="parentService">
+		<property name="target">
+			<bean class="com.tl.resource.business.scheduleSelfOrder.ScheduleSelfOrderServiceImpl">
+				<property name="quotationProductDetailDAO">
+					<ref bean="TQuotationProductDetailDAO" />
+				</property>
+				<property name="orderDetailDao">
+					<ref bean="TOrderDetailDAOImpl" />
+				</property>
+				<property name="orderInforDao">
+					<ref bean="TOrderInforDAOImpl" />
+				</property>
+				<property name="orderPriceHistoryDao">
+					<ref bean="torderPriceHistoryDAO"/>
+				</property>
+				<property name="tsalesPriceHistoryDAO">
+					<ref bean="tsalesPriceHistoryDAO"/>
+				</property>
+			</bean>
+		  </property>
+	</bean>
+</beans>

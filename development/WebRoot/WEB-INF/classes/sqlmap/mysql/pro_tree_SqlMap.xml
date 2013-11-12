@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="proTree">
+  <typeAlias alias="proDto" type="com.tl.resource.business.dto.TreeDto"/>
+  <typeAlias alias="pageInfo" type="com.tl.common.util.PaginationSupport"/>
+  
+  <resultMap class="proDto" id="baseResultMap">   
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="product_sort_id" jdbcType="VARCHAR" property="productSortId" />
+    <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
+    <result column="leaf" jdbcType="DECIMAL" property="leaf" />
+    <result column="brand_code" jdbcType="VARCHAR" property="brandCode" />
+    <result column="product_code" jdbcType="VARCHAR" property="productCode" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="product_unit" jdbcType="VARCHAR" property="productUnit" />
+    <result column="product_sort_code" jdbcType="VARCHAR" property="productSortCode" />
+    <result column="product_brand" jdbcType="VARCHAR" property="productBrand" />
+    <result column="product_source" jdbcType="VARCHAR" property="productSource" />
+    <result column="slave_file" jdbcType="VARCHAR" property="slaveFile" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+    
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="brand_code_history" jdbcType="VARCHAR" property="brandCodeHistory" />
+    <result column="tools_type_id" jdbcType="VARCHAR" property="toolsTypeId" />
+   <result column="tools_type_name" jdbcType="VARCHAR" property="toolsTypeName" />
+  </resultMap>
+  
+  <resultMap id="result" class="proDto" extends="baseResultMap">
+    <result column="stock_price_date" jdbcType="TIMESTAMP" property="stockPriceDate" />
+    <result column="rebate" property="rebate" jdbcType="DECIMAL" />
+    <result column="sale_price" property="salePrice" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <resultMap id="hasChildrenResultMap" class="proDto" extends="baseResultMap">
+    <result column="stock_price_date" jdbcType="TIMESTAMP" property="stockPriceDate" />
+    <result property="children" column="id" select="proTree.getProToolsChildren"/>
+  </resultMap>
+  
+  <resultMap id="baseResultWithCreateTiem" class="proDto" extends="baseResultMap">
+    <result column="stock_price_date" jdbcType="TIMESTAMP" property="stockPriceDate" />
+  </resultMap>
+  
+  <!-- 获取工具信息(ftl 2009-12-24) -->
+  <select id="getToolsWithChildren" parameterClass="java.util.Map" resultClass="java.util.List" resultMap="hasChildrenResultMap">
+    <![CDATA[
+      select t.id, t.product_sort_id, t.parent_id, t.leaf, t.brand_code, t.product_code, t.product_name,
+             t.product_unit, t.product_sort_code, t.product_brand, t.product_source, t.slave_file, 
+             t.memo, t.stock_price_date,t.amount,t.brand_code_history,t.tools_type_id,t.tools_type_name
+      from t_product_tools_infor t where t.parent_id='root' 
+    ]]> 
+    
+    <isNotEmpty property="productCode" prepend="and">
+      <![CDATA[ t.product_code like '%$productCode$%' ]]>
+    </isNotEmpty>
+    <isNotEmpty property="brandCode" prepend="and">
+      <![CDATA[ (t.brand_code like '%$brandCode$%' or t.brand_code_history like '%$brandCode$%') ]]>
+    </isNotEmpty>
+    <isNotEmpty property="productName" prepend="and">
+      <![CDATA[ t.product_name like '%$productName$%' ]]>
+    </isNotEmpty>
+    
+    <![CDATA[ 
+        order by t.id desc limit #pageInfo.startIndex#, #pageInfo.pageSize# 
+    ]]>
+  </select>
+  
+  <!-- 获取工具信息不及联子节点(ftl 2009-12-24) -->
+  <select id="getToolsByRootNode" parameterClass="java.util.Map" resultClass="java.util.List" resultMap="baseResultWithCreateTiem">
+    <![CDATA[
+       select t.*,count(ta.id) as slave_file
+       from  
+        (
+        select tt.id, tt.product_sort_id, tt.parent_id, tt.leaf, tt.brand_code, tt.product_code, tt.product_name,
+        tt.product_unit, tt.product_sort_code, tt.product_brand, tt.product_source, tt.memo, tt.stock_price_date
+        ,tt.amount,tt.brand_code_history,tt.tools_type_id,tt.tools_type_name
+        from t_product_tools_infor tt where tt.parent_id='root'
+    ]]> 
+    
+    <isNotEmpty property="productCode" prepend="and">
+      <![CDATA[ tt.product_code like '%$productCode$%' ]]>
+    </isNotEmpty>
+    <isNotEmpty property="brandCode" prepend="and">
+      <![CDATA[ (tt.brand_code like '%$brandCode$%' or tt.brand_code_history like '%$brandCode$%') ]]>
+    </isNotEmpty>
+    <isNotEmpty property="productName" prepend="and">
+      <![CDATA[ tt.product_name like '%$productName$%' ]]>
+    </isNotEmpty>
+    <isNotEmpty property="productBrand" prepend="and">
+      <![CDATA[ tt.product_brand like '%$productBrand$%' ]]>
+    </isNotEmpty>
+    
+    <![CDATA[ 
+          order by id desc limit #pageInfo.startIndex#, #pageInfo.pageSize#
+        ) t 
+        left join t_accessories ta on t.id=ta.business_id 
+        
+         where    ta.business_type in (1,4,5) or ta.business_id is null
+        
+        group by t.id order by id desc
+        
+    ]]>
+  </select>
+  
+  <!-- 获取工具信息(ftl 2009-12-23) -->
+  <select id="getToolsBySearch" parameterClass="java.util.Map" resultClass="java.util.List" resultMap="hasChildrenResultMap">
+    <![CDATA[
+      select t.id, t.product_sort_id, t.parent_id, t.leaf, t.brand_code, t.product_code, t.product_name,
+             t.product_unit, t.product_sort_code, t.product_brand, t.product_source, t.slave_file, 
+             t.memo, t.stock_price_date,t.amount,t.brand_code_history,count(ta.id) as slave_file,t.tools_type_id,t.tools_type_name
+      from t_product_tools_infor t 
+      left join t_accessories ta 
+      on t.id=ta.business_id  
+      where t.parent_id=#parentId#
+      group by t.id 
+    ]]> 
+  </select>
+  
+  <!-- 根据产品牌号 品牌 (名称) (来源) 查找产品 -->
+  <select id="getTreeDto" parameterClass="proDto" resultClass="List" resultMap="baseResultMap">
+    <![CDATA[
+      select t.* from t_product_tools_infor t where 
+        REPLACE(REPLACE(REPLACE(REPLACE(t.brand_code,'-',''),' ',''),'_',''),',','') = #brandCode# 
+        and t.product_brand=#productBrand# 
+    ]]>
+    <isNotEmpty property="productSource" prepend="and">
+      <![CDATA[ t.product_source = #productSource# ]]>
+    </isNotEmpty>
+  </select>
+  
+  <select id="getProToolsByPage" parameterClass="pageInfo" resultClass="java.util.List" resultMap="result">
+    <![CDATA[  
+    select i.id ,i.parent_id,i.sale_price,
+      case 
+      when i.leaf = 1 then
+      'true'
+      else
+      'false'
+      end as leaf,
+      i.product_sort_id,i.brand_code, i.product_code, i.product_name,
+      i.product_unit, i.product_sort_code, i.product_brand, i.product_source, i.slave_file, i.memo,
+      i.stock_price_date ,tt.history_price as stock_price,tt.edit_date as sale_price_date,
+      tt.amount,tt.brand_code_history,i.tools_type_id,i.tools_type_name
+	from t_product_tools_infor i 
+	left join 
+	(
+			select hh.* from (
+				select h.product_tools_infor_id,max(h.edit_date) edit_date2
+				from t_order_price_history h
+				group by h.product_tools_infor_id
+			) aaa,t_order_price_history hh where aaa.product_tools_infor_id = hh.product_tools_infor_id 
+			and aaa.edit_date2 = hh.edit_date 
+	) tt
+	on i.id = tt.product_tools_infor_id where i.parent_id='root' limit #startIndex#, #pageSize#
+    ]]>
+  </select>
+  
+  <select id="getProToolsBySearch" parameterClass="java.util.Map" resultClass="java.util.List" resultMap="result">
+    select COUNT(ta.id) AS slave_file,ttt.rebate, ttt.id ,ttt.parent_id,
+      CASE WHEN sph.history_price IS NULL THEN
+      0 ELSE sph.history_price END sale_price, 
+      ttt.stock_price_date,       
+      case when ttt.leaf = 1 then       'true'       else       'false'       end as leaf,       
+      ttt.product_sort_id,ttt.brand_code, ttt.product_code, ttt.product_name,       
+      ttt.product_unit, ttt.product_sort_code, ttt.product_brand, ttt.product_source, 
+      ttt.memo, ttt.amount,ttt.brand_code_history,ttt.tools_type_id,ttt.tools_type_name
+      from 
+      (
+      	select ii.*,
+      	case when iii.rebate is null then 
+      	0 
+      	else iii.rebate 
+      	end  
+      	rebate 
+      	from (
+      	select * from t_product_tools_infor pti 
+      	where pti.parent_id='root' 
+      	<isNotEmpty property="productCode" prepend="and">
+            <![CDATA[ pti.product_code like '%$productCode$%' ]]>
+        </isNotEmpty>
+        <isNotEmpty property="brandCode" prepend="and">
+          <![CDATA[ (pti.brand_code like '%$brandCode$%' or pti.brand_code_history like '%$brandCode$%')]]>
+        </isNotEmpty>
+        <isNotEmpty property="productName" prepend="and">
+          <![CDATA[ pti.product_name like '%$productName$%' ]]>
+        </isNotEmpty>
+        <isNotEmpty property="productBrand" prepend="and">
+          <![CDATA[ pti.product_brand like '%$productBrand$%' ]]>
+        </isNotEmpty>
+        order by pti.id desc limit #pageInfo.startIndex#, #pageInfo.pageSize# 
+      	) ii
+      	left join 
+      	(
+      		select re.id,re.product_sort_id,re.rebate from t_customers_infor cus,t_rebate re
+      		where re.customers_degree_id = cus.customer_degree_id and cus.id = #customerId# 
+      	) iii
+      	on ii.product_sort_id = iii.product_sort_id  
+        
+        )ttt
+    <isNotEmpty property="salePriceDate">
+        left join t_sales_price_history sph on ttt.id = sph.product_tool_infor_id and sph.sale_price_date=#salePriceDate#
+    </isNotEmpty>
+    <isEmpty property="salePriceDate">
+      LEFT JOIN t_product_brand pb ON ttt.product_brand = pb.name
+      LEFT JOIN t_sales_price_history sph ON ttt.id = sph.product_tool_infor_id  AND pb.sale_price_run_date=sph.sale_price_date
+    </isEmpty> 
+    LEFT JOIN t_accessories ta ON ttt.id=ta.business_id
+    GROUP BY ttt.id ORDER BY id desc
+  </select>
+  
+  <select id="getProToolsByParId" parameterClass="java.lang.String" resultClass="java.util.List" resultMap="result">
+    <![CDATA[
+     select ttt.rebate, ttt.id ,ttt.parent_id,ttt.sale_price, ttt.stock_price_date,      
+      case when ttt.leaf = 1 then       'true'       else       'false'       end as leaf,       
+      ttt.product_sort_id,ttt.brand_code, ttt.product_code, ttt.product_name,       
+      ttt.product_unit, ttt.product_sort_code, ttt.product_brand, ttt.product_source, 
+      ttt.slave_file, ttt.memo, ttt.amount,ttt.brand_code_history,ttt.tools_type_id,ttt.tools_type_name
+      from 
+      (
+      	select ii.*,
+      	case when iii.rebate is null then 
+      	0 
+      	else iii.rebate 
+      	end  
+      	rebate 
+      	from t_product_tools_infor ii 
+      	left join 
+      	(
+      		select re.id,re.product_sort_id,re.rebate from t_customers_infor cus,t_rebate re
+      		where re.customers_degree_id = cus.customer_degree_id and cus.id = '1' 
+      	) iii
+      	on ii.product_sort_id = iii.product_sort_id where ii.parent_id=#value#
+      )ttt 
+    ]]>
+  </select>
+  
+  <select id="getProTreeById" parameterClass="java.lang.String" resultClass="proDto" resultMap="result">
+    <![CDATA[
+      select i.id ,i.parent_id,i.sale_price,
+      case 
+      when i.leaf = 1 then
+      'true'
+      else
+      'false'
+      end as leaf,
+      i.product_sort_id,i.brand_code, i.product_code, i.product_name,
+      i.product_unit, i.product_sort_code, i.product_brand, i.product_source, i.slave_file, i.memo,
+      i.stock_price_date ,tt.history_price as stock_price,tt.edit_date as sale_price_date,
+      i.amount,i.brand_code_history,i.tools_type_id,i.tools_type_name
+	from t_product_tools_infor i 
+	left join 
+	(
+			select hh.* from (
+				select h.product_tools_infor_id,max(h.edit_date) edit_date2
+				from t_order_price_history h
+				group by h.product_tools_infor_id
+			) aaa,t_order_price_history hh where aaa.product_tools_infor_id = hh.product_tools_infor_id 
+			and aaa.edit_date2 = hh.edit_date 
+	) tt
+	on i.id = tt.product_tools_infor_id where i.id=#value# 
+    ]]>
+  </select>
+  
+  <!-- 根据ID获取工具信息 -->
+  <select id="getProToolsById" parameterClass="java.lang.String" resultClass="proDto" resultMap="hasChildrenResultMap">
+    <![CDATA[
+      select t.id, t.product_sort_id, t.parent_id, t.leaf, t.brand_code, t.product_code, t.product_name,
+             t.product_unit, t.product_sort_code, t.product_brand, t.product_source, 
+             t.memo, t.stock_price_date,t.amount,t.brand_code_history,count(ta.id) as slave_file,t.tools_type_id,t.tools_type_name
+      from t_product_tools_infor t 
+      left join t_accessories ta 
+      on t.id=ta.business_id  
+      where t.id = #value#
+      group by t.id
+    ]]>
+  </select>
+  <!-- 获取工具信息孩子节点 -->
+  <select id="getProToolsChildren" parameterClass="java.lang.String" resultClass="proDto" resultMap="hasChildrenResultMap">
+    <![CDATA[
+      select t.id, t.product_sort_id, t.parent_id, t.leaf, t.brand_code, t.product_code, t.product_name,
+             t.product_unit, t.product_sort_code, t.product_brand, t.product_source, 
+             t.memo, t.stock_price_date,t.amount,t.brand_code_history,t.tools_type_id,t.tools_type_name,
+             (SELECT COUNT(*) FROM t_accessories ta,t_product_tools_infor t2 WHERE ta.business_id = t2.id AND t2.parent_id = 'root' AND t2.product_code = t.product_code) AS slave_file 
+      from t_product_tools_infor t 
+      left join t_accessories ta 
+       on t.id=ta.business_id  
+      where t.parent_id=#value#
+      group by t.id
+    ]]>
+  </select>
+  
+  <select id="getProToolsTotal" resultClass="java.lang.Integer">
+    <![CDATA[
+      select count(*) from t_product_tools_infor where parent_id='root';
+    ]]>
+  </select>
+  
+  <!-- 获取工具信息总数（ftl) -->
+  <select id="getProToolsTotalBySearch" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+    <![CDATA[
+      select count(*) from t_product_tools_infor where parent_id='root'
+    ]]>
+    <isNotEmpty property="productCode" prepend="and">
+      <![CDATA[ product_code like '%$productCode$%' ]]>
+    </isNotEmpty>
+    <isNotEmpty property="brandCode" prepend="and">
+      <![CDATA[ (brand_code like '%$brandCode$%' or brand_code_history like '%$brandCode$%') ]]>
+    </isNotEmpty>
+    <isNotEmpty property="productName" prepend="and">
+      <![CDATA[ product_name like '%$productName$%' ]]>
+    </isNotEmpty>
+    <isNotEmpty property="productBrand" prepend="and">
+      <![CDATA[ product_brand like '%$productBrand$%' ]]>
+    </isNotEmpty>
+  </select>
+  
+  <select id="getId" resultClass="java.lang.String" parameterClass="java.lang.String">
+    <![CDATA[
+     select 
+      case when  count(*) = 0 then 
+      concat(#value#,'0000001')
+      else  
+      concat(substr(t.id,1,length(t.id) - 7),LPAD(cast(max(substr(t.id,length(t.id) - 6)) + 1 as char),7,'0' ))
+      end as id
+      from t_product_tools_infor t 
+      where t.id like '$value$%' and t.id <> #value# and length(t.id) = length(#value#)+7
+    ]]>
+  </select>
+  
+  <delete id="deletePorToolById" parameterClass="java.lang.String">
+    <![CDATA[
+      delete from t_product_tools_infor where id=#value#
+    ]]>
+  </delete>
+  
+</sqlMap>

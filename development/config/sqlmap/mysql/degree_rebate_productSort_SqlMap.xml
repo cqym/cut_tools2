@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="tDegreeRebate">
+
+	<typeAlias alias="degreeRebateDto"
+		type="com.tl.resource.business.dto.DegreeRebateDto" />
+
+	<resultMap class="degreeRebateDto" id="baseResultMap">
+		<result column="degree_name" jdbcType="VARCHAR"	property="degreeName" />
+		<result column="degree_code" jdbcType="VARCHAR"	property="degreeCode" />
+		<result column="product_brand" jdbcType="VARCHAR"  	property="productBrand" />
+		<result column="sort_name" jdbcType="VARCHAR"	property="sortName" />
+		<result column="sort_code" jdbcType="VARCHAR"	property="sortCode" />
+		<result column="rebate" jdbcType="DECIMAL"  	property="rebate" />
+		<result column="product_sort_id" jdbcType="VARCHAR"	property="productSortId" />
+		<result column="customers_degree_id" jdbcType="VARCHAR"	property="customersDegreeId" />
+		<result column="id" jdbcType="VARCHAR"  	property="id" />
+	</resultMap>
+	
+	
+	<!-- 等级对应折扣信息 -->
+	<select id="getDegreeRebateByPageAndDegreeId"
+		parameterClass="java.util.Map" resultClass="degreeRebateDto"
+		resultMap="baseResultMap"	>
+		select cusd.degree_code, cusd.degree_name,  t.id ,
+			IFNULL(t.product_sort_id , ps.id ) as product_sort_id ,
+			IFNULL(t.customers_degree_id , cusd.id ) as customers_degree_id,
+  			IFNULL(t.rebate,0) as rebate , ps.product_brand , ps.sort_code , ps.sort_name 
+	    from t_product_sort  ps 
+			left join t_rebate t  
+				on  t.customers_degree_id = #degreeId# and t.product_sort_id = ps.id 
+		    left join t_customers_degree cusd    
+	      		on cusd.id = #degreeId#
+		<isNotEmpty property="sort" >
+			<![CDATA[
+	          order by $sort$ $dir$
+	        ]]>
+		</isNotEmpty>
+   		limit #start#,#limit#
+	</select>
+	
+
+
+	<!-- 等级对应折扣信息总数 -->
+	<select id="getDegreeRebateTotalByDegreeId"
+		parameterClass="java.util.Map" resultClass="java.lang.Integer">
+		select count(*) from t_product_sort
+	</select>
+
+
+
+
+</sqlMap>

@@ -1,0 +1,173 @@
+/*
+ * Ext JS Library 2.0 RC 1
+ * Copyright(c) 2006-2007, Ext JS, LLC.
+ * licensing@extjs.com
+ * 
+ * http://extjs.com/license
+ */
+
+.x-column-tree .x-tree-node {
+    zoom:1;
+}
+.x-column-tree .x-tree-node-el {
+    /*border-bottom:1px solid #eee; borders? */
+    zoom:1;
+}
+.x-column-tree .x-tree-selected {
+    background: #d9e8fb;
+}
+.x-column-tree  .x-tree-node a {
+    line-height:18px;
+    vertical-align:middle;
+}
+.x-column-tree  .x-tree-node a span{
+	
+}
+.x-column-tree  .x-tree-node .x-tree-selected a span{
+	background:transparent;
+	color:#000;
+}
+.x-tree-col {
+    float:left;
+    overflow:hidden;
+    padding:0 1px;
+    zoom:1;
+}
+
+.x-tree-col-text, .x-tree-hd-text {
+    overflow:hidden;
+    -o-text-overflow: ellipsis;
+	text-overflow: ellipsis;
+    padding:3px 3px 3px 5px;
+    white-space: nowrap;
+	height:1.2em;//height:20px;
+    font:normal 11px arial, tahoma, helvetica, sans-serif;
+}
+.x-tree-hd-text {
+	height:1.3em;//height:20px;
+}
+
+.x-tree-headers {
+    background: #f9f9f9 url(../extjs/resources/images/default/grid/grid3-hrow.gif) repeat-x 0 bottom;
+	cursor:default;
+    zoom:1;
+}
+
+.x-tree-hd {
+    float:left;
+    overflow:hidden;
+    border-left:1px solid #eee;
+    border-right:1px solid #d0d0d0;
+}
+
+.page-icon {
+    background-image:url(../images/leaf-add-icon.gif) !important;
+}
+.delete-icon {
+    background-image:url(../images/delete-icon.gif) !important;
+}
+.folder-icon {
+   /* background-image:url(../images/folder-add-icon.gif) !important;*/
+}
+.save-icon {
+    background-image:url(../images/save-icon.gif) !important;
+}
+
+.icon-grid {
+    background-image:url(../images/icons/grid.png) !important;
+}
+.icon-add {
+    background-image:url(../images/icons/add.gif) !important;
+}
+.icon-delete {
+    background-image:url(../images/icons/delete.gif) !important;
+}
+.icon-modify {
+    background-image:url(../images/icons/modify.gif) !important;
+}
+.icon-submit {
+    background-image:url(../images/icons/submit.png) !important;
+}
+.icon-search {
+    background-image:url(../images/icons/search.png) !important;
+}
+.icon-reset {
+    background-image:url(../images/icons/reset.png) !important;
+}
+.icon-date {
+    background-image:url(../images/icons/date.png) !important;
+}
+.icon-sort {
+    background-image:url(../images/icons/sort.png) !important;
+}
+.icon-pro-modify {
+    background-image:url(../images/icons/pro_modify1.png) !important;
+}
+.icon-nonpro-add {
+    background-image:url(../images/icons/plugin_add.png) !important;
+}
+.icon-pro-brother {
+    background-image:url(../images/icons/pro_brother.png) !important;
+}
+.icon-pro-child {
+    background-image:url(../images/icons/pro_child.png) !important;
+}
+.icon-detail {
+    background-image:url(../images/icons/eye.png) !important;
+}
+.icon-run {
+    background-image:url(../images/icons/resultset_next.png) !important;
+}
+.icon-contract-end {
+    background-image:url(../images/icons/flag_red.png) !important;
+}
+.icon-zuofei {
+    background-image:url(../images/icons/joystick_delete.png) !important;
+}
+.icon-contract-img {
+    background-image:url(../images/icons/map_magnify.png) !important;
+}
+.icon-out-stock {
+    background-image:url(../images/icons/basket_remove.png) !important;
+}
+.icon-down {
+    background-image:url(../images/icons/arrow_down.png) !important;
+}
+.icon-excel {
+    background-image:url(../images/icons/page_excel.png) !important;
+}
+.icon-import-data {
+    background-image:url(../images/icons/database_go.png) !important;
+}
+.icon-chart{
+    background-image:url(../images/icons/chart.gif) !important;
+}
+.icon-user{
+    background-image:url(../images/icons/group16.gif) !important;
+}
+
+.ffc-edit-cell {
+	color:#33CC00
+}
+.blue-column-font{color:#0048AA;}
+.red-column-font{color:red;}
+.green-column-font{color:green;}
+.teal-column-font{color:teal;}
+
+.red-row{ background-color: #F5C0C0 !important; border-bottom:1px solid green}
+.yellow-row{ background-color: #FBF8BF !important; }
+.green-row{ background-color: #99CC99 !important; }
+
+.x-selectable, .x-selectable * {   
+    -moz-user-select: text !important;   
+    -khtml-user-select: text !important;   
+}
+
+.tabHeader{
+    height:10px,
+	border:1px solid red
+}
+
+.icon-clock {
+    background-image:url(../images/icons/gif008.gif) !important;
+}

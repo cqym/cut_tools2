@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+
+ <bean id="DeliveryEditService" parent="parentService">
+  <property name="target">
+   <bean class="com.tl.resource.business.delivery.DeliveryEditServiceImp" >
+		<property name="contractInforDAO">
+			<ref bean="contractInforDAO"/>
+		</property>
+		<property name="contractProductDetailDAO">
+			<ref bean="contractProductDetailDAO"/>
+		</property>
+		<property name="contractProjectSortInforDAO">
+			<ref bean="contractProjectSortInforDAOImpl"/>
+		</property>
+		<property name="deliveryInforDAO">
+			<ref bean="TDeliveryInforDAO"/>
+		</property>
+		<property name="deliveryDetailDAO">
+			<ref bean="TDeliveryDetailDAO"/>
+		</property>
+		<property name="quotationInforDAO">
+			<ref bean="TQuotationInfoDAO" />
+		</property>
+		<property name="quotationProductDetailDAO">
+			<ref bean="TQuotationProductDetailDAO" />
+		</property>
+		<property name="customersInforDAO">
+			<ref bean="TCustomersInforDAO" />
+		</property>
+	</bean>
+  </property>
+ </bean>
+
+	<bean id="DeliveryOutExcel"
+		class="com.tl.resource.business.delivery.DeliveryOutExcelImp">
+			<property name="contractInforDAO">
+				<ref bean="contractInforDAO" />
+			</property>
+			<property name="deliveryInforDAO">
+				<ref bean="TDeliveryInforDAO" />
+			</property>
+			<property name="deliveryDetailDAO">
+				<ref bean="TDeliveryDetailDAO" />
+			</property>
+			<property name="companyInforDAO">
+				<ref bean="TCompanyInforDAO" />
+			</property>
+			<property name="customersInforDAO">
+				<ref bean="TCustomersInforDAO" />
+			</property>
+			<property name="accessoriesDAO">
+				<ref bean="TAccessoriesDAO" />
+			</property>
+			<property name="quotationInforDAO">
+			<ref bean="TQuotationInfoDAO" />
+			</property>
+			<property name="quotationProductDetailDAO">
+				<ref bean="TQuotationProductDetailDAO" />
+			</property>
+	</bean>
+	
+	<bean id="DeliveryListOutExcelImp"
+		class="com.tl.resource.business.delivery.DeliveryListOutExcelImp">
+			<property name="deliveryInforDAO">
+				<ref bean="TDeliveryInforDAO" />
+			</property>
+	</bean>
+	
+</beans>

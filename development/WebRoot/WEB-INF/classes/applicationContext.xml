@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+
+	<bean id="dataSource"
+		class="com.tl.common.context.StDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${driver}"></property>
+		<property name="url" value="${url}"></property>
+		<property name="username" value="${username}"></property>
+		<property name="password" value="${password}"></property>
+	</bean>
+
+	<!-- mysql config start-->
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:MysqlConfig.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!--定义定时任务类--> 
+<!--
+	<bean id="someData" class="com.tl.test.springPlan.JobData"/> 
+	
+	<bean id="jobDetailBean" class="org.springframework.scheduling.quartz.JobDetailBean"> 
+	    <property name="jobClass"> 
+	     <value>com.tl.test.springPlan.DemoJob</value> 
+	    </property> 
+	    <property name="jobDataAsMap"> 
+	     <map> 
+	        <entry key="jobData"> 
+	         <ref bean="someData"/> 
+	        </entry> 
+	     </map> 
+	    </property> 
+	</bean> 
+-->
+ <!--	<bean id="cronTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerBean">-->
+	    <!--这里定义定时任务的对象的位置--> 
+ <!--	    <property name="jobDetail"> 
+	     <ref bean="jobDetailBean"/> 
+	    </property> -->
+	    <!--这里定义每天11点07分的时候程序执行一次--> 
+ <!--	    <property name="cronExpression"> 
+	     <value>0 17 11 * * ?</value> 
+	    </property> 
+	</bean> 
+	-->
+<!--
+	<bean id="schedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean"> 
+	    <property name="triggers"> 
+	     <list> 
+	        <ref bean="cronTriggerBean"/> 
+	     </list> 
+	    </property> 
+	</bean> 
+-->
+	<bean id="sqlMapClient"
+		class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation"
+			value="classpath:sqlmap/SqlMap4Mysql.xml">
+		</property>
+		<property name="dataSource" ref="dataSource"></property>
+	</bean> 
+
+	<!-- mysql config end -->
+
+	<!-- ORACLE config start -->
+	<!--
+		<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location"
+		value="classpath:OracleConfig.properties" />
+		</bean>
+		<bean id="sqlMapClient"
+		class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation"
+		value="classpath:sqlmap/SqlMap4Oracle.xml">
+		</property>
+		<property name="dataSource" ref="dataSource"></property>
+		</bean>
+-->
+	<!-- ORACLE config end -->
+
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="parentService"
+		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean"
+		abstract="true">
+		<property name="transactionManager" ref="txManager" />
+		<property name="transactionAttributes">
+			<props>
+				<prop key="save*">PROPAGATION_REQUIRED,-Exception</prop>
+				<prop key="add*">PROPAGATION_REQUIRED,-Exception</prop>
+				<prop key="insert*">PROPAGATION_REQUIRED,-Exception</prop>
+				<prop key="modify*">PROPAGATION_REQUIRED,-Exception</prop>
+				<prop key="update*">PROPAGATION_REQUIRED,-Exception</prop>
+				<prop key="del*">PROPAGATION_REQUIRED,-Exception</prop>
+				<prop key="remove*">PROPAGATION_REQUIRED,-Exception</prop>
+				<prop key="create*">PROPAGATION_REQUIRED,-Exception</prop>
+				<prop key="commit*">PROPAGATION_REQUIRED,-Exception</prop>
+				<prop key="execute*">PROPAGATION_REQUIRED,-Exception</prop>
+				<prop key="send*">PROPAGATION_REQUIRED,-Exception</prop>
+				<prop key="*">PROPAGATION_SUPPORTS,readOnly</prop>
+			</props>
+		</property>
+	</bean>
+	<bean name="/loginAction" class="com.tl.resource.web.LoginAction">
+		<property name="usersService">
+			<ref bean="UsersServiceImp" />
+		</property>
+	</bean>
+	<bean name="/WaitWorksInforAction" class="com.tl.resource.web.WaitWorksInforAction">
+		<property name="waitWorksInforService">
+			<ref bean="WaitWorksInforService" />
+		</property>
+	</bean>
+
+	<bean id="WaitWorksInforService"
+		class="com.tl.resource.business.WaitWorksInforServiceImp">
+		<property name="auditDao">
+			<ref bean="AuditDao" />
+		</property>
+		<property name="quoInfoDAO">
+			<ref bean="TQuotationInfoDAO" />
+		</property>
+		<property name="contractInforDAO">
+			<ref bean="contractInforDAO" />
+		</property>
+		<property name="resourcePurviewDAO">
+			<ref bean="TResourcePurviewDAOImpl" />
+		</property>
+		<property name="modulesDefDAO">
+			<ref bean="TModulesDefDAO" />
+		</property>
+		<property name="orderInforDao">
+			<ref bean="TOrderInforDAOImpl" />
+		</property>
+		<property name="reservePlanMainDAO">
+			<ref bean="TReservePlanMainDAO" />
+		</property>
+	</bean>
+	<bean name="DanJuGuanXiSearchService" class="com.tl.resource.business.search.DanJuGuanXiSearchServiceImp">
+		<property name="quotationInforDAO">
+			<ref bean="TQuotationInfoDAO" />
+		</property>
+		<property name="contractInforDAO">
+			<ref bean="contractInforDAO" />
+		</property>
+		<property name="orderInforDAO">
+			<ref bean="TOrderInforDAOImpl" />
+		</property>
+		<property name="outStockInforDAO">
+			<ref bean="TOutStockInforDAO" />
+		</property>
+		<property name="deliveryInforDAO">
+			<ref bean="TDeliveryInforDAO" />
+		</property>
+		<property name="productArrivalInforDAO">
+			<ref bean="TProductArrivalInforDAO" />
+		</property>
+	</bean>
+	<bean name="/DanJuGuanXiSearchAction" class="com.tl.resource.web.DanJuGuanXiSearchAction">
+		<property name="danJuGuanXiSearchService">
+			<ref bean="DanJuGuanXiSearchService" />
+		</property>
+	</bean>
+    <bean name="FrameWorkBaseDao" class="com.tl.resource.dao.FrameWorkBaseDaoImp">
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+	</bean>
+</beans>

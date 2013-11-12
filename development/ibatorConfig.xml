@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ibatorConfiguration PUBLIC "-//Apache Software Foundation//DTD Apache iBATIS Ibator Configuration 1.0//EN" "http://ibatis.apache.org/dtd/ibator-config_1_0.dtd" >
+<ibatorConfiguration >
+<classPathEntry location="c:\project\program\expertblog\development\WebRoot\WEB-INF\lib\mysql-connector-java-5.1.6-bin.jar" />
+  <ibatorContext id="context1" >
+    <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://127.0.0.1:3306/ddd" userId="root" password="root" />
+    <javaModelGenerator targetPackage="com.tl.resource.dao.pojo" targetProject="softwareDownManage" />
+    <sqlMapGenerator targetPackage="com.tl.resource.dao.map" targetProject="softwareDownManage" />
+    <daoGenerator targetPackage="com.tl.resource.dao" targetProject="softwareDownManage" type="SPRING" />
+
+    <table tableName="t_forum"/>  
+  </ibatorContext>
+</ibatorConfiguration>

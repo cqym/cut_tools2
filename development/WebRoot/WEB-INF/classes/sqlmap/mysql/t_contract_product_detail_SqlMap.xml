@@ -1,0 +1,1432 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="t_contract_product_detail">
+<typeAlias alias="conProDto" type="com.tl.resource.business.dto.ContractProductDetailDto"/>
+<typeAlias alias="ContractDetailDto" type="com.tl.resource.business.dto.ContractDetailDto"/>
+<typeAlias alias="orderDetailDto" type="com.tl.resource.business.dto.OrderDetialsDto"/>
+  <resultMap class="com.tl.resource.dao.pojo.TContractProductDetail" id="ibatorgenerated_BaseResultMap">
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="contract_project_sort_id" jdbcType="VARCHAR" property="contractProjectSortId" />
+    <result column="contract_infor_id" jdbcType="VARCHAR" property="contractInforId" />
+    <result column="tools_id" jdbcType="VARCHAR" property="toolsId" />
+    <result column="parent_tools_id" jdbcType="VARCHAR" property="parentToolsId" />
+    <result column="leaf" jdbcType="INTEGER" property="leaf" />
+    <result column="project_code" jdbcType="VARCHAR" property="projectCode" />
+    <result column="serial_number" jdbcType="DECIMAL" property="serialNumber" />
+    <result column="product_brand" jdbcType="VARCHAR" property="productBrand" />
+    <result column="product_code" jdbcType="VARCHAR" property="productCode" />
+    <result column="brand_code" jdbcType="VARCHAR" property="brandCode" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="single_set_assembly_amount" jdbcType="DECIMAL" property="singleSetAssemblyAmount" />
+    <result column="single_set_stock_amount" jdbcType="DECIMAL" property="singleSetStockAmount" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="product_unit" jdbcType="VARCHAR" property="productUnit" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="rebate" jdbcType="DECIMAL" property="rebate" />
+    <result column="net_price" jdbcType="DECIMAL" property="netPrice" />
+    <result column="money" jdbcType="DECIMAL" property="money" />
+    <result column="tax_net_price" jdbcType="DECIMAL" property="taxNetPrice" />
+    <result column="tax_money" jdbcType="DECIMAL" property="taxMoney" />
+    <result column="price_change" jdbcType="DECIMAL" property="priceChange" />
+    <result column="delivery_date" jdbcType="VARCHAR" property="deliveryDate" />
+    <result column="workshop" jdbcType="VARCHAR" property="workshop" />
+    <result column="process_code" jdbcType="VARCHAR" property="processCode" />
+    <result column="report_code" jdbcType="VARCHAR" property="reportCode" />
+    <result column="tool_code" jdbcType="VARCHAR" property="toolCode" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="tool_description" jdbcType="VARCHAR" property="toolDescription" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+    
+    <result column="sum_order_amount" jdbcType="DECIMAL" property="sumOrderAmount" />
+    <result column="sum_arrival_amount" jdbcType="DECIMAL" property="sumArrivalAmount" />
+    <result column="sum_out_amount" jdbcType="DECIMAL" property="sumOutAmount" />
+    <result column="sum_delivery_amount" jdbcType="DECIMAL" property="sumDeliveryAmount" />
+  </resultMap>
+  
+  <resultMap class="conProDto" id="conProDetailDtoTreeResultMap">
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="contract_project_sort_id" jdbcType="VARCHAR" property="contractProjectSortId" />
+    <result column="contract_infor_id" jdbcType="VARCHAR" property="contractInforId" />
+    <result column="tools_id" jdbcType="VARCHAR" property="toolsId" />
+    <result column="parent_tools_id" jdbcType="VARCHAR" property="parentToolsId" />
+    <result column="leaf" jdbcType="INTEGER" property="leaf" />
+    <result column="project_code" jdbcType="VARCHAR" property="projectCode" />
+    <result column="serial_number" jdbcType="DECIMAL" property="serialNumber" />
+    <result column="product_brand" jdbcType="VARCHAR" property="productBrand" />
+    <result column="product_code" jdbcType="VARCHAR" property="productCode" />
+    <result column="brand_code" jdbcType="VARCHAR" property="brandCode" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="single_set_assembly_amount" jdbcType="DECIMAL" property="singleSetAssemblyAmount" />
+    <result column="single_set_stock_amount" jdbcType="DECIMAL" property="singleSetStockAmount" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="remain_amount" jdbcType="DECIMAL" property="remainAmount" /> 
+    <result column="product_unit" jdbcType="VARCHAR" property="productUnit" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="rebate" jdbcType="DECIMAL" property="rebate" />
+    <result column="net_price" jdbcType="DECIMAL" property="netPrice" />
+    <result column="money" jdbcType="DECIMAL" property="money" />
+    <result column="tax_net_price" jdbcType="DECIMAL" property="taxNetPrice" />
+    <result column="tax_money" jdbcType="DECIMAL" property="taxMoney" />
+    <result column="price_change" jdbcType="DECIMAL" property="priceChange" />
+    <result column="delivery_date" jdbcType="VARCHAR" property="deliveryDate" />
+    <result column="workshop" jdbcType="VARCHAR" property="workshop" />
+    <result column="process_code" jdbcType="VARCHAR" property="processCode" />
+    <result column="report_code" jdbcType="VARCHAR" property="reportCode" />
+    <result column="tool_code" jdbcType="VARCHAR" property="toolCode" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="tool_description" jdbcType="VARCHAR" property="toolDescription" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+    <result column="order_amount" jdbcType="DECIMAL" property="orderAmount" />
+    <result column="pro_sort_name" jdbcType="VARCHAR" property="proSortName" />
+  </resultMap>
+  
+   <resultMap class="ContractDetailDto" id="contractDetailDtoTreeResultMap">
+    <result column="id" jdbcType="VARCHAR" property="contractProductDetailId" />
+    <result column="contract_project_sort_id" jdbcType="VARCHAR" property="contractProjectSortId" />
+    <result column="contract_infor_id" jdbcType="VARCHAR" property="contractInforId" />
+    <result column="tools_id" jdbcType="VARCHAR" property="toolsId" />
+    <result column="parent_tools_id" jdbcType="VARCHAR" property="parentToolsId" />
+    <result column="leaf" jdbcType="INTEGER" property="leaf" />
+    <result column="project_code" jdbcType="VARCHAR" property="projectCode" />
+    <result column="serial_number" jdbcType="DECIMAL" property="serialNumber" />
+    <result column="product_brand" jdbcType="VARCHAR" property="productBrand" />
+    <result column="product_code" jdbcType="VARCHAR" property="productCode" />
+    <result column="brand_code" jdbcType="VARCHAR" property="brandCode" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="single_set_assembly_amount" jdbcType="DECIMAL" property="singleSetAssemblyAmount" />
+    <result column="single_set_stock_amount" jdbcType="DECIMAL" property="singleSetStockAmount" />
+    <result column="amount" jdbcType="DECIMAL" property="contractAmount" />
+    <result column="remain_amount" jdbcType="DECIMAL" property="remainAmount" /> 
+    <result column="product_unit" jdbcType="VARCHAR" property="productUnit" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="rebate" jdbcType="DECIMAL" property="rebate" />
+    <result column="net_price" jdbcType="DECIMAL" property="netPrice" />
+    <result column="money" jdbcType="DECIMAL" property="money" />
+    <result column="tax_net_price" jdbcType="DECIMAL" property="taxNetPrice" />
+    <result column="tax_money" jdbcType="DECIMAL" property="taxMoney" />
+    <result column="price_change" jdbcType="DECIMAL" property="priceChange" />
+    <result column="delivery_date" jdbcType="VARCHAR" property="deliveryDate" />
+    <result column="workshop" jdbcType="VARCHAR" property="workshop" />
+    <result column="process_code" jdbcType="VARCHAR" property="processCode" />
+    <result column="report_code" jdbcType="VARCHAR" property="reportCode" />
+    <result column="tool_code" jdbcType="VARCHAR" property="toolCode" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="tool_description" jdbcType="VARCHAR" property="toolDescription" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+    <result column="order_amount" jdbcType="DECIMAL" property="orderAmount" />
+    <result column="pro_sort_name" jdbcType="VARCHAR" property="proSortName" />
+  </resultMap>
+  
+  <!-- 订单详细的Dto -->
+  <resultMap class="com.tl.resource.business.dto.OrderDetialsDto" id="orderDetailResultMap">
+    <result column="contract_product_detail_id" jdbcType="VARCHAR" property="contractProductDetailId" />
+    <result column="brand_code" jdbcType="VARCHAR" property="brandCode" />
+    <result column="tools_id" jdbcType="VARCHAR" property="toolsId" />
+    <result column="parent_tools_id" jdbcType="VARCHAR" property="parentToolsId" />
+    <result column="leaf" jdbcType="INTEGER" property="leaf" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="contract_amount" jdbcType="DECIMAL" property="contractAmount" />
+    <result column="order_amount" jdbcType="DECIMAL" property="orderAmount" />
+    <result column="remain_amount" jdbcType="DECIMAL" property="remainAmount" />
+    <result column="product_unit" jdbcType="VARCHAR" property="productUnit" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="product_money" jdbcType="DECIMAL" property="productMoney" />
+    <result column="product_brand" jdbcType="VARCHAR" property="productBrand" />
+    <result column="product_code" jdbcType="VARCHAR" property="productCode" />
+    <result column="serial_number" jdbcType="DECIMAL" property="serialNumber" />
+    <result column="delivery_date" jdbcType="VARCHAR" property="deliveryDate" />
+   	<result column="file_count" jdbcType="INTEGER" property="fileCount" />
+   	<result column="pro_sort_name" jdbcType="VARCHAR" property="proSortName" />
+   	<result column="project_code" jdbcType="VARCHAR" property="projectCode" />
+   	<result column="contract_project_sort_id" jdbcType="VARCHAR" property="contractProjectSortId" />
+   	<result column="memo" jdbcType="VARCHAR" property="memo" />
+    <result column="memo2" jdbcType="VARCHAR" property="memo2" />
+     <result column="contract_delivery_date" jdbcType="VARCHAR" property="contractDeliveryDate" />
+  </resultMap>
+  
+  
+  <resultMap id="childrenResult" class="conProDto" extends="conProDetailDtoTreeResultMap">
+  	<result column="file_count" jdbcType="INTEGER" property="fileCount" />
+    <result property="children" column="tools_id" select="t_contract_product_detail.getChildrenFromToolsInfor"/>
+  </resultMap>
+  
+   <resultMap id="childrenPartResult" class="orderDetailDto" extends="orderDetailResultMap">
+    <result property="children" column="tools_id" select="t_contract_product_detail.getChildrenContractDetailDto"/>
+    
+  </resultMap>
+  
+  
+  <resultMap id="childrenResultAD" class="conProDto" extends="conProDetailDtoTreeResultMap">
+  	<result column="arrival_amount" jdbcType="DECIMAL" property="arrivalAmount" />
+  	<result column="delivery_amount" jdbcType="DECIMAL" property="deliveryAmount" />
+    <result property="children" column="id" select="t_contract_product_detail.getChildrenConProDetailDtoTreeResultMap"/>
+  </resultMap>
+  <sql id="ibatorgenerated_Example_Where_Clause">
+    <!--
+      WARNING - This element is automatically generated by Apache iBATIS ibator, do not modify.
+      This element was generated on Wed Oct 14 14:13:27 CST 2009.
+    -->
+    <iterate conjunction="or" prepend="where" property="oredCriteria" removeFirstPrepend="iterate">
+      <isEqual compareValue="true" property="oredCriteria[].valid">
+        (
+        <iterate conjunction="and" prepend="and" property="oredCriteria[].criteriaWithoutValue">
+          $oredCriteria[].criteriaWithoutValue[]$
+        </iterate>
+        <iterate conjunction="and" prepend="and" property="oredCriteria[].criteriaWithSingleValue">
+          $oredCriteria[].criteriaWithSingleValue[].condition$
+            #oredCriteria[].criteriaWithSingleValue[].value#
+        </iterate>
+        <iterate conjunction="and" prepend="and" property="oredCriteria[].criteriaWithListValue">
+          $oredCriteria[].criteriaWithListValue[].condition$
+          <iterate close=")" conjunction="," open="(" property="oredCriteria[].criteriaWithListValue[].values">
+            #oredCriteria[].criteriaWithListValue[].values[]#
+          </iterate>
+        </iterate>
+        <iterate conjunction="and" prepend="and" property="oredCriteria[].criteriaWithBetweenValue">
+          $oredCriteria[].criteriaWithBetweenValue[].condition$
+          #oredCriteria[].criteriaWithBetweenValue[].values[0]# and
+          #oredCriteria[].criteriaWithBetweenValue[].values[1]#
+        </iterate>
+        )
+      </isEqual>
+    </iterate>
+  </sql>
+  
+  <select id="ibatorgenerated_selectByExample" parameterClass="com.tl.resource.dao.pojo.TContractProductDetailExample" resultMap="ibatorgenerated_BaseResultMap">
+    <!--
+      WARNING - This element is automatically generated by Apache iBATIS ibator, do not modify.
+      This element was generated on Wed Oct 14 14:13:27 CST 2009.
+    -->
+    select id, contract_project_sort_id, contract_infor_id, tools_id, parent_tools_id, leaf,
+      project_code, serial_number, product_brand, product_code, brand_code, product_name,
+      single_set_assembly_amount, single_set_stock_amount, amount, product_unit, price, rebate,
+      net_price, money, tax_net_price, tax_money, price_change, delivery_date, workshop,
+      process_code, report_code, tool_code, status, tool_description, memo,0 order_amount,0 arrival_amount,0 delivery_amount,'' pro_sort_name,sum_order_amount,sum_arrival_amount,sum_out_amount,sum_delivery_amount
+    from t_contract_product_detail
+    <isParameterPresent>
+      <include refid="t_contract_product_detail.ibatorgenerated_Example_Where_Clause" />
+      <isNotNull property="orderByClause">
+        order by $orderByClause$
+      </isNotNull>
+    </isParameterPresent>
+  </select>
+  
+  <select id="getProductDetail" parameterClass="map" resultMap="childrenResult">
+    select id, contract_project_sort_id, contract_infor_id, tools_id, parent_tools_id, leaf,
+      project_code, serial_number, product_brand, product_code, brand_code, product_name,
+      single_set_assembly_amount, single_set_stock_amount, amount, product_unit, price, rebate,
+      net_price, money, tax_net_price, tax_money, price_change, delivery_date, workshop,
+      process_code, report_code, tool_code, status, tool_description, memo,0 order_amount,0 arrival_amount,0 delivery_amount,0 remain_amount,'' pro_sort_name,
+      (select ifnull(count(*),0) from t_accessories where business_id = pro.tools_id and business_type = 1) as file_count
+    from t_contract_product_detail pro
+    where parent_tools_id = 'root' 
+     <isNotNull prepend="and" property="contractId" >
+        contract_infor_id = #contractId#
+     </isNotNull>
+     <isNotNull prepend="and" property="contractSortId" >
+        contract_project_sort_id = #contractSortId#
+     </isNotNull>
+     <isNotNull prepend="" property="startIndex">
+        limit $startIndex$,$pageSize$
+      </isNotNull>
+     order by serial_number
+  </select>
+  
+  <!-- 从工具信息中查找子节点 -->
+  <select id="getChildrenFromToolsInfor" parameterClass="java.lang.String" resultClass="java.util.List"  resultMap="childrenResult">
+  select id,'' as contract_project_sort_id,'' as contract_infor_id,id as tools_id,
+		parent_id as parent_tools_id, leaf,
+      0 as project_code,'' as serial_number, product_brand, product_code, brand_code, product_name,
+      0 as single_set_assembly_amount,0 as single_set_stock_amount, amount, product_unit,0 as price,
+		0 as rebate,0 as net_price,0 as money,0 as tax_net_price,0 as tax_money,0 as price_change,'' as delivery_date,'' as workshop,
+     '' as process_code,'' as report_code,'' as tool_code,0 as status,'' as tool_description, memo,amount order_amount,
+		0 arrival_amount,0 delivery_amount,0 remain_amount,'' pro_sort_name,0 as file_count
+	from t_product_tools_infor
+ 	where parent_id = #value#
+  </select>
+  
+  <select id="getChildrenConProDetailDtoTreeResultMap" parameterClass="java.lang.String" resultClass="java.util.List"  resultMap="childrenResult">
+    select id, contract_project_sort_id, contract_infor_id, tools_id, parent_tools_id, leaf,
+      project_code, serial_number, product_brand, product_code, brand_code, product_name,
+      single_set_assembly_amount, single_set_stock_amount, amount, product_unit, price, rebate,
+      net_price, money, tax_net_price, tax_money, price_change, delivery_date, workshop,
+      process_code, report_code, tool_code, status, tool_description, memo,0 order_amount,0 arrival_amount,0 delivery_amount,0 remain_amount,'' pro_sort_name,
+      (select ifnull(count(*),0) from t_accessories where business_id = pro.tools_id and business_type = 1) as file_count
+    from t_contract_product_detail pro
+    where parent_tools_id = #value#
+  </select>
+  
+  <select id="getChildrenContractDetailDto" parameterClass="java.lang.String" resultClass="java.util.List"  resultMap="childrenPartResult">
+     select '' as id,stock_price as price,'' as contract_product_detail_id,
+	brand_code,id as tools_id,parent_id as parent_tools_id,leaf,product_name,amount as contract_amount,  
+	0 as order_amount,0 as remain_amount,product_unit,0 as product_money,product_brand,product_code,
+	0 as serial_number,'' as delivery_date,0 as file_count,'' as pro_sort_name,0 as project_code,'' as contract_project_sort_id,'' memo,'' memo2,'' contract_delivery_date
+		from t_product_tools_infor
+ 	where parent_id = #value#
+  </select>
+  
+  <select id="getProductArrivalDeliveryDetail" parameterClass="map" resultMap="childrenResultAD">
+    select cpd.id, cpd.contract_project_sort_id, cpd.contract_infor_id, cpd.tools_id, cpd.parent_tools_id, cpd.leaf,
+      cpd.project_code, cpd.serial_number, cpd.product_brand, cpd.product_code, cpd.brand_code, cpd.product_name,
+      cpd.single_set_assembly_amount, cpd.single_set_stock_amount, cpd.amount, cpd.product_unit, cpd.price, cpd.rebate,
+      cpd.net_price, cpd.money, cpd.tax_net_price, cpd.tax_money, cpd.price_change, cpd.delivery_date, cpd.workshop,
+      cpd.process_code, cpd.report_code, cpd.tool_code, cpd.status, cpd.tool_description, cpd.memo,c.delivery_amount,
+		a.order_amount, b.out_amount arrival_amount
+    from t_contract_product_detail cpd
+    left join 
+	 ( 
+		select sum(de.order_amount) order_amount,contract_product_detail_id
+	 	from t_order_detail de,t_contract_product_detail pd
+		where de.contract_product_detail_id = pd.id
+		<isNotNull prepend="and" property="contractId" >
+        pd.contract_infor_id = #contractId#
+     	</isNotNull>
+    	 <isNotNull prepend="and" property="contractSortId" >
+        pd.contract_project_sort_id = #contractSortId#
+     	</isNotNull>
+	 	group by de.contract_product_detail_id 
+	 ) a 
+	left join 
+	(
+		select sum(si.amount) out_amount,si.contract_product_detail_id 
+	 	from t_out_stock_detail si,t_contract_product_detail pd 
+		where si.contract_product_detail_id = pd.id
+		<isNotNull prepend="and" property="contractId" >
+        pd.contract_infor_id = #contractId#
+     	</isNotNull>
+    	 <isNotNull prepend="and" property="contractSortId" >
+        pd.contract_project_sort_id = #contractSortId#
+     	</isNotNull>
+	 	group by si.contract_product_detail_id
+	) b 
+	left join 
+	(
+		select sum(dd.amount) delivery_amount,dd.contract_product_detail_id 
+		from t_delivery_detail dd,t_contract_product_detail pd 
+		where dd.contract_product_detail_id = pd.id
+		<isNotNull prepend="and" property="contractId" >
+        pd.contract_infor_id = #contractId#
+     	</isNotNull>
+    	 <isNotNull prepend="and" property="contractSortId" >
+        pd.contract_project_sort_id = #contractSortId#
+     	</isNotNull>
+	 	group by dd.contract_product_detail_id
+	) c
+    on cpd.id = a.contract_product_detail_id
+	 and cpd.id = b.contract_product_detail_id 
+    and cpd.id = c.contract_product_detail_id
+    where 
+	 cpd.parent_tools_id = 'root'
+	 <isNotNull prepend="and" property="contractId" >
+        cpd.contract_infor_id = #contractId#
+     </isNotNull>
+     <isNotNull prepend="and" property="contractSortId" >
+        cpd.contract_project_sort_id = #contractSortId#
+     </isNotNull>
+      order by project_code,serial_number,id
+      <isNotNull prepend="" property="startIndex">
+        limit $startIndex$,$pageSize$
+      </isNotNull>
+  </select>
+  <select id="getProductArrivalDeliveryDetailCount" parameterClass="map" resultClass="java.lang.Integer">
+    select count(*)
+    from t_contract_product_detail cpd
+    left join 
+	 ( 
+		select sum(de.order_amount) order_amount,contract_product_detail_id
+	 	from t_order_detail de,t_contract_product_detail pd
+		where de.contract_product_detail_id = pd.id
+		<isNotNull prepend="and" property="contractId" >
+        pd.contract_infor_id = #contractId#
+     	</isNotNull>
+    	 <isNotNull prepend="and" property="contractSortId" >
+        pd.contract_project_sort_id = #contractSortId#
+     	</isNotNull>
+	 	group by de.contract_product_detail_id 
+	 ) a 
+	 left join 
+	(
+		select sum(si.amount) out_amount,si.contract_product_detail_id 
+	 	from t_out_stock_detail si,t_contract_product_detail pd 
+		where si.contract_product_detail_id = pd.id
+		<isNotNull prepend="and" property="contractId" >
+        pd.contract_infor_id = #contractId#
+     	</isNotNull>
+    	 <isNotNull prepend="and" property="contractSortId" >
+        pd.contract_project_sort_id = #contractSortId#
+     	</isNotNull>
+	 	group by si.contract_product_detail_id
+	) b
+	left join 
+	(
+		select sum(dd.amount) delivery_amount,dd.contract_product_detail_id 
+		from t_delivery_detail dd,t_contract_product_detail pd 
+		where dd.contract_product_detail_id = pd.id
+		<isNotNull prepend="and" property="contractId" >
+        pd.contract_infor_id = #contractId#
+     	</isNotNull>
+    	 <isNotNull prepend="and" property="contractSortId" >
+        pd.contract_project_sort_id = #contractSortId#
+     	</isNotNull>
+	 	group by dd.contract_product_detail_id
+	) c
+    on cpd.id = a.contract_product_detail_id
+	 and cpd.id = b.contract_product_detail_id 
+    and cpd.id = c.contract_product_detail_id
+    where
+	 cpd.parent_tools_id = 'root'
+	 <isNotNull prepend="and" property="contractId" >
+        cpd.contract_infor_id = #contractId#
+     </isNotNull>
+     <isNotNull prepend="and" property="contractSortId" >
+        cpd.contract_project_sort_id = #contractSortId#
+     </isNotNull>
+  </select>
+  
+  <select id="getChildConProDetailArrivalDeryDtoTreeResMap" parameterClass="java.lang.String" resultClass="java.util.List"  resultMap="childrenResultAD">
+    select z.id, z.contract_project_sort_id, z.contract_infor_id, z.tools_id, z.parent_tools_id, z.leaf,
+      z.project_code, z.serial_number, z.product_brand, z.product_code, z.brand_code, z.product_name,
+      z.single_set_assembly_amount, z.single_set_stock_amount, z.amount, z.product_unit, z.price, z.rebate,
+      z.net_price, z.money, z.tax_net_price, z.tax_money, z.price_change, z.delivery_date, z.workshop,
+      z.process_code, z.report_code, z.tool_code, z.status, z.tool_description, z.memo,      
+		(
+		select sum(de.order_amount) order_amount
+	 	from t_order_detail de where de.contract_product_detail_id = z.id
+		group by de.contract_product_detail_id 
+		) order_amount,(
+		select sum(si.out_amount) out_amount 
+	 	from t_out_stock_infor si where si.contract_product_detail_id = z.id
+	 	group by si.contract_product_detail_id
+		 ) arrival_amount, 
+    	(
+		 select sum(dd.amount) delivery_amount 
+		from t_delivery_detail dd where dd.contract_product_detail_id = z.id
+	 	group by dd.contract_product_detail_id
+		 ) delivery_amount
+    from t_contract_product_detail z
+    where z.parent_tools_id = #value#
+  </select>
+  
+  <select id="ibatorgenerated_selectByPrimaryKey" parameterClass="com.tl.resource.dao.pojo.TContractProductDetail" resultMap="ibatorgenerated_BaseResultMap">
+    <!--
+      WARNING - This element is automatically generated by Apache iBATIS ibator, do not modify.
+      This element was generated on Wed Oct 14 14:13:27 CST 2009.
+    -->
+    select id, contract_project_sort_id, contract_infor_id, tools_id, parent_tools_id, leaf,
+      project_code, serial_number, product_brand, product_code, brand_code, product_name,
+      single_set_assembly_amount, single_set_stock_amount, amount, product_unit, price, rebate,
+      net_price, money, tax_net_price, tax_money, price_change, delivery_date, workshop,
+      process_code, report_code, tool_code, status, tool_description, memo,sum_order_amount,sum_arrival_amount,sum_out_amount,sum_delivery_amount
+    from t_contract_product_detail
+    where id = #id:VARCHAR#
+  </select>
+  <delete id="ibatorgenerated_deleteByPrimaryKey" parameterClass="com.tl.resource.dao.pojo.TContractProductDetail">
+    <!--
+      WARNING - This element is automatically generated by Apache iBATIS ibator, do not modify.
+      This element was generated on Wed Oct 14 14:13:27 CST 2009.
+    -->
+    delete from t_contract_product_detail
+    where id = #id:VARCHAR#
+  </delete>
+  <delete id="ibatorgenerated_deleteByExample" parameterClass="com.tl.resource.dao.pojo.TContractProductDetailExample">
+    <!--
+      WARNING - This element is automatically generated by Apache iBATIS ibator, do not modify.
+      This element was generated on Wed Oct 14 14:13:27 CST 2009.
+    -->
+    delete from t_contract_product_detail
+    <include refid="t_contract_product_detail.ibatorgenerated_Example_Where_Clause" />
+  </delete>
+  <insert id="ibatorgenerated_insert" parameterClass="com.tl.resource.dao.pojo.TContractProductDetail">
+    <!--
+      WARNING - This element is automatically generated by Apache iBATIS ibator, do not modify.
+      This element was generated on Wed Oct 14 14:13:27 CST 2009.
+    -->
+    insert into t_contract_product_detail (id, contract_project_sort_id, contract_infor_id,
+      tools_id, parent_tools_id, leaf, project_code, serial_number, product_brand, product_code,
+      brand_code, product_name, single_set_assembly_amount, single_set_stock_amount, amount,
+      product_unit, price, rebate, net_price, money, tax_net_price, tax_money, price_change,
+      delivery_date, workshop, process_code, report_code, tool_code, status, tool_description, memo)
+    values (#id:VARCHAR#, #contractProjectSortId:VARCHAR#, #contractInforId:VARCHAR#,
+      #toolsId:VARCHAR#, #parentToolsId:VARCHAR#, #leaf:INTEGER#, #projectCode:VARCHAR#,
+      #serialNumber:DECIMAL#, #productBrand:VARCHAR#, #productCode:VARCHAR#, #brandCode:VARCHAR#,
+      #productName:VARCHAR#, #singleSetAssemblyAmount:DECIMAL#, #singleSetStockAmount:DECIMAL#,
+      #amount:DECIMAL#, #productUnit:VARCHAR#, #price:DECIMAL#, #rebate:DECIMAL#,
+      #netPrice:DECIMAL#, #money:DECIMAL#, #taxNetPrice:DECIMAL#, #taxMoney:DECIMAL#,
+      #priceChange:DECIMAL#, #deliveryDate:VARCHAR#, #workshop:VARCHAR#, #processCode:VARCHAR#,
+      #reportCode:VARCHAR#, #toolCode:VARCHAR#, #status:INTEGER#, #toolDescription:VARCHAR#,
+      #memo:VARCHAR#)
+  </insert>
+  <insert id="ibatorgenerated_insertSelective" parameterClass="com.tl.resource.dao.pojo.TContractProductDetail">
+    <!--
+      WARNING - This element is automatically generated by Apache iBATIS ibator, do not modify.
+      This element was generated on Wed Oct 14 14:13:27 CST 2009.
+    -->
+    insert into t_contract_product_detail
+    <dynamic prepend="(">
+      <isNotNull prepend="," property="id">
+        id
+      </isNotNull>
+      <isNotNull prepend="," property="contractProjectSortId">
+        contract_project_sort_id
+      </isNotNull>
+      <isNotNull prepend="," property="contractInforId">
+        contract_infor_id
+      </isNotNull>
+      <isNotNull prepend="," property="toolsId">
+        tools_id
+      </isNotNull>
+      <isNotNull prepend="," property="parentToolsId">
+        parent_tools_id
+      </isNotNull>
+      <isNotNull prepend="," property="leaf">
+        leaf
+      </isNotNull>
+      <isNotNull prepend="," property="projectCode">
+        project_code
+      </isNotNull>
+      <isNotNull prepend="," property="serialNumber">
+        serial_number
+      </isNotNull>
+      <isNotNull prepend="," property="productBrand">
+        product_brand
+      </isNotNull>
+      <isNotNull prepend="," property="productCode">
+        product_code
+      </isNotNull>
+      <isNotNull prepend="," property="brandCode">
+        brand_code
+      </isNotNull>
+      <isNotNull prepend="," property="productName">
+        product_name
+      </isNotNull>
+      <isNotNull prepend="," property="singleSetAssemblyAmount">
+        single_set_assembly_amount
+      </isNotNull>
+      <isNotNull prepend="," property="singleSetStockAmount">
+        single_set_stock_amount
+      </isNotNull>
+      <isNotNull prepend="," property="amount">
+        amount
+      </isNotNull>
+      <isNotNull prepend="," property="productUnit">
+        product_unit
+      </isNotNull>
+      <isNotNull prepend="," property="price">
+        price
+      </isNotNull>
+      <isNotNull prepend="," property="rebate">
+        rebate
+      </isNotNull>
+      <isNotNull prepend="," property="netPrice">
+        net_price
+      </isNotNull>
+      <isNotNull prepend="," property="money">
+        money
+      </isNotNull>
+      <isNotNull prepend="," property="taxNetPrice">
+        tax_net_price
+      </isNotNull>
+      <isNotNull prepend="," property="taxMoney">
+        tax_money
+      </isNotNull>
+      <isNotNull prepend="," property="priceChange">
+        price_change
+      </isNotNull>
+      <isNotNull prepend="," property="deliveryDate">
+        delivery_date
+      </isNotNull>
+      <isNotNull prepend="," property="workshop">
+        workshop
+      </isNotNull>
+      <isNotNull prepend="," property="processCode">
+        process_code
+      </isNotNull>
+      <isNotNull prepend="," property="reportCode">
+        report_code
+      </isNotNull>
+      <isNotNull prepend="," property="toolCode">
+        tool_code
+      </isNotNull>
+      <isNotNull prepend="," property="status">
+        status
+      </isNotNull>
+      <isNotNull prepend="," property="toolDescription">
+        tool_description
+      </isNotNull>
+      <isNotNull prepend="," property="memo">
+        memo
+      </isNotNull>
+      )
+    </dynamic>
+    values
+    <dynamic prepend="(">
+      <isNotNull prepend="," property="id">
+        #id:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="contractProjectSortId">
+        #contractProjectSortId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="contractInforId">
+        #contractInforId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="toolsId">
+        #toolsId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="parentToolsId">
+        #parentToolsId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="leaf">
+        #leaf:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="projectCode">
+        #projectCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="serialNumber">
+        #serialNumber:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="productBrand">
+        #productBrand:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="productCode">
+        #productCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="brandCode">
+        #brandCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="productName">
+        #productName:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="singleSetAssemblyAmount">
+        #singleSetAssemblyAmount:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="singleSetStockAmount">
+        #singleSetStockAmount:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="amount">
+        #amount:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="productUnit">
+        #productUnit:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="price">
+        #price:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="rebate">
+        #rebate:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="netPrice">
+        #netPrice:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="money">
+        #money:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="taxNetPrice">
+        #taxNetPrice:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="taxMoney">
+        #taxMoney:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="priceChange">
+        #priceChange:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="deliveryDate">
+        #deliveryDate:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="workshop">
+        #workshop:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="processCode">
+        #processCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="reportCode">
+        #reportCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="toolCode">
+        #toolCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="status">
+        #status:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="toolDescription">
+        #toolDescription:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="memo">
+        #memo:VARCHAR#
+      </isNotNull>
+      )
+    </dynamic>
+  </insert>
+  <select id="ibatorgenerated_countByExample" parameterClass="com.tl.resource.dao.pojo.TContractProductDetailExample" resultClass="java.lang.Integer">
+    <!--
+      WARNING - This element is automatically generated by Apache iBATIS ibator, do not modify.
+      This element was generated on Wed Oct 14 14:13:27 CST 2009.
+    -->
+    select count(*) from t_contract_product_detail
+    <include refid="t_contract_product_detail.ibatorgenerated_Example_Where_Clause" />
+  </select>
+  <update id="ibatorgenerated_updateByExampleSelective">
+    <!--
+      WARNING - This element is automatically generated by Apache iBATIS ibator, do not modify.
+      This element was generated on Wed Oct 14 14:13:27 CST 2009.
+    -->
+    update t_contract_product_detail
+    <dynamic prepend="set">
+      <isNotNull prepend="," property="record.id">
+        id = #record.id:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="record.contractProjectSortId">
+        contract_project_sort_id = #record.contractProjectSortId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="record.contractInforId">
+        contract_infor_id = #record.contractInforId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="record.toolsId">
+        tools_id = #record.toolsId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="record.parentToolsId">
+        parent_tools_id = #record.parentToolsId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="record.leaf">
+        leaf = #record.leaf:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="record.projectCode">
+        project_code = #record.projectCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="record.serialNumber">
+        serial_number = #record.serialNumber:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="record.productBrand">
+        product_brand = #record.productBrand:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="record.productCode">
+        product_code = #record.productCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="record.brandCode">
+        brand_code = #record.brandCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="record.productName">
+        product_name = #record.productName:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="record.singleSetAssemblyAmount">
+        single_set_assembly_amount = #record.singleSetAssemblyAmount:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="record.singleSetStockAmount">
+        single_set_stock_amount = #record.singleSetStockAmount:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="record.amount">
+        amount = #record.amount:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="record.productUnit">
+        product_unit = #record.productUnit:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="record.price">
+        price = #record.price:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="record.rebate">
+        rebate = #record.rebate:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="record.netPrice">
+        net_price = #record.netPrice:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="record.money">
+        money = #record.money:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="record.taxNetPrice">
+        tax_net_price = #record.taxNetPrice:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="record.taxMoney">
+        tax_money = #record.taxMoney:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="record.priceChange">
+        price_change = #record.priceChange:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="record.deliveryDate">
+        delivery_date = #record.deliveryDate:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="record.workshop">
+        workshop = #record.workshop:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="record.processCode">
+        process_code = #record.processCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="record.reportCode">
+        report_code = #record.reportCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="record.toolCode">
+        tool_code = #record.toolCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="record.status">
+        status = #record.status:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="record.toolDescription">
+        tool_description = #record.toolDescription:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="record.memo">
+        memo = #record.memo:VARCHAR#
+      </isNotNull>
+    </dynamic>
+    <isParameterPresent>
+      <include refid="t_contract_product_detail.ibatorgenerated_Example_Where_Clause" />
+    </isParameterPresent>
+  </update>
+  <update id="ibatorgenerated_updateByExample">
+    <!--
+      WARNING - This element is automatically generated by Apache iBATIS ibator, do not modify.
+      This element was generated on Wed Oct 14 14:13:27 CST 2009.
+    -->
+    update t_contract_product_detail
+    set id = #record.id:VARCHAR#,
+      contract_project_sort_id = #record.contractProjectSortId:VARCHAR#,
+      contract_infor_id = #record.contractInforId:VARCHAR#,
+      tools_id = #record.toolsId:VARCHAR#,
+      parent_tools_id = #record.parentToolsId:VARCHAR#,
+      leaf = #record.leaf:INTEGER#,
+      project_code = #record.projectCode:VARCHAR#,
+      serial_number = #record.serialNumber:DECIMAL#,
+      product_brand = #record.productBrand:VARCHAR#,
+      product_code = #record.productCode:VARCHAR#,
+      brand_code = #record.brandCode:VARCHAR#,
+      product_name = #record.productName:VARCHAR#,
+      single_set_assembly_amount = #record.singleSetAssemblyAmount:DECIMAL#,
+      single_set_stock_amount = #record.singleSetStockAmount:DECIMAL#,
+      amount = #record.amount:DECIMAL#,
+      product_unit = #record.productUnit:VARCHAR#,
+      price = #record.price:DECIMAL#,
+      rebate = #record.rebate:DECIMAL#,
+      net_price = #record.netPrice:DECIMAL#,
+      money = #record.money:DECIMAL#,
+      tax_net_price = #record.taxNetPrice:DECIMAL#,
+      tax_money = #record.taxMoney:DECIMAL#,
+      price_change = #record.priceChange:DECIMAL#,
+      delivery_date = #record.deliveryDate:VARCHAR#,
+      workshop = #record.workshop:VARCHAR#,
+      process_code = #record.processCode:VARCHAR#,
+      report_code = #record.reportCode:VARCHAR#,
+      tool_code = #record.toolCode:VARCHAR#,
+      status = #record.status:INTEGER#,
+      tool_description = #record.toolDescription:VARCHAR#,
+      memo = #record.memo:VARCHAR#
+    <isParameterPresent>
+      <include refid="t_contract_product_detail.ibatorgenerated_Example_Where_Clause" />
+    </isParameterPresent>
+  </update>
+  <update id="ibatorgenerated_updateByPrimaryKeySelective" parameterClass="com.tl.resource.dao.pojo.TContractProductDetail">
+    <!--
+      WARNING - This element is automatically generated by Apache iBATIS ibator, do not modify.
+      This element was generated on Wed Oct 14 14:13:27 CST 2009.
+    -->
+    update t_contract_product_detail
+    <dynamic prepend="set">
+      <isNotNull prepend="," property="contractProjectSortId">
+        contract_project_sort_id = #contractProjectSortId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="contractInforId">
+        contract_infor_id = #contractInforId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="toolsId">
+        tools_id = #toolsId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="parentToolsId">
+        parent_tools_id = #parentToolsId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="leaf">
+        leaf = #leaf:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="projectCode">
+        project_code = #projectCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="serialNumber">
+        serial_number = #serialNumber:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="productBrand">
+        product_brand = #productBrand:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="productCode">
+        product_code = #productCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="brandCode">
+        brand_code = #brandCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="productName">
+        product_name = #productName:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="singleSetAssemblyAmount">
+        single_set_assembly_amount = #singleSetAssemblyAmount:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="singleSetStockAmount">
+        single_set_stock_amount = #singleSetStockAmount:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="amount">
+        amount = #amount:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="productUnit">
+        product_unit = #productUnit:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="price">
+        price = #price:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="rebate">
+        rebate = #rebate:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="netPrice">
+        net_price = #netPrice:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="money">
+        money = #money:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="taxNetPrice">
+        tax_net_price = #taxNetPrice:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="taxMoney">
+        tax_money = #taxMoney:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="priceChange">
+        price_change = #priceChange:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="deliveryDate">
+        delivery_date = #deliveryDate:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="workshop">
+        workshop = #workshop:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="processCode">
+        process_code = #processCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="reportCode">
+        report_code = #reportCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="toolCode">
+        tool_code = #toolCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="status">
+        status = #status:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="toolDescription">
+        tool_description = #toolDescription:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="memo">
+        memo = #memo:VARCHAR#
+      </isNotNull>
+    </dynamic>
+    where id = #id:VARCHAR#
+  </update>
+  <update id="ibatorgenerated_updateByPrimaryKey" parameterClass="com.tl.resource.dao.pojo.TContractProductDetail">
+    <!--
+      WARNING - This element is automatically generated by Apache iBATIS ibator, do not modify.
+      This element was generated on Wed Oct 14 14:13:27 CST 2009.
+    -->
+    update t_contract_product_detail
+    set contract_project_sort_id = #contractProjectSortId:VARCHAR#,
+      contract_infor_id = #contractInforId:VARCHAR#,
+      tools_id = #toolsId:VARCHAR#,
+      parent_tools_id = #parentToolsId:VARCHAR#,
+      leaf = #leaf:INTEGER#,
+      project_code = #projectCode:VARCHAR#,
+      serial_number = #serialNumber:DECIMAL#,
+      product_brand = #productBrand:VARCHAR#,
+      product_code = #productCode:VARCHAR#,
+      brand_code = #brandCode:VARCHAR#,
+      product_name = #productName:VARCHAR#,
+      single_set_assembly_amount = #singleSetAssemblyAmount:DECIMAL#,
+      single_set_stock_amount = #singleSetStockAmount:DECIMAL#,
+      amount = #amount:DECIMAL#,
+      product_unit = #productUnit:VARCHAR#,
+      price = #price:DECIMAL#,
+      rebate = #rebate:DECIMAL#,
+      net_price = #netPrice:DECIMAL#,
+      money = #money:DECIMAL#,
+      tax_net_price = #taxNetPrice:DECIMAL#,
+      tax_money = #taxMoney:DECIMAL#,
+      price_change = #priceChange:DECIMAL#,
+      delivery_date = #deliveryDate:VARCHAR#,
+      workshop = #workshop:VARCHAR#,
+      process_code = #processCode:VARCHAR#,
+      report_code = #reportCode:VARCHAR#,
+      tool_code = #toolCode:VARCHAR#,
+      status = #status:INTEGER#,
+      tool_description = #toolDescription:VARCHAR#,
+      memo = #memo:VARCHAR#,
+      sum_order_amount = #sumOrderAmount#,
+      sum_arrival_amount = #sumArrivalAmount#,
+      sum_out_amount = #sumOutAmount#,
+      sum_delivery_amount = #sumDeliveryAmount#
+    where id = #id:VARCHAR#
+  </update>
+  
+  
+  <!-- 根据合同编号和供应商ID查找订单详细 -->
+   <select id="getContractDetailList" parameterClass="java.util.Map" resultClass="java.util.List" resultMap="childrenResult">
+	select ss.history_price * (1-((ifnull(re.rebate,0)/100))) price,ss.* from 
+	(
+		select i.*,ifnull(his.history_price,0) history_price from 
+		( 
+		select * from (
+		select 
+			nn.*,pd.order_price_run_date,nc.product_sort_id product_sort_id,
+		(nn.amount-ifnull((select sum(o.order_amount) from t_order_detail o where o.contract_product_detail_id = nn.id),0)-ifnull((select sum(s.amount) from t_out_stock_detail s,t_out_stock_infor ot 
+			where s.contract_product_detail_id = nn.id
+			and ot.id = s.out_stock_infor_id
+			and ot.out_stock_type = 1),0)) as remain_amount,
+	0 order_amount,(select pro_sort_name from t_contract_project_sort_infor where id = nn.contract_project_sort_id) as pro_sort_name,
+	(select ifnull(count(*),0) from t_accessories where business_id = nn.tools_id and business_type = 1) as file_count
+			from 
+				t_contract_product_detail nn,
+				t_product_tools_infor nc,
+				t_suppliers_brand b,
+				t_product_brand pd
+				where b.t_suppliers_id = #supplierId:VARCHAR#
+				and nn.contract_infor_id = (select id from t_contract_infor where contract_code = #contractCode:VARCHAR#)
+				and nn.parent_tools_id = 'root'         
+				and nn.product_brand = b.brand
+				and nn.tools_id = nc.id
+				and nc.product_brand = pd.name 
+				<isNotEmpty property="productBrand" prepend="and">
+			      <![CDATA[ nn.product_brand like '%$productBrand$%' ]]>
+			    </isNotEmpty>
+				<isNotEmpty property="brandCode" prepend="and">
+			      <![CDATA[ nn.brand_code like '%$brandCode$%' ]]>
+			    </isNotEmpty>
+			    <isNotEmpty property="productName" prepend="and">
+			      <![CDATA[ nn.product_name like '%$productName$%' ]]>
+			    </isNotEmpty>
+			    <isNotEmpty property="contractProjectSortId" prepend="and">
+			      <![CDATA[ nn.contract_project_sort_id = #contractProjectSortId# ]]>
+			    </isNotEmpty>
+			) m
+			where	m.remain_amount > 0
+			 <isNotNull prepend="" property="startIndex">
+			         limit #startIndex:INTEGER#,#pageSize:INTEGER#
+			  </isNotNull>
+		) i left join 
+		t_sales_price_history his
+		on i.tools_id = his.product_tool_infor_id
+		and i.order_price_run_date = his.sale_price_date
+		) ss left join 
+		t_rebate re 
+		on re.product_sort_id = ss.product_sort_id
+		and re.customers_degree_id = 'xxx'
+  </select>
+  
+    <!-- 根据合同编号和供应商ID查找订单详细总数 -->
+   <select id="getContractDetailListCount" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+    <!--
+      WARNING - This element is automatically generated by Apache iBATIS ibator, do not modify.
+      This element was generated on Wed Oct 14 14:13:27 CST 2009.
+    -->
+    select count(*) from 
+	(
+		select i.*,ifnull(his.history_price,0) history_price from 
+		( 
+		select * from (
+		select 
+			nn.*,pd.order_price_run_date,nc.product_sort_id product_sort_id,
+		(nn.amount-ifnull((select sum(o.order_amount) from t_order_detail o where o.contract_product_detail_id = nn.id),0)-ifnull((select sum(s.amount) from t_out_stock_detail s,t_out_stock_infor ot 
+			where s.contract_product_detail_id = nn.id
+			and ot.id = s.out_stock_infor_id
+			and ot.out_stock_type = 1),0)) as remain_amount,
+	0 order_amount,(select pro_sort_name from t_contract_project_sort_infor where id = nn.contract_project_sort_id) as pro_sort_name,
+	(select ifnull(count(*),0) from t_accessories where business_id = nn.tools_id and business_type = 1) as file_count
+			from 
+				t_contract_product_detail nn,
+				t_product_tools_infor nc,
+				t_suppliers_brand b,
+				t_product_brand pd
+				where b.t_suppliers_id = #supplierId:VARCHAR#
+				and nn.contract_infor_id = (select id from t_contract_infor where contract_code = #contractCode:VARCHAR#)
+				and nn.parent_tools_id = 'root'         
+				and nn.product_brand = b.brand
+				and nn.tools_id = nc.id
+				and nc.product_brand = pd.name 
+				<isNotEmpty property="productBrand" prepend="and">
+			      <![CDATA[ nn.product_brand like '%$productBrand$%' ]]>
+			    </isNotEmpty>
+				<isNotEmpty property="brandCode" prepend="and">
+			      <![CDATA[ nn.brand_code like '%$brandCode$%' ]]>
+			    </isNotEmpty>
+			    <isNotEmpty property="productName" prepend="and">
+			      <![CDATA[ nn.product_name like '%$productName$%' ]]>
+			    </isNotEmpty>
+			     <isNotEmpty property="contractProjectSortId" prepend="and">
+			      <![CDATA[ nn.contract_project_sort_id = #contractProjectSortId# ]]>
+			    </isNotEmpty>
+			) m
+			where	m.remain_amount > 0
+		) i left join 
+		t_sales_price_history his
+		on i.tools_id = his.product_tool_infor_id
+		and i.order_price_run_date = his.sale_price_date
+		) ss left join 
+		t_rebate re 
+		on re.product_sort_id = ss.product_sort_id
+		and re.customers_degree_id = 'xxx'
+   
+  </select>
+  
+  
+      <!-- 根据合同ID查找合同详细 -->
+   <select id="getContractDetail" parameterClass="java.util.Map" resultClass="java.util.List" resultMap="childrenResult">
+    select * from(
+ 	 select pro.*,
+	(pro.amount-ifnull((select sum(o.order_amount) from t_order_detail o where o.contract_product_detail_id = pro.id),0)-ifnull((select sum(s.amount) from t_out_stock_detail s,t_out_stock_infor ot 
+			where s.contract_product_detail_id = pro.id
+			and ot.id = s.out_stock_infor_id
+			and ot.out_stock_type = 1),0)) as remain_amount,
+	0 order_amount,(select pro_sort_name from t_contract_project_sort_infor where id = pro.contract_project_sort_id) as pro_sort_name,
+	(select ifnull(count(*),0) from t_accessories where business_id = pro.tools_id and business_type = 1) as file_count
+	from 
+	t_contract_product_detail pro
+	where 
+	pro.contract_infor_id = #contractId:VARCHAR#
+	and 
+	pro.parent_tools_id = 'root' and pro.leaf = 0
+	  ) aa where aa.remain_amount  > 0
+	  order by serial_number
+   <isNotNull prepend="" property="startIndex">
+         limit #startIndex:INTEGER#,#pageSize:INTEGER#
+   </isNotNull>
+  </select>
+
+   <select id="getContractDetailCount" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+     select count(*) from(
+ 	 select pro.*,
+	(pro.amount-ifnull((select sum(o.order_amount) from t_order_detail o where o.contract_product_detail_id = pro.id),0)-ifnull((select sum(s.amount) from t_out_stock_detail s,t_out_stock_infor ot 
+			where s.contract_product_detail_id = pro.id
+			and ot.id = s.out_stock_infor_id
+			and ot.out_stock_type = 1),0)) as remain_amount,
+	0 order_amount,(select pro_sort_name from t_contract_project_sort_infor where id = pro.contract_project_sort_id) as pro_sort_name
+	from 
+	t_contract_product_detail pro
+	where 
+	pro.contract_infor_id = #contractId:VARCHAR#
+	and 
+	pro.parent_tools_id = 'root' and pro.leaf = 0
+	  ) aa where aa.remain_amount  > 0
+  </select>
+ 
+    <!-- 根据合同ID查找合同详细(合同订单) -->
+ <select id="getCOrderContractDetail"  parameterClass="java.util.Map" resultClass="java.util.List" resultMap="conProDetailDtoTreeResultMap">
+ 	select * from(
+ 	 select pro.*,
+	(pro.amount-ifnull(sum_order_amount,0)-ifnull(sum_out_amount,0)) as remain_amount,
+	0 order_amount,(select pro_sort_name from t_contract_project_sort_infor where id = pro.contract_project_sort_id) as pro_sort_name
+	from 
+	t_contract_product_detail pro
+	where 
+	pro.contract_infor_id = #contractId:VARCHAR#
+	and 
+	pro.parent_tools_id = 'root' 
+   <isNotNull prepend="and" property="leaf">
+	  pro.leaf = #leaf#
+   </isNotNull>
+	  ) aa where aa.remain_amount  > 0
+	  order by serial_number
+   <isNotNull prepend="" property="startIndex">
+         limit #startIndex:INTEGER#,#pageSize:INTEGER#
+   </isNotNull>
+ </select>
+ 
+   <select id="getCOrderContractDetailCount" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+     	select count(*) from(
+ 	 select pro.*,
+	(pro.amount-ifnull(sum_order_amount,0)-ifnull(sum_out_amount,0)) as remain_amount,
+	0 order_amount,(select pro_sort_name from t_contract_project_sort_infor where id = pro.contract_project_sort_id) as pro_sort_name
+	from 
+	t_contract_product_detail pro
+	where 
+	pro.contract_infor_id = #contractId:VARCHAR#
+	and	pro.parent_tools_id = 'root' 
+   <isNotNull prepend="and" property="leaf">
+	  pro.leaf = #leaf#
+   </isNotNull>
+	  ) aa where aa.remain_amount  > 0
+  </select>
+  
+    <!-- 根据合同编号和供应商ID查找订单详细 (合同订单)-->
+   <select id="getCOrderContractDetailList" parameterClass="java.util.Map" resultClass="java.util.List" resultMap="conProDetailDtoTreeResultMap">
+  select * from(
+  select pro.*,
+	(pro.amount-ifnull((select sum(o.order_amount) from t_order_detail o where o.contract_product_detail_id = pro.id),0)-ifnull((select sum(s.amount) from t_out_stock_detail s where s.contract_product_detail_id = pro.id),0)) as remain_amount,
+	0 order_amount,(select pro_sort_name from t_contract_project_sort_infor where id = pro.contract_project_sort_id) as pro_sort_name
+	from 
+	t_contract_product_detail pro,
+	t_suppliers_brand b,
+	t_contract_infor c
+	where
+	c.contract_code = #contractCode:VARCHAR#
+	and
+	pro.contract_infor_id = c.id
+	and 
+	b.t_suppliers_id= #supplierId:VARCHAR#
+	and 
+	pro.product_brand = b.brand
+	and 
+	pro.parent_tools_id = 'root'
+	<isNotEmpty property="productBrand" prepend="and">
+      <![CDATA[ pro.product_brand like '%$productBrand$%' ]]>
+    </isNotEmpty>
+	<isNotEmpty property="brandCode" prepend="and">
+      <![CDATA[ pro.brand_code like '%$brandCode$%' ]]>
+    </isNotEmpty>
+    <isNotEmpty property="productName" prepend="and">
+      <![CDATA[ product_name like '%$productName$%' ]]>
+    </isNotEmpty>
+    <isNotEmpty property="contractProjectSortId" prepend="and">
+      <![CDATA[ contract_project_sort_id = #contractProjectSortId# ]]>
+    </isNotEmpty>
+     ) aa where aa.remain_amount  > 0
+    limit #startIndex:INTEGER#,#pageSize:INTEGER#
+  </select>
+
+   <select id="getCOrderContractDetailListCount" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+     select 
+     count(*)
+	from 
+	t_contract_product_detail pro,
+	t_suppliers_brand b,
+	t_contract_infor c
+	where
+	c.contract_code = #contractCode:VARCHAR#
+	and
+	pro.contract_infor_id = c.id
+	and 
+	b.t_suppliers_id= #supplierId:VARCHAR#
+	and 
+	pro.product_brand = b.brand
+	and 
+	pro.parent_tools_id = 'root'
+	<isNotEmpty property="productBrand" prepend="and">
+      <![CDATA[ pro.product_brand like '%$productBrand$%' ]]>
+    </isNotEmpty>
+	<isNotEmpty property="brandCode" prepend="and">
+      <![CDATA[ pro.brand_code like '%$brandCode$%' ]]>
+    </isNotEmpty>
+    <isNotEmpty property="productName" prepend="and">
+      <![CDATA[ pro.product_name like '%$productName$%' ]]>
+    </isNotEmpty>
+    <isNotEmpty property="contractProjectSortId" prepend="and">
+      <![CDATA[ pro.contract_project_sort_id = #contractProjectSortId# ]]>
+    </isNotEmpty>
+  </select>
+  
+  <!-- 加工订单（将合同中加工品带入订单） -->
+   <select id="getPartContractDetailList" parameterClass="java.util.Map" resultClass="java.util.List" resultMap="childrenPartResult">
+    <!--
+      WARNING - This element is automatically generated by Apache iBATIS ibator, do not modify.
+      This element was generated on Wed Oct 14 14:13:27 CST 2009.
+    -->  
+    select '' as id, ss.history_price * (1-((ifnull(re.rebate,0)/100))) price,
+	ss.id as contract_product_detail_id,
+	ss.brand_code,ss.tools_id,ss.parent_tools_id,ss.leaf,ss.product_name,ss.amount as contract_amount,  
+	ss.order_amount,ss.remain_amount,ss.product_unit,0 as product_money,ss.product_brand,ss.product_code,  
+	ss.serial_number,'' as delivery_date,ss.file_count,ss.pro_sort_name,ss.project_code,ss.contract_project_sort_id,ss.memo,ss.workshop memo2,ss.delivery_date contract_delivery_date
+ from 
+	(
+		select i.*,ifnull(his.history_price,0) history_price from 
+		( 
+		select * from (
+		select 
+			nn.*,pd.order_price_run_date,nc.product_sort_id product_sort_id,
+		(nn.amount-ifnull((select sum(o.order_amount) from t_order_detail o where o.contract_product_detail_id = nn.id),0)
+	-ifnull((select sum(s.amount) from t_out_stock_detail s,t_out_stock_infor ot where s.contract_product_detail_id = nn.id and ot.id = s.out_stock_infor_id and ot.out_stock_type = 1),0)
+			-ifnull((select sum(p.order_amount) from t_order_detail p where CONCAT(p.contract_product_detail_id,&apos;##&apos;) = nn.id),0)) as remain_amount,
+	0 order_amount,(select pro_sort_name from t_contract_project_sort_infor where id = nn.contract_project_sort_id) as pro_sort_name,
+	(select ifnull(count(*),0) from t_accessories where business_id = nn.tools_id and business_type = 1) as file_count
+			from 
+				t_contract_product_detail nn,
+				t_product_tools_infor nc,
+				t_suppliers_brand b,
+				t_product_brand pd
+				where b.t_suppliers_id = #supplierId:VARCHAR#
+				and nn.contract_infor_id = (select id from t_contract_infor where contract_code = #contractCode:VARCHAR#)
+				and nn.parent_tools_id = 'root'   
+				and nn.leaf = 0      
+				and nn.product_brand = b.brand
+				and nn.tools_id = nc.id
+				and nc.product_brand = pd.name 
+				<isNotEmpty property="productBrand" prepend="and">
+			      <![CDATA[ nn.product_brand like '%$productBrand$%' ]]>
+			    </isNotEmpty>
+				<isNotEmpty property="brandCode" prepend="and">
+			      <![CDATA[ nn.brand_code like '%$brandCode$%' ]]>
+			    </isNotEmpty>
+			    <isNotEmpty property="productName" prepend="and">
+			      <![CDATA[ nn.product_name like '%$productName$%' ]]>
+			    </isNotEmpty>
+			    <isNotEmpty property="contractProjectSortId" prepend="and">
+			      <![CDATA[ nn.contract_project_sort_id = #contractProjectSortId# ]]>
+			    </isNotEmpty>
+			) m
+			where	m.remain_amount > 0
+		) i left join 
+		t_sales_price_history his
+		on i.tools_id = his.product_tool_infor_id
+		and i.order_price_run_date = his.sale_price_date
+		) ss left join 
+		t_rebate re 
+		on re.product_sort_id = ss.product_sort_id
+		and re.customers_degree_id = 'xxx'
+	order by serial_number
+	<isNotNull prepend="" property="startIndex">
+         limit #startIndex:INTEGER#,#pageSize:INTEGER#
+   </isNotNull>
+  </select>
+  
+  <!-- 加工订单（将合同中加工品带入订单） -->
+   <select id="getPartContractDetailListCount" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+    <!--
+      WARNING - This element is automatically generated by Apache iBATIS ibator, do not modify.
+      This element was generated on Wed Oct 14 14:13:27 CST 2009.
+    -->  
+    select count(*)
+ from 
+	(
+		select i.*,ifnull(his.history_price,0) history_price from 
+		( 
+		select * from (
+		select 
+			nn.*,pd.order_price_run_date,nc.product_sort_id product_sort_id,
+		(nn.amount-ifnull((select sum(o.order_amount) from t_order_detail o where o.contract_product_detail_id = nn.id),0)-ifnull((select sum(s.amount) 
+		from t_out_stock_detail s,t_out_stock_infor ot 
+			where s.contract_product_detail_id = nn.id
+			and ot.id = s.out_stock_infor_id
+			and ot.out_stock_type = 1),0)) as remain_amount,
+	0 order_amount,(select pro_sort_name from t_contract_project_sort_infor where id = nn.contract_project_sort_id) as pro_sort_name,
+	(select ifnull(count(*),0) from t_accessories where business_id = nn.tools_id and business_type = 1) as file_count
+			from 
+				t_contract_product_detail nn,
+				t_product_tools_infor nc,
+				t_suppliers_brand b,
+				t_product_brand pd
+				where b.t_suppliers_id = #supplierId:VARCHAR#
+				and nn.contract_infor_id = (select id from t_contract_infor where contract_code = #contractCode:VARCHAR#)
+				and nn.parent_tools_id = 'root'   
+				and nn.leaf = 0      
+				and nn.product_brand = b.brand
+				and nn.tools_id = nc.id
+				and nc.product_brand = pd.name 
+				<isNotEmpty property="productBrand" prepend="and">
+			      <![CDATA[ nn.product_brand like '%$productBrand$%' ]]>
+			    </isNotEmpty>
+				<isNotEmpty property="brandCode" prepend="and">
+			      <![CDATA[ nn.brand_code like '%$brandCode$%' ]]>
+			    </isNotEmpty>
+			    <isNotEmpty property="productName" prepend="and">
+			      <![CDATA[ nn.product_name like '%$productName$%' ]]>
+			    </isNotEmpty>
+			    <isNotEmpty property="contractProjectSortId" prepend="and">
+			      <![CDATA[ nn.contract_project_sort_id = #contractProjectSortId# ]]>
+			    </isNotEmpty>
+			) m
+			where	m.remain_amount > 0
+		) i left join 
+		t_sales_price_history his
+		on i.tools_id = his.product_tool_infor_id
+		and i.order_price_run_date = his.sale_price_date
+		) ss left join 
+		t_rebate re 
+		on re.product_sort_id = ss.product_sort_id
+		and re.customers_degree_id = 'xxx'
+	order by serial_number
+  </select>
+  
+  <update id="updateContractDetailOrderAmount" parameterClass="map">
+  		UPDATE t_contract_product_detail cond SET cond.sum_order_amount = (
+			SELECT SUM(od.order_amount) 
+			FROM t_order_detail od 
+			WHERE od.contract_product_detail_id = cond.id
+		)
+		where 1=1
+		<isNotNull prepend="AND" property="contractCode">
+		 contract_infor_id = (SELECT id FROM t_contract_infor coni WHERE coni.contract_code = #contractCode#)
+		</isNotNull>
+		<isNotNull prepend="AND" property="contractId">
+		 contract_infor_id = #contractId#
+		</isNotNull>
+  </update>
+  
+  <update id="updateContractDetailArrivalAmount" parameterClass="map">
+  		UPDATE t_contract_product_detail cond SET cond.sum_arrival_amount = (
+			SELECT SUM(ad.arrival_amount) 
+			FROM t_product_arrival_detail ad,t_order_detail od
+			WHERE ad.order_detail_id = od.id AND  od.contract_product_detail_id = cond.id
+		)
+		where 1=1
+		<isNotNull prepend="AND" property="contractCode">
+		 contract_infor_id = (SELECT id FROM t_contract_infor coni WHERE coni.contract_code = #contractCode#)
+		</isNotNull>
+		<isNotNull prepend="AND" property="contractId">
+		 contract_infor_id = #contractId#
+		</isNotNull>
+		<isNotNull prepend="AND" property="contract_product_detail_id">
+		 id = #contract_product_detail_id#
+		</isNotNull>
+  </update>
+  
+  <update id="updateContractDetailOutAmount" parameterClass="map">
+  		UPDATE t_contract_product_detail cond SET cond.sum_out_amount = (
+			SELECT SUM(od.amount) 
+			FROM t_out_stock_detail od,t_out_stock_infor oi
+			WHERE oi.id = od.out_stock_infor_id AND oi.out_stock_type = 1 AND  od.contract_product_detail_id = cond.id
+		)
+		where 1=1
+		<isNotNull prepend="AND" property="contractCode">
+		 contract_infor_id = (SELECT id FROM t_contract_infor coni WHERE coni.contract_code = #contractCode#)
+		</isNotNull>
+		<isNotNull prepend="AND" property="contractId">
+		 contract_infor_id = #contractId#
+		</isNotNull>
+  </update>
+  
+  <update id="updateContractDetailDeliveryAmount" parameterClass="map">
+  		UPDATE t_contract_product_detail cond SET cond.sum_delivery_amount = (
+			SELECT SUM(od.amount) 
+			FROM t_delivery_detail od 
+			WHERE od.contract_product_detail_id = cond.id
+		)	
+		where 1=1
+		<isNotNull prepend="AND" property="contractCode">
+		 contract_infor_id = (SELECT id FROM t_contract_infor coni WHERE coni.contract_code = #contractCode#)
+		</isNotNull>
+		<isNotNull prepend="AND" property="contractId">
+		 contract_infor_id = #contractId#
+		</isNotNull>
+  </update>
+  
+ <update id="sycContractArrivalDetail" parameterClass="string">
+	{CALL syc_contract_arrival_detail('$quoCode$')}
+ </update>
+  <update id="sycContractDeliveryDetail" parameterClass="string">
+	{CALL syc_contract_delivery_detail('$quoCode$')}
+ </update>
+  <update id="sycContractOrderDetail" parameterClass="string">
+	{CALL syc_contract_order_detail('$quoCode$')}
+ </update>
+  <update id="sycContractOutDetail" parameterClass="string">
+	{CALL syc_contract_out_detail('$quoCode$')}
+ </update>
+ 
+ <select id="selectContractDetailOfPriceChange" parameterClass="string" resultMap="ibatorgenerated_BaseResultMap">
+    select t.id, t.contract_project_sort_id, t.contract_infor_id, t.tools_id, t.parent_tools_id, t.leaf,
+      t.project_code, t.serial_number, t.product_brand, t.product_code, t.brand_code, t.product_name,
+      t.single_set_assembly_amount, t.single_set_stock_amount, t.amount, t.product_unit, t.price, t.rebate,
+      t.net_price, money, t.tax_net_price, t.tax_money, t.price_change, t.delivery_date, t.workshop,
+      t.process_code, t.report_code, t.tool_code, t.status, t.tool_description, t.memo,
+      0 order_amount,0 arrival_amount,0 delivery_amount,'' pro_sort_name,
+      t.sum_order_amount,t.sum_arrival_amount,t.sum_out_amount,t.sum_delivery_amount
+    from t_contract_product_detail t,t_contract_infor con
+    where
+    t.contract_infor_id = con.id 
+    and con.id = #value# 
+    and t.parent_tools_id='root' 
+    and t.price_change in ('1','2','3')
+    and con.STATUS in (2,4,5)
+  </select>
+    <select id="countConDetailNoAcc" parameterClass="string" resultClass="java.lang.Integer">
+		SELECT COUNT(1)
+		FROM t_contract_product_detail cpd
+		WHERE  cpd.leaf = '0'
+		AND cpd.contract_infor_id = #value#
+		AND NOT EXISTS (SELECT 1 FROM t_accessories acc WHERE  cpd.tools_id = acc.business_id)
+
+</select>
+</sqlMap>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+
+	<bean id="SelfOrderServiceImpl"  parent="parentService">
+	 <property name="target">
+		<bean class="com.tl.resource.business.selfOrder.SelfOrderServiceImpl">
+				<property name="orderInforDao">
+					<ref bean="TOrderInforDAOImpl" />
+				</property>
+				<property name="orderDetailDao">
+					<ref bean="TOrderDetailDAOImpl" />
+				</property>
+				<property name="contractInforDao">
+					<ref bean="TContractInforDAOImpl" />
+				</property>
+				<property name="suppliersInforDao">
+					<ref bean="TSuppliersInforDAOImpl" />
+				</property>
+				<property name="contractProductDetailDao">
+					<ref bean="contractProductDetailDAO" />
+				</property>
+				<property name="contractProjectSortInforDao">
+					<ref bean="TContractProjectSortInforDAOImpl" />
+				</property>
+				<property name="orderPriceHistoryDao">
+					<ref bean="torderPriceHistoryDAO"/>
+				</property>
+				<property name="accessoriesDAO">
+					<ref bean="TAccessoriesDAO"/>
+				</property>
+				<property name="tsalesPriceHistoryDAO">
+					<ref bean="tsalesPriceHistoryDAO"/>
+				</property>
+				<property name="quotationProductDetailDAO">
+					<ref bean="TQuotationProductDetailDAO" />
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	
+</beans>

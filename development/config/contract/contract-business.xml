@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+
+ <bean id="contractEditService" parent="parentService">
+  <property name="target">
+		<bean class="com.tl.resource.business.contract.ContractEditServiceImp">
+			<property name="contractInforDAO">
+				<ref bean="contractInforDAO" />
+			</property>
+			<property name="contractProductDetailDAO">
+				<ref bean="contractProductDetailDAO" />
+			</property>
+			<property name="contractProjectSortInforDAO">
+				<ref bean="contractProjectSortInforDAOImpl" />
+			</property>
+			<property name="quotationInforDAO">
+				<ref bean="TQuotationInfoDAO" />
+			</property>
+			<property name="quotationProductDetailDAO">
+				<ref bean="TQuotationProductDetailDAO" />
+			</property>
+			<property name="quotationProjectSortInforDAO">
+				<ref bean="TQuotationProjectSortInforDAO" />
+			</property>
+			<property name="contractAccountsInforDAO">
+				<ref bean="contractAccountsInforDAOImpl" />
+			</property>
+			<property name="generalQuoService">
+				<ref bean="GeneralQuoService" />
+			</property>
+			<property name="orderInforDAO">
+				<ref bean="TOrderInforDAOImpl" />
+			</property>
+			<property name="outStockInforDAO">
+				<ref bean="TOutStockInforDAO" />
+			</property>
+			<property name="deliveryInforDAO">
+				<ref bean="TDeliveryInforDAO" />
+			</property>
+			<property name="productArrivalInforDAO">
+				<ref bean="TProductArrivalInforDAO" />
+			</property>
+			<property name="customersInforDAO">
+				<ref bean="TCustomersInforDAO" />
+			</property>
+			<property name="customerService">
+				<ref bean="CustomerService" />
+			</property>
+			<property name="orderDetailDAO">
+				<ref bean="TOrderDetailDAOImpl" />
+			</property>
+			<property name="accessoriesDAO">
+			<ref bean="TAccessoriesDAO"/>
+		</property>
+		</bean>
+	  </property>
+ </bean>
+ 
+<bean id="contractAccountsService" parent="parentService">
+	  <property name="target">
+		<bean class="com.tl.resource.business.contract.ContractAccountsServiceImp">
+			<property name="contractAccountsInforDAO">
+				<ref bean="contractAccountsInforDAOImpl" />
+			</property>
+			<property name="contractInforDAO">
+				<ref bean="contractInforDAO" />
+			</property>
+			<property name="customerService">
+				<ref bean="CustomerService" />
+			</property>
+		</bean>
+	  </property>
+ </bean>
+	<bean id="contractViewService"
+		class="com.tl.resource.business.contract.ContractViewServiceImp">
+		<property name="contractInforDAO">
+			<ref bean="contractInforDAO" />
+		</property>
+		<property name="contractProductDetailDAO">
+				<ref bean="contractProductDetailDAO" />
+			</property>
+	</bean>
+	
+	
+	<bean id="InvoiceService" parent="parentService">
+	  <property name="target">
+		<bean class="com.tl.resource.business.invoice.InvoiceServiceImp">
+			<property name="invoiceDetailDAO">
+				<ref bean="invoiceDetailDAOImpl" />
+			</property>
+			<property name="invoiceInfoDAO">
+				<ref bean="invoiceInfoDAOImpl" />
+			</property>
+			<property name="customersInforDAO">
+				<ref bean="TCustomersInforDAO" />
+			</property>
+			<property name="suppliersInforDAO">
+				<ref bean="TSuppliersInforDAO" />
+			</property>
+			<property name="contractInforDAO">
+				<ref bean="contractInforDAO" />
+			</property>
+		</bean>
+	  </property>
+ </bean>
+ <bean id="ContractOutExcel"
+		class="com.tl.resource.business.contract.ContractOutExcelImp">
+			<property name="contractInforDAO">
+				<ref bean="contractInforDAO" />
+			</property>
+			<property name="contractProductDetailDAO">
+				<ref bean="contractProductDetailDAO" />
+			</property>
+			<property name="contractProjectSortInforDAO">
+				<ref bean="contractProjectSortInforDAOImpl" />
+			</property>
+			<property name="companyInforDAO">
+				<ref bean="TCompanyInforDAO" />
+			</property>
+			<property name="customersInforDAO">
+				<ref bean="TCustomersInforDAO" />
+			</property>
+			<property name="accessoriesDAO">
+				<ref bean="TAccessoriesDAO" />
+			</property>
+			<property name="exchangeRateDAO">
+					<ref bean="TExchangeRateDAO"/>
+			</property>
+	</bean>
+	<bean id="ContractListOutExcel"
+		class="com.tl.resource.business.contract.ContractListOutExcelImp">
+		<property name="contractInforDAO">
+			<ref bean="contractInforDAO" />
+		</property>
+	</bean>
+</beans>
